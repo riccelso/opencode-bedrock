@@ -1,22 +1,22 @@
-# Spec: /bedrock:preserve — graphify-out append merge (Phase 0)
+# Spec: skill({ name: "preserve" }) — graphify-out append merge (Phase 0)
 
 > Part 1 of 3 — Split from `.vibeflow/prds/teach-docling-integration.md`
 > Generated via /vibeflow:gen-spec on 2026-04-18
 
 ## Objective
 
-Add a pre-write **Phase 0** to `/bedrock:preserve` that merges an incoming graphify output directory into the vault's `<VAULT_PATH>/graphify-out/`, making graph state append-only across multiple ingestion runs while keeping `/preserve` as the single write point for the vault.
+Add a pre-write **Phase 0** to `skill({ name: "preserve" })` that merges an incoming graphify output directory into the vault's `<VAULT_PATH>/graphify-out/`, making graph state append-only across multiple ingestion runs while keeping `/preserve` as the single write point for the vault.
 
 ## Context
 
-Today `/graphify` writes its output directly to `<VAULT_PATH>/graphify-out/`, so each `/bedrock:teach` invocation overwrites the previous graph. The vault's knowledge graph reflects only the last ingestion instead of accumulating. Per `.vibeflow/patterns/skill-delegation.md`, all vault writes must flow through `/bedrock:preserve` — `graphify-out/` is part of the vault, so its append logic belongs here, not in callers. Landing this change first unblocks Part 2 (teach+docling) and is also useful on its own for any future consumer (e.g. `/bedrock:sync`).
+Today `/graphify` writes its output directly to `<VAULT_PATH>/graphify-out/`, so each `skill({ name: "teach" })` invocation overwrites the previous graph. The vault's knowledge graph reflects only the last ingestion instead of accumulating. Per `.vibeflow/patterns/skill-delegation.md`, all vault writes must flow through `skill({ name: "preserve" })` — `graphify-out/` is part of the vault, so its append logic belongs here, not in callers. Landing this change first unblocks Part 2 (teach+docling) and is also useful on its own for any future consumer (e.g. `skill({ name: "sync" })`).
 
 ## Definition of Done
 
 1. **Mode detection + backward compat:** `/preserve` accepts `graphify_output_path` as either the vault's own `graphify-out/` (legacy callers) or any other directory (new temp-dir mode). When the resolved absolute path equals the vault's `graphify-out/`, Phase 0 is a no-op and the skill behaves exactly as today.
 2. **Node metadata merge:** on `graph.json` node-ID collision, Phase 0 unions `sources` arrays (dedup by URL), takes the most-recent `updated_at`, and unions label/tag sets. No node from the prior graph is lost.
 3. **Edge dedup:** on `graph.json` edge collision keyed by `(source, target, type)` tuple, Phase 0 drops the duplicate. Edge count is strictly non-decreasing across merges.
-4. **Analysis staleness marker:** `.graphify_analysis.json` receives a top-level `stale: true` boolean field after merge; the rest of the JSON is untouched. `/bedrock:compress` will recompute on its next run (out of scope here).
+4. **Analysis staleness marker:** `.graphify_analysis.json` receives a top-level `stale: true` boolean field after merge; the rest of the JSON is untouched. `skill({ name: "compress" })` will recompute on its next run (out of scope here).
 5. **Per-file append behavior:** `obsidian/*.md` existing files are appended (content preserved, new sections added with a `---` separator); new files are copied; `GRAPH_REPORT.md` receives a new dated section appended to its end.
 6. **First-ingestion edge case:** when `<VAULT_PATH>/graphify-out/` does not exist yet, Phase 0 promotes the incoming directory to the vault location without a re-merge pass.
 7. **Craftsmanship gate:** `/preserve` retains single-write-point discipline (no vault file writes outside Phase 0 and the existing entity-write phase); Phase 0 follows `skill-architecture.md` (numbered `## Phase N` heading, Critical Rules table still present and updated); no violations from `.vibeflow/conventions.md` Don'ts; merge stats (`nodes_added`, `nodes_merged`, `edges_added`, `stale_flag_set`) included in `/preserve`'s return payload.

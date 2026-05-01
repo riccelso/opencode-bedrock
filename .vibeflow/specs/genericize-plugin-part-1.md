@@ -87,7 +87,7 @@ Aplicar o glossário a cada arquivo, preservando a estrutura e qualidade didáti
 
 ## Anti-scope
 
-- Não alterar templates/, skills/, CLAUDE.md, ou README.md (parts 2 e 3)
+- Não alterar templates/, skills/, AGENTS.md, ou README.md (parts 2 e 3)
 - Não alterar a estrutura dos entity files — seções, campos, regras de classificação permanecem intactas
 - Não alterar a lógica de matching ou regras de disambiguation — apenas os exemplos
 - Não criar novos entity types

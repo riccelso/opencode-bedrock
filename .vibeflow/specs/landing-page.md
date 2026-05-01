@@ -10,7 +10,7 @@ Ship a single self-contained `index.html` that lets any visitor understand, eval
 
 ## Context
 
-The repo is a Claude Code plugin made entirely of markdown. The only "marketing" surface is `README.md` — functional but not compelling. There's no build tooling, no frontend stack, and no existing HTML. This page is the first and only non-markdown file in the repo, deployed via GitHub Pages from root.
+The repo is a OpenCode plugin made entirely of markdown. The only "marketing" surface is `README.md` — functional but not compelling. There's no build tooling, no frontend stack, and no existing HTML. This page is the first and only non-markdown file in the repo, deployed via GitHub Pages from root.
 
 ## Definition of Done
 
@@ -54,22 +54,22 @@ The repo is a Claude Code plugin made entirely of markdown. The only "marketing"
 - Code block with `claude plugins add iurykrieger/claude-bedrock`
 - Copy button with visual feedback (checkmark or "Copied!")
 - Secondary line: "Or for local development: `claude --plugin-dir ./claude-bedrock`"
-- Brief "Then run `/bedrock:setup` to initialize your vault" note
+- Brief "Then run `skill({ name: "setup" })` to initialize your vault" note
 
 ### Skills Grid
 - 2x3 grid (3x2 on mobile) of cards, one per skill:
-  - `/bedrock:setup` — Initialize and configure a new vault
-  - `/bedrock:query` — Search and cross-reference vault entities
-  - `/bedrock:teach` — Ingest from Confluence, GDocs, GitHub, CSV
-  - `/bedrock:preserve` — Create and update entities with bidirectional links
-  - `/bedrock:compress` — Deduplicate, consolidate, and health-check
-  - `/bedrock:sync` — Re-sync entities with external sources
+  - `skill({ name: "setup" })` — Initialize and configure a new vault
+  - `skill({ name: "ask" })` — Search and cross-reference vault entities
+  - `skill({ name: "teach" })` — Ingest from Confluence, GDocs, GitHub, CSV
+  - `skill({ name: "preserve" })` — Create and update entities with bidirectional links
+  - `skill({ name: "compress" })` — Deduplicate, consolidate, and health-check
+  - `skill({ name: "sync" })` — Re-sync entities with external sources
 - Each card: skill name in monospace, one-line description, subtle icon
 
 ### Footer
 - GitHub star button/link → `https://github.com/iurykrieger/claude-bedrock`
 - "MIT License" + "Built by Iury Krieger"
-- "Powered by Claude Code" note
+- "Powered by OpenCode" note
 
 ## Anti-scope
 

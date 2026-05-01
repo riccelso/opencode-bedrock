@@ -8,7 +8,7 @@ confidence: inferred
 
 <!-- vibeflow:auto:start -->
 ## What
-All vault writes are centralized through `/bedrock:preserve`. Other skills (teach, sync, compress) detect and analyze, then delegate entity creation/update to preserve. This ensures consistent write logic, bidirectional linking, git commits, and provenance tracking.
+All vault writes are centralized through `skill({ name: "preserve" })`. Other skills (teach, sync, compress) detect and analyze, then delegate entity creation/update to preserve. This ensures consistent write logic, bidirectional linking, git commits, and provenance tracking.
 
 ## Where
 The delegation pattern is used by `skills/teach/SKILL.md`, `skills/sync/SKILL.md`, and `skills/compress/SKILL.md`. The target is always `skills/preserve/SKILL.md`.
@@ -32,7 +32,7 @@ The delegation flow follows a consistent 3-step pattern:
 
 2. **User confirmation** — the detection skill presents a summary table and waits for explicit approval before delegating.
 
-3. **Delegation** — the detection skill invokes `/bedrock:preserve` via the Skill tool, passing the structured entity list. Preserve handles:
+3. **Delegation** — the detection skill invokes `skill({ name: "preserve" })` via the Skill tool, passing the structured entity list. Preserve handles:
    - Matching with existing vault entities
    - Creating new entities from templates
    - Updating existing entities (merge/append-only rules)
@@ -46,7 +46,7 @@ The delegation contract:
 - The detection skill produces the final report using preserve's return data
 
 ## Rules
-- `/bedrock:preserve` is the ONLY skill that writes to entity files
+- `skill({ name: "preserve" })` is the ONLY skill that writes to entity files
 - Detection skills (teach, sync, compress) NEVER write entities directly
 - The structured entity list format is the contract between skills
 - `source_url` and `source_type` MUST be passed through for provenance tracking
@@ -56,13 +56,13 @@ The delegation contract:
 ## Examples from this codebase
 File: skills/teach/SKILL.md (Fase 4 — Delegar)
 ```markdown
-## Fase 4 — Delegar Entidades ao /bedrock:preserve
+## Fase 4 — Delegar Entidades ao skill({ name: "preserve" })
 
-Todas as entidades confirmadas pelo usuario (Fase 3) sao delegadas ao `/bedrock:preserve`.
-O `/bedrock:teach` NAO cria nem atualiza entidades diretamente — essa responsabilidade e do `/bedrock:preserve`.
+Todas as entidades confirmadas pelo usuario (Fase 3) sao delegadas ao `skill({ name: "preserve" })`.
+O `skill({ name: "teach" })` NAO cria nem atualiza entidades diretamente — essa responsabilidade e do `skill({ name: "preserve" })`.
 
-### 4.2 Invocar /bedrock:preserve
-Use a tool Skill para invocar `/bedrock:preserve` passando a lista estruturada como argumento.
+### 4.2 Invocar skill({ name: "preserve" })
+Use a tool Skill para invocar `skill({ name: "preserve" })` passando a lista estruturada como argumento.
 ```
 
 File: skills/preserve/SKILL.md (Fase 1.1 — Input estruturado)
@@ -80,12 +80,12 @@ File: skills/preserve/SKILL.md (Fase 1.1 — Input estruturado)
 
 File: skills/sync/SKILL.md (delegation pattern)
 ```markdown
-### 3.4 Compilar lista para /bedrock:preserve
+### 3.4 Compilar lista para skill({ name: "preserve" })
 Monte uma lista estruturada com TODAS as mudancas detectadas...
-### 3.5 Invocar /bedrock:preserve
-Use a tool Skill para invocar `/bedrock:preserve` passando a lista.
+### 3.5 Invocar skill({ name: "preserve" })
+Use a tool Skill para invocar `skill({ name: "preserve" })` passando a lista.
 ```
 <!-- vibeflow:auto:end -->
 
 ## Anti-patterns (if found)
-- `/bedrock:compress` modifies entities directly in its Phase 4 (consolidation) rather than fully delegating to preserve. This is an intentional exception because compress needs fine-grained control over claim-level edits, but it breaks the single-write-point pattern.
+- `skill({ name: "compress" })` modifies entities directly in its Phase 4 (consolidation) rather than fully delegating to preserve. This is an intentional exception because compress needs fine-grained control over claim-level edits, but it breaks the single-write-point pattern.

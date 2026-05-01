@@ -1,6 +1,6 @@
 name: Release
 
-# Bumps plugin version, creates git tag and GitHub release on push to main
+# Bumps version, creates git tag and GitHub release on push to main
 on:
   push:
     branches: [main]
@@ -19,7 +19,7 @@ jobs:
       - name: Get current version
         id: current
         run: |
-          VERSION=$(jq -r '.version' .claude-plugin/plugin.json)
+          VERSION=$(cat VERSION)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Current version: $VERSION"
 
@@ -46,15 +46,13 @@ jobs:
           NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
           echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "Bumping to: $NEW_VERSION"
-
-          jq --arg v "$NEW_VERSION" '.version = $v' .claude-plugin/plugin.json > tmp.json
-          mv tmp.json .claude-plugin/plugin.json
+          echo -n "$NEW_VERSION" > VERSION
 
       - name: Commit and tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .claude-plugin/plugin.json
+          git add VERSION
           git commit -m "chore: bump version to ${{ steps.next.outputs.version }} [skip ci]"
           git tag "v${{ steps.next.outputs.version }}"
           git push origin main --follow-tags

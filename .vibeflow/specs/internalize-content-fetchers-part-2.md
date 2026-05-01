@@ -5,7 +5,7 @@
 
 ## Objective
 
-`/bedrock:teach` uses internal fetcher modules for Confluence and Google Docs ingestion, and `/bedrock:setup` validates the required env vars and optional Claude in Chrome dependency.
+`skill({ name: "teach" })` uses internal fetcher modules for Confluence and Google Docs ingestion, and `skill({ name: "setup" })` validates the required env vars and optional Claude in Chrome dependency.
 
 ## Context
 
@@ -112,10 +112,10 @@ Replace with:
 ```markdown
 | Dependency | Check method | What it unlocks |
 |---|---|---|
-| graphify | Glob: `~/.claude/skills/graphify/SKILL.md` | **Required.** Extraction engine for all `/bedrock:teach` ingestion. Without it, /teach cannot function. |
-| CONFLUENCE_API_TOKEN + CONFLUENCE_USER_EMAIL | Bash: `test -n "$CONFLUENCE_API_TOKEN" && test -n "$CONFLUENCE_USER_EMAIL"` | Confluence page ingestion via `/bedrock:teach` (API strategy). |
-| GOOGLE_ACCESS_TOKEN | Bash: `test -n "$GOOGLE_ACCESS_TOKEN"` | Google Docs and Sheets ingestion via `/bedrock:teach` (API strategy). |
-| claude-in-chrome MCP | ToolSearch: `select:mcp__claude-in-chrome__tabs_context_mcp` (succeeds = available) | **Optional.** Browser fallback for Confluence pages when API credentials are unavailable. |
+| graphify | Glob: `~/.claude/skills/graphify/SKILL.md` | **Required.** Extraction engine for all `skill({ name: "teach" })` ingestion. Without it, /teach cannot function. |
+| CONFLUENCE_API_TOKEN + CONFLUENCE_USER_EMAIL | Bash: `test -n "$CONFLUENCE_API_TOKEN" && test -n "$CONFLUENCE_USER_EMAIL"` | Confluence page ingestion via `skill({ name: "teach" })` (API strategy). |
+| GOOGLE_ACCESS_TOKEN | Bash: `test -n "$GOOGLE_ACCESS_TOKEN"` | Google Docs and Sheets ingestion via `skill({ name: "teach" })` (API strategy). |
+| claude-in-chrome MCP | ToolSearch: `select:browser__tabs_context_mcp` (succeeds = available) | **Optional.** Browser fallback for Confluence pages when API credentials are unavailable. |
 ```
 
 Update report format:
@@ -188,7 +188,7 @@ Guidance messages for missing env vars (optional dependencies — never block):
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| `/teach` allowed-tools doesn't include a tool needed by a fetcher | Fetch fails at runtime with permission error | Verified: `/teach` already has `Bash`, `Read`, `Write`, `WebFetch`, and `mcp__plugin_atlassian_atlassian__*` in allowed-tools. ToolSearch is implicitly available. All fetcher strategies are covered. |
+| `/teach` allowed-tools doesn't include a tool needed by a fetcher | Fetch fails at runtime with permission error | Verified: `/teach` already has `Bash`, `Read`, `Write`, `WebFetch`, and `atlassian__*` in allowed-tools. ToolSearch is implicitly available. All fetcher strategies are covered. |
 | Setup check gives false confidence (env var set but invalid) | User thinks Confluence is ready but `/teach` fails | Guidance message in `/setup` includes instructions for generating valid tokens. Runtime errors in fetcher modules provide specific error messages (401, 403, 404). |
 
 ## Dependencies

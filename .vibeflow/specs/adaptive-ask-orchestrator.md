@@ -1,11 +1,11 @@
-# Spec: Adaptive Context Orchestrator for /bedrock:ask
+# Spec: Adaptive Context Orchestrator for skill({ name: "ask" })
 
 > Generated from: `.vibeflow/prds/adaptive-ask-orchestrator.md`
 > Date: 2026-04-15
 
 ## Objective
 
-Make `/bedrock:ask` vault-first and adaptive — simple questions are answered from vault content alone (zero graphify calls), graphify is invoked only when the LLM judges it necessary, and remote content is internalized via `/teach` delegation instead of producing dead-end suggestions.
+Make `skill({ name: "ask" })` vault-first and adaptive — simple questions are answered from vault content alone (zero graphify calls), graphify is invoked only when the LLM judges it necessary, and remote content is internalized via `/teach` delegation instead of producing dead-end suggestions.
 
 ## Context
 
@@ -60,7 +60,7 @@ Rewrite `skills/ask/SKILL.md` with the following phase structure:
 
 - **3-T Teach Delegation** (when `needs_remote_content`):
   - 3-T.1: Identify the URL(s) to ingest (limit: 2 URLs per ask invocation)
-  - 3-T.2: For each URL, invoke `/bedrock:teach` via the Skill tool, passing:
+  - 3-T.2: For each URL, invoke `skill({ name: "teach" })` via the Skill tool, passing:
     - The URL
     - Brief context: "Ingesting to answer: '<original question>'"
   - 3-T.3: `/teach` handles its own flow (fetch, extract, user confirmation, preserve). `/ask` waits for completion.
@@ -80,7 +80,7 @@ Rewrite `skills/ask/SKILL.md` with the following phase structure:
 - Best-effort for all escalations (graphify failure, teach failure = continue with available content)
 - Limit: 15 entities, 2 teach delegation URLs per invocation
 
-**Allowed-tools update:** Remove `mcp__plugin_github_github__*` from frontmatter — GitHub reads are now `/teach`'s concern. Keep: `Bash, Read, Glob, Grep, Skill, Agent`
+**Allowed-tools update:** Remove `github__*` from frontmatter — GitHub reads are now `/teach`'s concern. Keep: `Bash, Read, Glob, Grep, Skill, Agent`
 
 ### Out (anti-scope)
 
@@ -88,7 +88,7 @@ Rewrite `skills/ask/SKILL.md` with the following phase structure:
 - No heuristic rule tables for the self-assessment — LLM judgment only, with guidance
 - No caching of results between invocations
 - No automatic graph rebuilds
-- No changes to README.md, CLAUDE.md, index.html, setup, teach — SKILL.md-only
+- No changes to README.md, AGENTS.md, index.html, setup, teach — SKILL.md-only
 - No direct file writes from `/ask` — all writes delegated through `/teach`
 - No old-style external fetch (Phase 5 with /confluence-to-markdown, /gdoc-to-markdown) — fully replaced by /teach delegation
 

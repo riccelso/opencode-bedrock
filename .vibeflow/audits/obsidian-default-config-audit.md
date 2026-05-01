@@ -16,7 +16,7 @@
 
 - [x] **4. Idempotent** — Per-file existence check at lines 502-504: "check if it already exists. If it does, skip it and log". Step 3 (lines 614-615) tracks created vs. skipped for the summary. Phase 3.5 itself is skipped in `RECONFIGURE_MODE` (line 490). Phase 0 skip list updated at line 64 to include "(3.5)".
 
-- [x] **5. Setup integration** — Phase 3.5 at line 488, positioned between 3.4 (CLAUDE.md, ends line 486) and 3.6 (Example Entities, line 617). Skip condition present (line 490). Phase 0 reference updated (line 64): "skip directory creation (3.1), template copying (3.2), Obsidian configuration (3.5), and example entity generation (3.6)". All 7 sub-phases renumbered from 3.5.x to 3.6.x (3.6.1-3.6.7 verified via Grep). Phase 4 Files Created table includes 4 `.obsidian/` entries (lines 983-986). Graph view tip added to What's Next (lines 1024-1026).
+- [x] **5. Setup integration** — Phase 3.5 at line 488, positioned between 3.4 (AGENTS.md, ends line 486) and 3.6 (Example Entities, line 617). Skip condition present (line 490). Phase 0 reference updated (line 64): "skip directory creation (3.1), template copying (3.2), Obsidian configuration (3.5), and example entity generation (3.6)". All 7 sub-phases renumbered from 3.5.x to 3.6.x (3.6.1-3.6.7 verified via Grep). Phase 4 Files Created table includes 4 `.obsidian/` entries (lines 983-986). Graph view tip added to What's Next (lines 1024-1026).
 
 - [x] **6. No conventions.md violations** — Config files are pure JSON (no wikilinks or tags to violate). All tag queries use hierarchical format (`type/actor`, not flat `actor`). No sensitive data. Standard Obsidian JSON schema fields only.
 
@@ -41,7 +41,7 @@ None.
 - No `.obsidian/` creation in `RECONFIGURE_MODE` — skipped via condition ✓
 
 ### Tests
-No test runner detected (markdown-only Claude Code plugin). RGB integer calculations verified programmatically.
+No test runner detected (markdown-only OpenCode plugin). RGB integer calculations verified programmatically.
 
 ### Budget
 Files changed: 1 / ≤ 4 budget.

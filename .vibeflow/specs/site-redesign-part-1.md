@@ -9,7 +9,7 @@ Bootstrap a Next.js 15 static site in `site/` with the Obsidian Purple x Claude 
 
 ## Context
 
-The repo is a Claude Code plugin (markdown-only, no build tooling). The current landing page is a monolithic `index.html` at root. This part creates the entire Next.js project from scratch in `site/`, sets up the design system, and delivers the three most structurally important sections: navbar, hero (with graph canvas), and footer. These form the "shell" that all other sections slot into.
+The repo is a OpenCode plugin (markdown-only, no build tooling). The current landing page is a monolithic `index.html` at root. This part creates the entire Next.js project from scratch in `site/`, sets up the design system, and delivers the three most structurally important sections: navbar, hero (with graph canvas), and footer. These form the "shell" that all other sections slot into.
 
 ## Definition of Done
 
@@ -50,7 +50,7 @@ The repo is a Claude Code plugin (markdown-only, no build tooling). The current 
 
 | Decision | Alternative | Justification |
 |---|---|---|
-| `site/` subdirectory, not root | Monorepo with turborepo | The plugin must stay at root (Claude Code resolves `.claude-plugin/` from cwd). A subdirectory is the simplest isolation with zero config overhead. |
+| `site/` subdirectory, not root | Monorepo with turborepo | The plugin must stay at root (OpenCode resolves `.opencode/` from cwd). A subdirectory is the simplest isolation with zero config overhead. |
 | Next.js 15 with `output: 'export'` | Vite + React, Astro | User chose Next.js explicitly. Static export means no server, same as a Vite build, but with Next.js ecosystem (Image optimization, metadata API). |
 | Tailwind CSS v4 (CSS-first config) | Tailwind v3 with `tailwind.config.js` | v4 uses `@theme` in CSS — design tokens live in `globals.css` alongside custom properties. One source of truth for the palette. |
 | Graph canvas as separate client component | Inline in hero, or use a library (tsparticles) | Isolation keeps the hero component clean. No library — the existing vanilla canvas code from `index.html` works well and has zero dependencies. |

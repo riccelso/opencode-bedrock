@@ -37,7 +37,7 @@
   - Proper frontmatter per template ✓
   - Note: Portuguese section headers in person entity ("Time", "Pontos Focais", "Assuntos Ativos") are a known item deferred to a future PRD (full template localization). Does not block this check.
 
-- [x] **Check 5 — Vault CLAUDE.md generated** — `skills/init/SKILL.md:431-486`: Template with purpose, language directive, domain taxonomy, and quick reference table. Explicit non-overlap statement with plugin CLAUDE.md (lines 435-436). Language adaptation rules (lines 477-486).
+- [x] **Check 5 — Vault AGENTS.md generated** — `skills/init/SKILL.md:431-486`: Template with purpose, language directive, domain taxonomy, and quick reference table. Explicit non-overlap statement with plugin AGENTS.md (lines 435-436). Language adaptation rules (lines 477-486).
 
 - [x] **Check 6 — Dependencies checked and reported** — `skills/init/SKILL.md:90-127`: Checks graphify, confluence-to-markdown, gdoc-to-markdown via Glob. Report format with status table (lines 103-113). Install instructions per missing dependency (lines 115-122). Non-blocking: "Proceed regardless of results." (line 127).
 

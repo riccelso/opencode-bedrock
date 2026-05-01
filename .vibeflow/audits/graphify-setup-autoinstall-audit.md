@@ -70,9 +70,9 @@ None detected.
 
 ### Tests
 
-**SKIPPED — no test runner available.** `.vibeflow/index.md` declares the project as a Claude Code markdown-only plugin with no build system or test suite. Verified by checking for `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `Rakefile`, `pom.xml`, `build.gradle` — none present.
+**SKIPPED — no test runner available.** `.vibeflow/index.md` declares the project as a OpenCode markdown-only plugin with no build system or test suite. Verified by checking for `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `Rakefile`, `pom.xml`, `build.gradle` — none present.
 
-Note: If future iterations add a test harness (e.g., a shell-based smoke test that exercises `/bedrock:setup` in a sandbox), this DoD should gain a "tests pass" check.
+Note: If future iterations add a test harness (e.g., a shell-based smoke test that exercises `skill({ name: "setup" })` in a sandbox), this DoD should gain a "tests pass" check.
 
 ---
 

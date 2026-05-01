@@ -24,9 +24,9 @@ These 3 form the "core" because preserve is the write bottleneck and query/healt
 ## Definition of Done
 
 1. **Vault resolution section in all 3 skills** — Each skill has a `## Vault Resolution` section (after Plugin Paths) that implements the 4-step precedence chain: `--vault` flag > CWD detection > default vault > error
-2. **`--vault` flag works for preserve** — `/bedrock:preserve --vault my-vault <entities>` writes to the named vault regardless of CWD; all file paths and git commands use the resolved vault path
-3. **`--vault` flag works for query** — `/bedrock:query --vault my-vault <question>` searches the named vault's entities regardless of CWD
-4. **`--vault` flag works for healthcheck** — `/bedrock:healthcheck --vault my-vault` diagnoses the named vault regardless of CWD
+2. **`--vault` flag works for preserve** — `skill({ name: "preserve" }) --vault my-vault <entities>` writes to the named vault regardless of CWD; all file paths and git commands use the resolved vault path
+3. **`--vault` flag works for query** — `skill({ name: "ask" }) --vault my-vault <question>` searches the named vault's entities regardless of CWD
+4. **`--vault` flag works for healthcheck** — `skill({ name: "healthcheck" }) --vault my-vault` diagnoses the named vault regardless of CWD
 5. **Git commands use `git -C`** — In preserve (the only git-writing skill of the 3), all git operations use `git -C <vault_path>` instead of assuming CWD. Healthcheck has no git writes. Query has no git operations.
 6. **CWD detection works** — If the user is inside a registered vault directory (or subdirectory), the skill auto-resolves to that vault without requiring `--vault`
 7. **No violations of skill-architecture pattern** — Phase numbering preserved; Plugin Paths section unchanged; Critical Rules table updated with vault resolution rules
@@ -51,7 +51,7 @@ These 3 form the "core" because preserve is the write bottleneck and query/healt
 ## Anti-scope
 
 - Vault resolution in teach, compress, sync — that's Part 3
-- Changes to the vault resolution precedence chain itself (defined in Part 1's CLAUDE.md)
+- Changes to the vault resolution precedence chain itself (defined in Part 1's AGENTS.md)
 - Any behavioral changes to how preserve, query, or healthcheck work beyond path resolution
 - Multi-vault queries (searching across vaults)
 
@@ -59,7 +59,7 @@ These 3 form the "core" because preserve is the write bottleneck and query/healt
 
 | Decision | Choice | Trade-off |
 |---|---|---|
-| Vault resolution as skill-level section, not a shared include | Duplicated boilerplate in each SKILL.md | Pro: each skill is self-contained (Claude Code loads one skill at a time, no shared module system). Con: ~20 lines duplicated per skill. This is the only viable approach given the plugin architecture — skills are independent markdown files with no import mechanism. |
+| Vault resolution as skill-level section, not a shared include | Duplicated boilerplate in each SKILL.md | Pro: each skill is self-contained (OpenCode loads one skill at a time, no shared module system). Con: ~20 lines duplicated per skill. This is the only viable approach given the plugin architecture — skills are independent markdown files with no import mechanism. |
 | `VAULT_PATH` variable naming | Consistent across all skills | Pro: easy to search-replace and audit. Con: none — it's an internal convention. |
 | CWD detection via prefix match | Check if CWD starts with any registered vault's absolute path | Pro: works from subdirectories (e.g., `cd my-vault/actors` still resolves). Con: could false-match if one vault path is a prefix of another (e.g., `/vaults/a` and `/vaults/ab`). Mitigation: use longest-match. |
 | Preserve git commands all use `git -C` | Uniform pattern, no `cd` into vault | Pro: predictable, easy to audit. Con: slightly more verbose. Worth it for consistency. |
@@ -74,7 +74,7 @@ These 3 form the "core" because preserve is the write bottleneck and query/healt
 
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| Stale `vaults.json` (vault moved/deleted) | Medium | Low — skill errors clearly | Vault Resolution validates path exists; error message suggests re-running `/bedrock:setup` |
+| Stale `vaults.json` (vault moved/deleted) | Medium | Low — skill errors clearly | Vault Resolution validates path exists; error message suggests re-running `skill({ name: "setup" })` |
 | Path resolution ambiguity (nested vault dirs) | Very low | Medium | Use longest-match for CWD detection |
 | Preserve git -C breaks on repos with unusual configs | Very low | High — writes fail | Test with a standard Obsidian vault git repo; `git -C` is well-supported |
-| Boilerplate drift between skills | Medium | Low — cosmetic inconsistency | Part 1's CLAUDE.md documents the canonical boilerplate; auditable via `/vibeflow:audit` |
+| Boilerplate drift between skills | Medium | Low — cosmetic inconsistency | Part 1's AGENTS.md documents the canonical boilerplate; auditable via `/vibeflow:audit` |

@@ -1,22 +1,22 @@
-# PRD: Adaptive Context Orchestrator for /bedrock:ask
+# PRD: Adaptive Context Orchestrator for skill({ name: "ask" })
 
 > Generated via /vibeflow:discover on 2026-04-15
 
 ## Problem
 
-The current `/bedrock:ask` implementation always fires graphify calls — even for simple factual questions like "who owns billing-api?" that could be answered by reading a single vault file. This wastes tokens, adds latency, and makes every question feel heavyweight. The skill decomposes questions into sub-queries and executes up to 3 graphify calls by default, regardless of complexity.
+The current `skill({ name: "ask" })` implementation always fires graphify calls — even for simple factual questions like "who owns billing-api?" that could be answered by reading a single vault file. This wastes tokens, adds latency, and makes every question feel heavyweight. The skill decomposes questions into sub-queries and executes up to 3 graphify calls by default, regardless of complexity.
 
-Additionally, when the answer points to remote content (a Confluence page URL, an uningested GitHub repo), the skill can only suggest the user run `/bedrock:teach` manually — it cannot close the loop by internalizing the content and continuing to answer.
+Additionally, when the answer points to remote content (a Confluence page URL, an uningested GitHub repo), the skill can only suggest the user run `skill({ name: "teach" })` manually — it cannot close the loop by internalizing the content and continuing to answer.
 
 Users experience slow, expensive responses for simple questions and dead-end responses for questions that require remote content.
 
 ## Target Audience
 
-Users of the Bedrock Claude Code plugin who invoke `/bedrock:ask` to get answers from their vault — engineers, tech leads, and PMs navigating shared knowledge.
+Users of the Bedrock OpenCode plugin who invoke `skill({ name: "ask" })` to get answers from their vault — engineers, tech leads, and PMs navigating shared knowledge.
 
 ## Proposed Solution
 
-Redesign `/bedrock:ask` as an **adaptive context orchestrator** with a "vault-first, escalate-when-needed" approach:
+Redesign `skill({ name: "ask" })` as an **adaptive context orchestrator** with a "vault-first, escalate-when-needed" approach:
 
 1. **Always start with vault-only search.** For every question, do a lightweight vault search first (Glob/Grep by filename/alias, read entities, follow wikilinks). This is cheap and fast.
 
@@ -38,7 +38,7 @@ Redesign `/bedrock:ask` as an **adaptive context orchestrator** with a "vault-fi
 
 ## Scope v0
 
-- Rewrite Phase 1 + Phase 2 of `/bedrock:ask` to implement the adaptive flow:
+- Rewrite Phase 1 + Phase 2 of `skill({ name: "ask" })` to implement the adaptive flow:
   - Phase 1: Analyze question (keep existing classification)
   - Phase 2: Always start with vault-only search (Glob/Grep, entity reads, wikilink traversal)
   - Phase 2.5 (new): LLM self-assessment — "Do I have enough context?" Decision point:

@@ -20,7 +20,7 @@
 - [x] **Check 2 — Tiered autonomy model**
   Evidence: Overview table at `SKILL.md:49-55` classifies each capability as Mechanical/Semantic. Phase 3 (`SKILL.md:303-362`) implements the split: interactive mode requires confirmation for all 5; cron mode auto-executes caps 1,4 and queues caps 2,3,5 as a fleeting note (`fleeting/YYYY-MM-DD-compress-proposals.md`). Critical rules at `SKILL.md:59-60` explicitly forbid autonomous execution of semantic capabilities.
 
-- [x] **Check 3 — All writes via /bedrock:preserve**
+- [x] **Check 3 — All writes via skill({ name: "preserve" })**
   Evidence: `allowed-tools` at `SKILL.md:11` is `Bash, Read, Glob, Grep, Skill, Agent` — no Write or Edit. Phase 4.2 at `SKILL.md:531-538` delegates via Skill tool. Critical rules table row 1 at `SKILL.md:614`: "NEVER use Write or Edit on entity files." Overview rule at `SKILL.md:58` reinforces.
 
 - [x] **Check 4 — Follows skill architecture pattern**
@@ -31,11 +31,11 @@
   - Numbered phases: 0 (git pull), 1 (scan), 2 (proposal), 3 (confirmation), 4 (delegation), 5 (report)
   - Critical Rules table at `SKILL.md:610-624`: 11 rules in `| Rule | Detail |` format
 
-- [x] **Check 5 — CLAUDE.md skills table updated**
-  Evidence: `CLAUDE.md:112` now reads: "Vault alignment engine — fixes broken backlinks, concept fragmentation, entity miscategorization, duplicated entities, misnamed entities. Supports `--mode cron` for scheduled execution". Old description ("Deduplication and vault health") replaced.
+- [x] **Check 5 — AGENTS.md skills table updated**
+  Evidence: `AGENTS.md:112` now reads: "Vault alignment engine — fixes broken backlinks, concept fragmentation, entity miscategorization, duplicated entities, misnamed entities. Supports `--mode cron` for scheduled execution". Old description ("Deduplication and vault health") replaced.
 
 - [x] **Check 6 — No health reporting logic remains**
-  Evidence: Grep for `orphan|stale|health.report|dangling|graph.integrity` across `SKILL.md` returns only line 587: a suggestion to run `/bedrock:healthcheck` (text reference, not logic). No Phase 1.5 (graph integrity), no Phase 4.2 (health report), no orphan/stale/dangling detection algorithms exist.
+  Evidence: Grep for `orphan|stale|health.report|dangling|graph.integrity` across `SKILL.md` returns only line 587: a suggestion to run `skill({ name: "healthcheck" })` (text reference, not logic). No Phase 1.5 (graph integrity), no Phase 4.2 (health report), no orphan/stale/dangling detection algorithms exist.
 
 ## Pattern Compliance
 
@@ -48,7 +48,7 @@
   - Phase 0 is `git pull --rebase origin main` (write skill convention)
 
 - [x] **`patterns/skill-delegation.md`** — Followed correctly.
-  - All writes through `/bedrock:preserve` via Skill tool (`SKILL.md:531-538`)
+  - All writes through `skill({ name: "preserve" })` via Skill tool (`SKILL.md:531-538`)
   - Structured entity list format matches the contract: `type`, `name`, `action`, `content`, `relations`, `source` (`SKILL.md:374-529`)
   - Provenance: `source: "compress"` for all delegated entities (`SKILL.md:622`)
   - User confirmation before delegation in interactive mode (`SKILL.md:305-319`)
@@ -70,14 +70,14 @@
 
 None found. Verified against `.vibeflow/conventions.md`:
 - Skill name matches directory: `compress` ✓
-- Heading format: `# /bedrock:compress` ✓
+- Heading format: `# skill({ name: "compress" })` ✓
 - Skill structure order: frontmatter → heading → Plugin Paths → Overview → Phases → Critical Rules ✓
 - Don'ts: no flat tags, no path-qualified wikilinks, no direct writes, no MCP in subagents ✓
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin). Verify manually.
+No test runner detected (markdown-only OpenCode plugin). Verify manually.
 
 ## Summary
 
-All 6 DoD checks pass. All 4 applicable patterns followed. No convention violations. Budget: 2/4 files. The implementation is a complete rewrite of the compress skill with clean separation of concerns (no health reporting) and proper delegation to `/bedrock:preserve`.
+All 6 DoD checks pass. All 4 applicable patterns followed. No convention violations. Budget: 2/4 files. The implementation is a complete rewrite of the compress skill with clean separation of concerns (no health reporting) and proper delegation to `skill({ name: "preserve" })`.

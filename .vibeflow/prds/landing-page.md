@@ -6,7 +6,7 @@
 The Bedrock plugin has no public-facing page beyond a plain GitHub README. Potential users scrolling through GitHub or linked from social media see a wall of markdown with no visual hook — they can't quickly grasp what Bedrock does, why it matters, or how to get started. A polished landing page is the difference between "I'll check this out later" (never) and "let me install this right now."
 
 ## Target Audience
-Developers and knowledge workers who already use **Obsidian** and **Claude Code** (or are curious about either). They land on the page from GitHub, Twitter/X, or a direct link. They want to understand the value proposition in under 30 seconds and install in under 60.
+Developers and knowledge workers who already use **Obsidian** and **OpenCode** (or are curious about either). They land on the page from GitHub, Twitter/X, or a direct link. They want to understand the value proposition in under 30 seconds and install in under 60.
 
 ## Proposed Solution
 A single self-contained HTML file (`index.html`) at the repo root, deployable via GitHub Pages with zero build steps. The page includes:
@@ -47,10 +47,10 @@ Design language: dark theme (matching Obsidian's dark mode), clean typography, s
 - No custom domain setup
 
 ## Technical Context
-- The repo has zero build tooling — it's a Claude Code plugin made entirely of markdown files
+- The repo has zero build tooling — it's a OpenCode plugin made entirely of markdown files
 - The graph animation should use `<canvas>` for performance (CSS-only would struggle with 100+ nodes)
 - Color palette for nodes should match the Obsidian graph view: blues, reds, greens, yellows, cyan on `#1e1e1e` background with `rgba` connection lines
-- The 6 skills and their descriptions are already documented in `README.md` and `CLAUDE.md`
+- The 6 skills and their descriptions are already documented in `README.md` and `AGENTS.md`
 - GitHub repo URL: `https://github.com/iurykrieger/claude-bedrock`
 - Install command: `claude plugins add iurykrieger/claude-bedrock`
 

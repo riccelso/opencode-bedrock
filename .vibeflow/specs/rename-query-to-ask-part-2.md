@@ -1,36 +1,36 @@
-# Spec: /bedrock:ask — Codebase Reference Updates (Part 2: Rename Propagation)
+# Spec: skill({ name: "ask" }) — Codebase Reference Updates (Part 2: Rename Propagation)
 
 > Generated from: `.vibeflow/prds/rename-query-to-ask.md`
 > Date: 2026-04-15
 
 ## Objective
 
-Eliminate all remaining references to `/bedrock:query` and `skills/query` across the codebase so the rename to `/bedrock:ask` is complete and consistent.
+Eliminate all remaining references to `skill({ name: "ask" })` and `skills/query` across the codebase so the rename to `skill({ name: "ask" })` is complete and consistent.
 
 ## Context
 
-Part 1 created `skills/ask/SKILL.md`, deleted `skills/query/`, and updated `CLAUDE.md`. But 4 other files still reference the old name: `README.md`, `skills/setup/SKILL.md`, `skills/teach/SKILL.md`, and `index.html`. These are all mechanical find-and-replace changes — no logic changes required.
+Part 1 created `skills/ask/SKILL.md`, deleted `skills/query/`, and updated `AGENTS.md`. But 4 other files still reference the old name: `README.md`, `skills/setup/SKILL.md`, `skills/teach/SKILL.md`, and `index.html`. These are all mechanical find-and-replace changes — no logic changes required.
 
 ## Definition of Done
 
-1. `README.md` references `/bedrock:ask` in the skills table and architecture diagram (2 occurrences)
-2. `skills/setup/SKILL.md` references `/bedrock:ask` in all 3 occurrences (skills table + onboarding instructions)
-3. `skills/teach/SKILL.md` references `/bedrock:ask` instead of `/bedrock:query` (1 occurrence)
-4. `index.html` skill card references `/bedrock:ask` with updated name and i18n key (1 occurrence)
-5. Zero occurrences of the strings `/bedrock:query` or `skills/query` remain in the codebase (excluding `.vibeflow/` analysis/audit files and git history)
+1. `README.md` references `skill({ name: "ask" })` in the skills table and architecture diagram (2 occurrences)
+2. `skills/setup/SKILL.md` references `skill({ name: "ask" })` in all 3 occurrences (skills table + onboarding instructions)
+3. `skills/teach/SKILL.md` references `skill({ name: "ask" })` instead of `skill({ name: "ask" })` (1 occurrence)
+4. `index.html` skill card references `skill({ name: "ask" })` with updated name and i18n key (1 occurrence)
+5. Zero occurrences of the strings `skill({ name: "ask" })` or `skills/query` remain in the codebase (excluding `.vibeflow/` analysis/audit files and git history)
 
 ## Scope
 
 ### In
-- `README.md` — Replace `/bedrock:query` in skills table (line ~67) and architecture diagram (line ~95)
-- `skills/setup/SKILL.md` — Replace `/bedrock:query` at line ~540 (skills table), line ~1082 (onboarding instruction), line ~1083 (example command)
-- `skills/teach/SKILL.md` — Replace `/bedrock:query` at line ~254 (mention of query for graph traversal)
-- `index.html` — Replace `/bedrock:query` at line ~532 (skill card name), update `data-i18n` key if it uses `sk_query`
+- `README.md` — Replace `skill({ name: "ask" })` in skills table (line ~67) and architecture diagram (line ~95)
+- `skills/setup/SKILL.md` — Replace `skill({ name: "ask" })` at line ~540 (skills table), line ~1082 (onboarding instruction), line ~1083 (example command)
+- `skills/teach/SKILL.md` — Replace `skill({ name: "ask" })` at line ~254 (mention of query for graph traversal)
+- `index.html` — Replace `skill({ name: "ask" })` at line ~532 (skill card name), update `data-i18n` key if it uses `sk_query`
 
 ### Out (anti-scope)
 - No `.vibeflow/` file updates — those are analysis output, updated by `/vibeflow:analyze`
 - No content or logic changes — purely mechanical string replacement
-- No changes to `CLAUDE.md` or `skills/ask/SKILL.md` (handled in Part 1)
+- No changes to `AGENTS.md` or `skills/ask/SKILL.md` (handled in Part 1)
 
 ## Technical Decisions
 

@@ -4,7 +4,7 @@
 
 ## Problem
 
-The current fetcher modules (`skills/gdoc/` and `skills/confluence/`) have inconsistent fallback strategies, different auth guidance styles, and no MCP layer. Meanwhile, `/bedrock:sync` bypasses the internal fetchers entirely — it calls external skills (`/confluence-to-markdown`, `/gdoc-to-markdown`) instead of the internal modules that `/bedrock:teach` uses. This means two different code paths fetch the same sources with different behavior, error handling, and fallback logic.
+The current fetcher modules (`skills/gdoc/` and `skills/confluence/`) have inconsistent fallback strategies, different auth guidance styles, and no MCP layer. Meanwhile, `skill({ name: "sync" })` bypasses the internal fetchers entirely — it calls external skills (`/confluence-to-markdown`, `/gdoc-to-markdown`) instead of the internal modules that `skill({ name: "teach" })` uses. This means two different code paths fetch the same sources with different behavior, error handling, and fallback logic.
 
 Additionally, the fetcher naming (`gdoc`, `confluence`) doesn't match the external skill names they replaced (`gdoc-to-markdown`, `confluence-to-markdown`), creating confusion about which is internal vs external.
 
@@ -28,14 +28,14 @@ Concrete changes:
 1. Rename `skills/gdoc/` → `skills/gdoc-to-markdown/` and `skills/confluence/` → `skills/confluence-to-markdown/`
 2. Rewrite both fetcher SKILL.md files with the 3-layer fallback architecture
 3. Standardize auth guidance messaging across both fetchers
-4. Update `/bedrock:teach` to reference the new fetcher paths
-5. Update `/bedrock:sync` to use the internal fetcher modules instead of external skills
+4. Update `skill({ name: "teach" })` to reference the new fetcher paths
+5. Update `skill({ name: "sync" })` to use the internal fetcher modules instead of external skills
 
 ## Success Criteria
 
 - Both fetchers implement the 3-layer fallback (MCP → API → Browser) with consistent structure
 - Auth guidance messages follow the same tone, format, and structure across both fetchers
-- `/bedrock:teach` and `/bedrock:sync` both use the internal fetcher modules (no external skill calls)
+- `skill({ name: "teach" })` and `skill({ name: "sync" })` both use the internal fetcher modules (no external skill calls)
 - Fetcher directories renamed to `gdoc-to-markdown` and `confluence-to-markdown`
 - Architecture is extensible: adding a new fetcher means creating a new `skills/<name>/SKILL.md` following the same 3-layer pattern
 
@@ -52,7 +52,7 @@ Concrete changes:
 ## Anti-scope
 
 - No new fetcher types (Jira, Notion, Slack, etc.) — architecture only, not new implementations
-- No changes to `/bedrock:preserve`, `/bedrock:compress`, `/bedrock:query`, or `/bedrock:setup`
+- No changes to `skill({ name: "preserve" })`, `skill({ name: "compress" })`, `skill({ name: "ask" })`, or `skill({ name: "setup" })`
 - No changes to `extract.js` DOM scraping logic
 - No changes to entity definitions or templates
 - No OAuth interactive flow implementation — use existing static tokens and MCP auth
@@ -66,7 +66,7 @@ Concrete changes:
 - Skill Delegation pattern (`.vibeflow/patterns/skill-delegation.md`): fetchers are internal modules, not user-invocable skills — they return data to callers
 
 **Available MCP tools:**
-- `plugin:atlassian:atlassian` — installed, requires OAuth. Once authed, provides Confluence page access. Auth flow: `mcp__plugin_atlassian_atlassian__authenticate` → user completes OAuth → tools become available.
+- `plugin:atlassian:atlassian` — installed, requires OAuth. Once authed, provides Confluence page access. Auth flow: `atlassian__authenticate` → user completes OAuth → tools become available.
 - No Google Docs MCP installed — GDocs MCP layer will be a documented placeholder that checks and skips.
 
 **Key integration points:**

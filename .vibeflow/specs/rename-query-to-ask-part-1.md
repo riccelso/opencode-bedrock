@@ -1,11 +1,11 @@
-# Spec: /bedrock:ask — Orchestrated Vault Reader (Part 1: Core Skill Rewrite)
+# Spec: skill({ name: "ask" }) — Orchestrated Vault Reader (Part 1: Core Skill Rewrite)
 
 > Generated from: `.vibeflow/prds/rename-query-to-ask.md`
 > Date: 2026-04-15
 
 ## Objective
 
-Replace the single-pass `/bedrock:query` with `/bedrock:ask` — an orchestrator that decomposes questions into sub-queries, executes multiple `/graphify` calls, and blends graph results with vault reads for richer answers.
+Replace the single-pass `skill({ name: "ask" })` with `skill({ name: "ask" })` — an orchestrator that decomposes questions into sub-queries, executes multiple `/graphify` calls, and blends graph results with vault reads for richer answers.
 
 ## Context
 
@@ -15,11 +15,11 @@ The config system (`.bedrock/config.json`) already supports structured fields (`
 
 ## Definition of Done
 
-1. `skills/ask/SKILL.md` exists with frontmatter `name: ask`, updated `description`, and updated trigger phrases (`"bedrock ask"`, `"bedrock-ask"`, `"/bedrock:ask"`)
+1. `skills/ask/SKILL.md` exists with frontmatter `name: ask`, updated `description`, and updated trigger phrases (`"bedrock ask"`, `"bedrock-ask"`, `"skill({ name: "ask" })"`)
 2. Phase 2 implements question decomposition: the skill analyzes the question and produces 1–N sub-queries (each with a graphify mode: `query`, `explain`, or `path`), then executes them sequentially up to the configured max
 3. The skill reads `query.max_graphify_calls` from `.bedrock/config.json` at invocation (Phase 0), defaulting to `3` when the config file or field is absent
 4. When `graphify-out/graph.json` is missing or empty, the skill displays a `> [!warning]` callout warning the user the graph is compromised, names which command to run to rebuild it, and then proceeds with the sequential fallback (Phase 2-S)
-5. `CLAUDE.md` skills table references `/bedrock:ask` instead of `/bedrock:query`; `skills/query/` directory is deleted
+5. `AGENTS.md` skills table references `skill({ name: "ask" })` instead of `skill({ name: "ask" })`; `skills/query/` directory is deleted
 6. Skill structure follows the skill-architecture pattern: Plugin Paths section, phased execution, agent type declaration, Critical Rules table at the end
 
 ## Scope
@@ -27,7 +27,7 @@ The config system (`.bedrock/config.json`) already supports structured fields (`
 ### In
 - Create `skills/ask/SKILL.md` — full rewrite of the skill with orchestration logic
 - Delete `skills/query/` directory
-- Update `CLAUDE.md` skills table (1 line: `/bedrock:query` → `/bedrock:ask`)
+- Update `AGENTS.md` skills table (1 line: `skill({ name: "ask" })` → `skill({ name: "ask" })`)
 - **Phase 0** — Read `.bedrock/config.json` for `query.max_graphify_calls` (default 3); git pull for read-only freshness is optional
 - **Phase 1** (Analyze) — Keep existing question classification logic (1.1, 1.2, 1.3). Add **1.4 Decompose into sub-queries**: based on info_type, search_terms, and explicit_entities, produce a plan of 1–N graphify invocations (each with mode + prompt). Rules:
   - Single entity, simple question → 1 `explain` call
@@ -55,7 +55,7 @@ The config system (`.bedrock/config.json`) already supports structured fields (`
 
 Each `/graphify` call is a Skill tool invocation. Running them sequentially allows later sub-queries to be informed by earlier results (e.g., if the first `explain` call reveals an unexpected relationship, the orchestrator could adjust). Parallel execution would be faster but would prevent this adaptive behavior.
 
-**Trade-off:** Slower for multi-call questions (2-3x latency). Acceptable because the alternative (multiple manual `/bedrock:query` calls) is even slower and requires user effort.
+**Trade-off:** Slower for multi-call questions (2-3x latency). Acceptable because the alternative (multiple manual `skill({ name: "ask" })` calls) is even slower and requires user effort.
 
 ### 2. Config field as `query.max_graphify_calls` (not `ask.max_graphify_calls`)
 
@@ -82,7 +82,7 @@ The sub-query plan is produced during question analysis, before any vault reads.
 | Graphify calls are slow — 3 sequential calls could take 30+ seconds | Default max is 3; configurable down to 1. Simple questions naturally decompose into 1 call. |
 | Sub-query decomposition produces redundant calls (same nodes returned twice) | Phase 2.5 deduplicates nodes by `id` before resolving to .md files |
 | `.bedrock/config.json` doesn't exist in most vaults yet | Default to 3 when file or field is absent — zero config required |
-| Old references to `/bedrock:query` confuse users during the transition between Part 1 and Part 2 | Part 2 should be implemented immediately after Part 1. CLAUDE.md (updated in Part 1) is the canonical reference agents read. |
+| Old references to `skill({ name: "ask" })` confuse users during the transition between Part 1 and Part 2 | Part 2 should be implemented immediately after Part 1. AGENTS.md (updated in Part 1) is the canonical reference agents read. |
 
 ## Dependencies
 

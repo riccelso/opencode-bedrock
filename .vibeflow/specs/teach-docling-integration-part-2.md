@@ -1,11 +1,11 @@
-# Spec: /bedrock:teach — docling conversion + append pipeline
+# Spec: skill({ name: "teach" }) — docling conversion + append pipeline
 
 > Part 2 of 3 — Split from `.vibeflow/prds/teach-docling-integration.md`
 > Generated via /vibeflow:gen-spec on 2026-04-18
 
 ## Objective
 
-`/bedrock:teach` accepts any docling-supported file format, converts it to markdown before extraction, routes `/graphify` output to a per-run temp dir, and delegates the merge into the vault to `/bedrock:preserve` (Part 1).
+`skill({ name: "teach" })` accepts any docling-supported file format, converts it to markdown before extraction, routes `/graphify` output to a per-run temp dir, and delegates the merge into the vault to `skill({ name: "preserve" })` (Part 1).
 
 ## Context
 
@@ -17,7 +17,7 @@
 2. **Docling conversion step:** between fetch and `/graphify`, `/teach` invokes `docling <file>` via Bash on any fetched file whose type is docling-supported and which is NOT a GitHub repo and NOT already-markdown output from the Confluence/GDoc fetchers. Converted markdown replaces the source file in `$TEACH_TMP`.
 3. **Routing and failure rules implemented literally:** (a) docling-supported type → run docling; (b) docling-unsupported type → raw passthrough to graphify; (c) docling invoked and fails → raw passthrough for `.md`/`.txt`/`.csv`, abort with clean error and `$TEACH_TMP` cleanup for all other types.
 4. **Graphify target redirection + delegation update:** `/teach` invokes `/graphify` with output target `$TEACH_TMP/graphify-out-new/` (not the vault). `/teach` delegates to `/preserve` passing that temp path as `graphify_output_path` (relies on Part 1's Phase 0 to merge).
-5. **Auto-install:** `/teach` installs docling silently (one-line status message, no prompt) if missing, before any fetch. `/bedrock:setup` also installs docling as part of its dependency check phase (analogous to graphify autoinstall). If install fails, `/teach` aborts with an error pointing to `/bedrock:setup`.
+5. **Auto-install:** `/teach` installs docling silently (one-line status message, no prompt) if missing, before any fetch. `skill({ name: "setup" })` also installs docling as part of its dependency check phase (analogous to graphify autoinstall). If install fails, `/teach` aborts with an error pointing to `skill({ name: "setup" })`.
 6. **Report enrichment:** Phase 4 report includes per-file docling status (`converted` / `passed-through` / `failed-fallback`) and surfaces merge stats (`nodes_added`, `nodes_merged`, `edges_added`, `stale_flag_set`) returned by `/preserve`.
 7. **Craftsmanship gate:** `/teach` remains a pure fetcher/orchestrator — no direct vault file writes; all writes still flow through `/preserve`. Follows `skill-architecture.md` (numbered phases, Critical Rules table updated) and `skill-delegation.md`. No violations from `.vibeflow/conventions.md` Don'ts (no subagents for MCP calls, no blocking on failed external sources, best-effort semantics preserved).
 
@@ -74,10 +74,10 @@ No new patterns introduced.
 |---|---|---|---|
 | First-run model download takes minutes (>1 GB) | High | Low | One-time cost; report a warning on auto-install; users re-running subsequent `/teach` invocations hit the cache. |
 | Docling aborts mid-conversion on a large PDF | Medium | Medium | Timeout handling: treat timeout as a failure per Phase 1.5 rules; abort for non-text types. |
-| Docling install fails in restricted environments (no `pipx`, no network) | Medium | Medium | Clear error message pointing to `/bedrock:setup` and docling install docs. |
+| Docling install fails in restricted environments (no `pipx`, no network) | Medium | Medium | Clear error message pointing to `skill({ name: "setup" })` and docling install docs. |
 | Docling output doesn't round-trip through graphify cleanly (tables, images) | Low | Medium | Docling produces standard CommonMark; graphify already handles markdown. If issues emerge, follow-up spec. |
 | Edge case: user passes a GitHub URL pointing at a single file (not a repo) | Low | Low | Keep existing URL routing: GitHub → clone-or-error. Non-repo GitHub URLs stay out of scope. |
-| Auto-install competes with `/bedrock:setup` install (race / double install) | Low | Low | `pipx install docling` is idempotent; auto-install checks presence first (`command -v docling`). |
+| Auto-install competes with `skill({ name: "setup" })` install (race / double install) | Low | Low | `pipx install docling` is idempotent; auto-install checks presence first (`command -v docling`). |
 
 ## Dependencies
 

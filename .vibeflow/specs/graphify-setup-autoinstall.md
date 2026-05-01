@@ -6,13 +6,13 @@
 
 ## Objective
 
-`/bedrock:setup` points every graphify reference to `safishamsi/graphify` and silently installs the dependency when it is missing, so users never hit a 404 link and `/bedrock:teach` works on the first run.
+`skill({ name: "setup" })` points every graphify reference to `safishamsi/graphify` and silently installs the dependency when it is missing, so users never hit a 404 link and `skill({ name: "teach" })` works on the first run.
 
 ## Context
 
-Today three live surfaces (`skills/setup/SKILL.md`, `README.md`, `.vibeflow/specs/graphify-pipeline-refactor.md`) point to `https://github.com/iurykrieger/graphify`, which returns 404. `/bedrock:setup` Phase 1.2 detects graphify via `Glob: ~/.claude/skills/graphify/SKILL.md`, and when missing only prints instructions — leaving `/bedrock:teach` broken on first use.
+Today three live surfaces (`skills/setup/SKILL.md`, `README.md`, `.vibeflow/specs/graphify-pipeline-refactor.md`) point to `https://github.com/iurykrieger/graphify`, which returns 404. `skill({ name: "setup" })` Phase 1.2 detects graphify via `Glob: ~/.claude/skills/graphify/SKILL.md`, and when missing only prints instructions — leaving `skill({ name: "teach" })` broken on first use.
 
-Graphify is distributed as a PyPI package (`graphifyy` — temporary name while the upstream reclaims `graphify`) that installs a Claude Code skill at `~/.claude/skills/graphify/SKILL.md`. Install entrypoint: `pip install graphifyy && graphify install` (or pipx-equivalent). Manual fallback via `curl` for the skill file directly.
+Graphify is distributed as a PyPI package (`graphifyy` — temporary name while the upstream reclaims `graphify`) that installs a OpenCode skill at `~/.claude/skills/graphify/SKILL.md`. Install entrypoint: `pip install graphifyy && graphify install` (or pipx-equivalent). Manual fallback via `curl` for the skill file directly.
 
 The setup skill already declares `allowed-tools: Bash, Read, Write, Glob, Grep`, so shelling out to `pipx`, `pip`, and `curl` requires no manifest change. Critical Rule #1 of the skill mandates that initialization never blocks for missing dependencies — every install path must fall through on failure.
 
@@ -40,7 +40,7 @@ The setup skill already declares `allowed-tools: Bash, Read, Write, Glob, Grep`,
 - No prompt for user consent before installing.
 - No uninstall, upgrade, or version-pinning logic.
 - No Python bootstrapping — if Python 3.10+ is missing we warn and fall back to `curl`, never attempt to install Python.
-- No changes to `/bedrock:teach`, `/bedrock:ask`, or any other skill.
+- No changes to `skill({ name: "teach" })`, `skill({ name: "ask" })`, or any other skill.
 - No changes to the detection probe path (`~/.claude/skills/graphify/SKILL.md`).
 - No changes to other optional dependencies (Confluence, Google, claude-in-chrome).
 - No new fields in `.bedrock/config.json` to toggle auto-install behavior.

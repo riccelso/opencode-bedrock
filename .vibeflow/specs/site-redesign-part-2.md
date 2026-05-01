@@ -16,7 +16,7 @@ Part 1 delivers the shell (navbar, hero, footer) and design system. This part fi
 1. **How It Works renders**: A horizontal stepper showing 6 steps (`setup → teach → preserve → ask → compress → sync`). Clicking a step highlights it and reveals a panel below with (a) skill description, (b) a styled terminal snippet showing the command. Active step is visually distinct (purple accent border/background).
 2. **Skills Showcase renders**: Left sidebar listing 6 skill names as clickable tabs. Right panel shows: skill name as monospace heading, 2-3 line description, a GIF placeholder (16:10 aspect ratio, dark background with "GIF coming soon" text), and the invoke command in a code block. Selecting a different tab swaps the panel content.
 3. **Use Cases renders**: 4 cards in a 2x2 grid (desktop) / single column (mobile). Each card has: an icon (emoji or SVG), a title, and a 2-line description. Cards have subtle hover effect (border color shift + slight translate-Y).
-4. **Content is accurate**: All skill names, descriptions, and commands match the current `README.md` and `CLAUDE.md` documentation. No invented features.
+4. **Content is accurate**: All skill names, descriptions, and commands match the current `README.md` and `AGENTS.md` documentation. No invented features.
 5. **Responsive**: How It Works stepper scrolls horizontally or stacks on mobile. Skills sidebar collapses to a horizontal tab bar on mobile. Use Cases stacks to 1 column. No overflow at 375px.
 6. **Keyboard accessible**: Tab/Enter navigates the How It Works stepper and Skills Showcase tabs. Focus states are visible (purple ring).
 

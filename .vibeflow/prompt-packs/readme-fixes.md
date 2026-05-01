@@ -17,11 +17,11 @@
 
 - Do NOT rewrite sections that aren't listed above (keep Features, Skills table, Vault Structure, Configuration, Contributing, Project Structure, License as-is).
 - Do NOT change the banner, badges, or header block.
-- Do NOT change `CLAUDE.md`, skill files, or entity definitions.
+- Do NOT change `AGENTS.md`, skill files, or entity definitions.
 - Do NOT introduce new sections beyond what is strictly needed to fix the three issues.
 - Do NOT change the install command for local development (`claude --plugin-dir ./claude-bedrock`) — only the marketplace install command is wrong.
 - Do NOT translate or change the language (stay in English).
-- Do NOT bump the plugin version or touch `.claude-plugin/plugin.json`.
+- Do NOT bump the plugin version or touch `.opencode/plugin.json`.
 
 ## 3. Budget
 
@@ -29,11 +29,11 @@
 
 ## 4. Patterns to Follow
 
-This repo is a Claude Code plugin (markdown-only, no build system). Conventions relevant to README edits:
+This repo is a OpenCode plugin (markdown-only, no build system). Conventions relevant to README edits:
 
 - **Language:** English (en-US) for all user-facing content.
-- **Skill references:** always use the invocation syntax `/bedrock:<name>` (e.g., `/bedrock:setup`, `/bedrock:teach`).
-- **Plugin marketplace install format:** `/plugin install <plugin-name>@<marketplace-name>` where `<plugin-name>` is from `.claude-plugin/plugin.json` (`"name": "bedrock"`) and `<marketplace-name>` is the repo slug (`claude-bedrock`).
+- **Skill references:** always use the invocation syntax `skill({ name: "<name>" })` (e.g., `skill({ name: "setup" })`, `skill({ name: "teach" })`).
+- **Plugin marketplace install format:** `/plugin install <plugin-name>@<marketplace-name>` where `<plugin-name>` is from `.opencode/plugin.json` (`"name": "bedrock"`) and `<marketplace-name>` is the repo slug (`claude-bedrock`).
 - **Tables:** aligned with `---` separators, short cells, pipe-delimited.
 - **Fenced code blocks:** use triple backticks with a language hint when relevant (`bash`, ` ` for plain).
 - **Voice:** terse, instructional, second person when addressing the user.
@@ -66,7 +66,7 @@ Change to:
 ​```
 ```
 
-Rationale: `/plugin install` takes `<plugin-name>@<marketplace-name>`. The plugin name is `bedrock` (see `.claude-plugin/plugin.json`), and the marketplace name is `claude-bedrock`.
+Rationale: `/plugin install` takes `<plugin-name>@<marketplace-name>`. The plugin name is `bedrock` (see `.opencode/plugin.json`), and the marketplace name is `claude-bedrock`.
 
 #### 5b. Rewrite the "How It Works" section
 
@@ -74,13 +74,13 @@ Current (confusing — it's an internal delegation diagram):
 ```markdown
 ## How It Works
 
-Bedrock follows a **skill delegation model** where all write operations flow through `/bedrock:preserve` as the single write point:
+Bedrock follows a **skill delegation model** where all write operations flow through `skill({ name: "preserve" })` as the single write point:
 
 ​```
-External Source → /bedrock:teach → entity detection → /bedrock:preserve → vault
-GitHub/Confluence → /bedrock:sync  → diff analysis  → /bedrock:preserve → vault
-User question   → /bedrock:ask   → search + graph  → read-only response
-Vault health    → /bedrock:compress → dedup/merge   → vault updates
+External Source → skill({ name: "teach" }) → entity detection → skill({ name: "preserve" }) → vault
+GitHub/Confluence → skill({ name: "sync" })  → diff analysis  → skill({ name: "preserve" }) → vault
+User question   → skill({ name: "ask" })   → search + graph  → read-only response
+Vault health    → skill({ name: "compress" }) → dedup/merge   → vault updates
 ​```
 
 Every entity includes structured frontmatter, hierarchical tags, and bidirectional wikilinks — making the Obsidian graph view a living map of your knowledge.
@@ -91,21 +91,21 @@ Replace with a user-facing "How to use it" explanation that covers: (1) first-ti
 ```markdown
 ## How It Works
 
-Bedrock turns your vault into a living knowledge graph by combining **8 skills** you invoke from Claude Code. You never write entities by hand — skills detect, create, and link them for you, with Obsidian rendering the result as a graph.
+Bedrock turns your vault into a living knowledge graph by combining **8 skills** you invoke from OpenCode. You never write entities by hand — skills detect, create, and link them for you, with Obsidian rendering the result as a graph.
 
 ### First-time use
 
 1. Open a folder you want to turn into a vault (or an existing Obsidian vault).
-2. Run `/bedrock:setup` — answers a few questions and scaffolds directories, templates, and example entities.
+2. Run `skill({ name: "setup" })` — answers a few questions and scaffolds directories, templates, and example entities.
 3. Open the folder in Obsidian. You'll already see a connected graph.
 
 ### Day-to-day loops
 
-- **Capture knowledge from a source** — paste a Confluence page, Google Doc, GitHub repo, or local file into `/bedrock:teach`. Bedrock extracts entities and writes them to the vault with bidirectional links.
-- **Ask the vault questions** — use `/bedrock:ask` for anything like *"who owns the billing API?"* or *"what's the status of project X?"*. It searches the graph, follows wikilinks, and answers with citations.
-- **Keep sources fresh** — run `/bedrock:sync` to re-pull external sources, or `/bedrock:sync --github` / `--people` to surface recent activity and contributors.
-- **Clean up drift** — run `/bedrock:compress` to fix broken backlinks, merge duplicates, and consolidate fragmented concepts. Run `/bedrock:healthcheck` for a read-only report.
-- **Manage multiple vaults** — register several vaults with `/bedrock:vaults`; target a specific one with `--vault <name>`.
+- **Capture knowledge from a source** — paste a Confluence page, Google Doc, GitHub repo, or local file into `skill({ name: "teach" })`. Bedrock extracts entities and writes them to the vault with bidirectional links.
+- **Ask the vault questions** — use `skill({ name: "ask" })` for anything like *"who owns the billing API?"* or *"what's the status of project X?"*. It searches the graph, follows wikilinks, and answers with citations.
+- **Keep sources fresh** — run `skill({ name: "sync" })` to re-pull external sources, or `skill({ name: "sync" }) --github` / `--people` to surface recent activity and contributors.
+- **Clean up drift** — run `skill({ name: "compress" })` to fix broken backlinks, merge duplicates, and consolidate fragmented concepts. Run `skill({ name: "healthcheck" })` for a read-only report.
+- **Manage multiple vaults** — register several vaults with `skill({ name: "vaults" })`; target a specific one with `--vault <name>`.
 
 ### What you get in Obsidian
 
@@ -131,9 +131,9 @@ Replace with:
 
 | Tool | Purpose | Required? |
 |---|---|---|
-| [graphify](https://github.com/iurykrieger/graphify) | Semantic code extraction and knowledge-graph pipeline used by `/bedrock:teach` and `/bedrock:sync` | Yes |
+| [graphify](https://github.com/iurykrieger/graphify) | Semantic code extraction and knowledge-graph pipeline used by `skill({ name: "teach" })` and `skill({ name: "sync" })` | Yes |
 
-Confluence and Google Docs ingestion are built into the plugin as internal skills (`/bedrock:confluence-to-markdown`, `/bedrock:gdoc-to-markdown`) invoked by `/bedrock:teach` and `/bedrock:sync` — no external installation required.
+Confluence and Google Docs ingestion are built into the plugin as internal skills (`skill({ name: "confluence-to-markdown" })`, `skill({ name: "gdoc-to-markdown" })`) invoked by `skill({ name: "teach" })` and `skill({ name: "sync" })` — no external installation required.
 ```
 
 Rationale: `graphify` is called by `teach` and referenced throughout the teach/sync pipelines (see `skills/teach/SKILL.md` — graph extraction is not optional). The two former external tools are now skills shipped with the plugin (`skills/confluence-to-markdown/`, `skills/gdoc-to-markdown/`).
@@ -142,7 +142,7 @@ Rationale: `graphify` is called by `teach` and referenced throughout the teach/s
 
 - Make three surgical edits, in order: install command → How It Works → Dependencies. Each one is independent; do not bundle them into a single rewrite.
 - Keep existing tone (terse, instructional). Do not add marketing language.
-- When rewriting "How It Works", lead with what the user does, not with internal architecture. The skill delegation diagram belongs in `CLAUDE.md`, not the README.
+- When rewriting "How It Works", lead with what the user does, not with internal architecture. The skill delegation diagram belongs in `AGENTS.md`, not the README.
 - In the dependencies rewrite, rename the section from "Optional Dependencies" to "Dependencies" since the only item left is required.
 - Verify each skill name referenced actually exists in `skills/` before writing it.
 

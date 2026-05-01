@@ -8,7 +8,7 @@
 
 - [x] **1. Entity definition exists** — `entities/concept.md` has all 9 sections in order (Entity heading, Source of truth, What it is, When to create, When NOT to create, How to distinguish, Required fields, Zettelkasten Role, Examples). 3 positive examples (event sourcing, circuit breaker, mTLS) and 3 negative examples (temporal migration, actor-specific implementation, vague idea). Exceeds the 2/2 minimum.
 - [x] **2. Template exists** — `templates/concepts/_template.md` has YAML frontmatter with inline comments (lines 1-11), Zettelkasten role comment (line 13: `<!-- Zettelkasten role: permanent note -->`), linking instruction comment (line 14), 4 body sections (Description, Key Characteristics, Where it Applies, Related Concepts), and Expected Bidirectional Links table (lines 41-51).
-- [x] **3. CLAUDE.md updated** — `concept` appears in all 5 required locations:
+- [x] **3. AGENTS.md updated** — `concept` appears in all 5 required locations:
   - Entity Types table: line 24 (`Concepts | concepts/ | slug.md | event-sourcing.md`)
   - Tags table: line 60 (`concept` in `type/` values)
   - Update Rules table: line 98 (`People, Teams, Concepts, Topics` — append-only)
@@ -53,5 +53,5 @@ No test runner detected (markdown-only plugin — no build system, no tests, no 
 Files changed: 4 / ≤ 4 budget (2 created, 2 modified)
 - `entities/concept.md` (created)
 - `templates/concepts/_template.md` (created)
-- `CLAUDE.md` (modified)
+- `AGENTS.md` (modified)
 - `skills/preserve/SKILL.md` (modified)

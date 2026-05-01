@@ -30,7 +30,7 @@ Three strategies:
 - A vault configured with `commit-push-pr` creates a branch, pushes it, and opens a PR for every skill-triggered git operation.
 - A vault configured with `commit-only` commits locally and never pushes.
 - All 3 writing skills (preserve, compress, sync) respect the configured strategy.
-- `/bedrock:setup` offers the git strategy choice during vault initialization and persists it in config.
+- `skill({ name: "setup" })` offers the git strategy choice during vault initialization and persists it in config.
 
 ## Scope v0
 
@@ -40,7 +40,7 @@ Three strategies:
 - Update `skills/compress/SKILL.md` git phase to read config and dispatch to the correct strategy
 - Update `skills/sync/SKILL.md` git phase to read config and dispatch to the correct strategy
 - Update `skills/setup/SKILL.md` to include git strategy selection during initialization and write it to config
-- Update `CLAUDE.md` git workflow section to document the 3 strategies
+- Update `AGENTS.md` git workflow section to document the 3 strategies
 
 ## Anti-scope
 
@@ -70,7 +70,7 @@ Three strategies:
 - `skills/compress/SKILL.md` (lines ~392-411) — post-compression commit
 - `skills/sync/SKILL.md` (lines ~903-914) — post-sync commit
 
-All three duplicate the same trunk-based logic (commit, push, rebase retry). The new strategy should be defined once and referenced by all three — either via inline instructions in each skill or a shared convention described in CLAUDE.md.
+All three duplicate the same trunk-based logic (commit, push, rebase retry). The new strategy should be defined once and referenced by all three — either via inline instructions in each skill or a shared convention described in AGENTS.md.
 
 **Dependencies:**
 - `gh` CLI required for `commit-push-pr` strategy (PR creation)

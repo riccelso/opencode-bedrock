@@ -10,7 +10,7 @@ Isso impede que qualquer pessoa fora da Stone instale o plugin e o use no vault 
 
 ## Target Audience
 
-Qualquer usuário de Obsidian que queira estruturar um Second Brain com automação via Claude Code — engenheiros, PMs, CTOs, pesquisadores, independente de empresa ou domínio.
+Qualquer usuário de Obsidian que queira estruturar um Second Brain com automação via OpenCode — engenheiros, PMs, CTOs, pesquisadores, independente de empresa ou domínio.
 
 ## Proposed Solution
 
@@ -19,7 +19,7 @@ Substituir todas as referências Stone-específicas por exemplos genéricos e ne
 1. **Templates** — Trocar emails, repos, e exemplos por equivalentes genéricos (e.g. `user@company.com`, `org/my-api`)
 2. **Entity definitions** — Remover menções à StoneCo e subsidiárias, usar exemplos de domínios variados
 3. **Skills** — Trocar URLs de Atlassian, GitHub orgs, e exemplos de comandos por placeholders genéricos
-4. **CLAUDE.md** — Remover domínios Stone da tabela de tags, manter a tabela com domínios de exemplo genéricos
+4. **AGENTS.md** — Remover domínios Stone da tabela de tags, manter a tabela com domínios de exemplo genéricos
 5. **README.md** — Remover qualquer referência à Stone como empresa-alvo
 6. **Tags `domain/*`** — Substituir domínios Stone (`acquiring`, `boleto`, `pix`, `cards`, `insurance`, `marketplace`, `orders`) por exemplos genéricos (`backend`, `frontend`, `infra`, `data`, `mobile`, `platform`, `security`)
 7. **Tags `scope/*`** — Manter `pci`, `sox`, `lgpd` como exemplo de uma categoria de uso (fintech/compliance), e adicionar exemplos de outras áreas (e.g. `hipaa` para saúde, `gdpr` para empresas europeias, `soc2` para SaaS)
@@ -37,7 +37,7 @@ Substituir todas as referências Stone-específicas por exemplos genéricos e ne
 - [ ] Varrer e substituir referências em `templates/` (7 arquivos)
 - [ ] Varrer e substituir referências em `entities/` (9 arquivos)
 - [ ] Varrer e substituir referências em `skills/` (5 arquivos)
-- [ ] Atualizar tabelas de tags em `CLAUDE.md` (domínios genéricos, scope com exemplos multi-área)
+- [ ] Atualizar tabelas de tags em `AGENTS.md` (domínios genéricos, scope com exemplos multi-área)
 - [ ] Atualizar `README.md`
 - [ ] Validar que nenhuma referência Stone sobreviveu via grep
 
@@ -53,7 +53,7 @@ Substituir todas as referências Stone-específicas por exemplos genéricos e ne
 ## Technical Context
 
 - O projeto é markdown-only — não há build, testes ou CI. A validação é textual (grep por referências remanescentes).
-- Arquivos afetados estão em 4 diretórios: `templates/`, `entities/`, `skills/`, raiz (`CLAUDE.md`, `README.md`)
+- Arquivos afetados estão em 4 diretórios: `templates/`, `entities/`, `skills/`, raiz (`AGENTS.md`, `README.md`)
 - Total estimado: ~24 arquivos markdown para revisar
 - Wikilinks internos nos exemplos devem ser atualizados para nomes genéricos consistentes entre si (e.g. se um template menciona `[[payment-card-api]]`, trocar por `[[billing-api]]` ou similar e manter consistência em todos os arquivos)
 

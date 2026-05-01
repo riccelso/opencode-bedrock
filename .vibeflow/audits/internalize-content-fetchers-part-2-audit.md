@@ -52,7 +52,7 @@
 
 - [x] **skill-architecture.md** — Both skills maintain the required structure: YAML frontmatter → Plugin Paths → Overview → numbered Phases → Critical Rules table. The teach SKILL.md Critical Rules table was extended with one new rule (line 305) following the existing `| Rule | Detail |` format. No structural deviations.
 
-- [x] **skill-delegation.md** — The delegation chain (`/teach` → `/preserve`) is completely unchanged. Phase 3 "Delegate to /bedrock:preserve" (lines 210-238) was not modified. Fetcher modules are a Phase 1 implementation detail that feeds into the unchanged pipeline.
+- [x] **skill-delegation.md** — The delegation chain (`/teach` → `/preserve`) is completely unchanged. Phase 3 "Delegate to skill({ name: "preserve" })" (lines 210-238) was not modified. Fetcher modules are a Phase 1 implementation detail that feeds into the unchanged pipeline.
 
 ## Convention Violations
 
@@ -67,7 +67,7 @@ None found.
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin). Verify manually that the implementation works.
+No test runner detected (markdown-only OpenCode plugin). Verify manually that the implementation works.
 
 ## Anti-scope Verification
 

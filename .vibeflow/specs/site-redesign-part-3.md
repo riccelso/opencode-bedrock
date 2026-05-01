@@ -14,7 +14,7 @@ Parts 1 and 2 deliver the full shell and all interactive content sections. This 
 ## Definition of Done
 
 1. **Vault Demo renders**: A styled mockup showing (a) an Obsidian-like sidebar with entity folder tree (`actors/`, `people/`, `topics/`, etc.) with 2-3 sample files per folder, and (b) a content preview panel showing a sample entity file with syntax-highlighted YAML frontmatter and wikilinks rendered as purple inline links. The mockup uses the site's design tokens (not Obsidian's actual CSS).
-2. **Installation renders**: Centered section with the `TerminalBlock` component (from Part 1) showing the install command. Below it: 3 prerequisite badges (Claude Code, Obsidian, Git) as inline pill elements. A "Read the docs" link to the GitHub README.
+2. **Installation renders**: Centered section with the `TerminalBlock` component (from Part 1) showing the install command. Below it: 3 prerequisite badges (OpenCode, Obsidian, Git) as inline pill elements. A "Read the docs" link to the GitHub README.
 3. **Scroll animations**: Every section (Hero, How It Works, Skills, Use Cases, Vault Demo, Installation) fades in + slides up on scroll entry using Framer Motion `whileInView`. Stagger delay on card grids and stepper items. Animations respect `prefers-reduced-motion` (disabled when set).
 4. **Responsive polish**: No horizontal overflow at any breakpoint (375px, 768px, 1024px, 1440px). Touch targets ≥ 44px on mobile. Font sizes scale appropriately. The Vault Demo mockup stacks sidebar above preview on mobile.
 5. **Performance**: `next build` output is <500KB total JS (excluding images). No layout shift on load (CLS < 0.1). Graph canvas pauses when not in viewport (IntersectionObserver).

@@ -1,11 +1,11 @@
-# Spec: `/bedrock:init` — Vault Initialization Skill
+# Spec: `skill({ name: "setup" })` — Vault Initialization Skill
 
 > Generated via /vibeflow:gen-spec on 2026-04-13
 > Source PRD: `.vibeflow/prds/bedrock-init-skill.md`
 
 ## Objective
 
-New users can run `/bedrock:init` on any folder and get a fully scaffolded, configured Obsidian vault with connected example entities, dependency warnings, and a clear next-steps guide — zero manual setup required.
+New users can run `skill({ name: "setup" })` on any folder and get a fully scaffolded, configured Obsidian vault with connected example entities, dependency warnings, and a clear next-steps guide — zero manual setup required.
 
 ## Context
 
@@ -25,7 +25,7 @@ The init skill is the **first thing a new user encounters**, so unlike existing 
 
 4. **5 connected example entities are generated** (1 team, 2 people, 1 actor, 1 topic, 1 project) with correct bidirectional wikilinks, hierarchical tags, proper frontmatter per template, and content adapted to the chosen preset and language.
 
-5. **Vault-level `CLAUDE.md` is generated** describing the vault's purpose, content language, domain taxonomy, and key conventions — distinct from and non-overlapping with the plugin's `CLAUDE.md`.
+5. **Vault-level `AGENTS.md` is generated** describing the vault's purpose, content language, domain taxonomy, and key conventions — distinct from and non-overlapping with the plugin's `AGENTS.md`.
 
 6. **Dependencies are checked and reported** (graphify, confluence-to-markdown, gdoc-to-markdown) with warn-and-continue behavior: clear explanation of what each unlocks, install command provided, never blocks initialization.
 
@@ -37,7 +37,7 @@ The init skill is the **first thing a new user encounters**, so unlike existing 
 - Interactive flow with 4 phases: language → dependencies → preset → scaffold
 - 6 presets with domain mappings and example entity content defined inline
 - `.bedrock/config.json` schema definition
-- Vault `CLAUDE.md` generation template
+- Vault `AGENTS.md` generation template
 - Mini-graph of 5 example entities per preset (names and content vary by preset)
 - Next-steps guide printed to user after completion
 
@@ -76,7 +76,7 @@ The init skill is the **first thing a new user encounters**, so unlike existing 
 
 Read each `_template.md` from the plugin's `templates/{type}/` directory and write it to the vault's `{type}/_template.md`. No transformation — templates are copied verbatim.
 
-**Why not translate templates?** Templates contain Dataview queries, frontmatter key patterns, and structural hints that Claude reads as-is. Translating section headers risks breaking downstream skill assumptions. The vault `CLAUDE.md` and `config.json` language setting tell Claude what language to use when _filling_ templates. The template structure itself is language-agnostic.
+**Why not translate templates?** Templates contain Dataview queries, frontmatter key patterns, and structural hints that Claude reads as-is. Translating section headers risks breaking downstream skill assumptions. The vault `AGENTS.md` and `config.json` language setting tell Claude what language to use when _filling_ templates. The template structure itself is language-agnostic.
 
 **Trade-off:** Users will see Portuguese section headers in `_template.md` files if they browse them in Obsidian. Acceptable for v0 — these are reference files, not user-facing content. Template localization is future work.
 
@@ -107,23 +107,23 @@ Use `Glob` to check for skill/plugin presence:
 
 | Dependency | Check path | What it unlocks |
 |---|---|---|
-| graphify | `~/.claude/skills/graphify/SKILL.md` | Semantic code extraction for GitHub repos via `/bedrock:teach` |
-| confluence-to-markdown | Check via Skill tool availability or `~/.claude/skills/confluence-to-markdown/` | Confluence page ingestion via `/bedrock:teach` |
-| gdoc-to-markdown | Check via Skill tool availability or `~/.claude/skills/gdoc-to-markdown/` | Google Docs ingestion via `/bedrock:teach` |
+| graphify | `~/.claude/skills/graphify/SKILL.md` | Semantic code extraction for GitHub repos via `skill({ name: "teach" })` |
+| confluence-to-markdown | Check via Skill tool availability or `~/.claude/skills/confluence-to-markdown/` | Confluence page ingestion via `skill({ name: "teach" })` |
+| gdoc-to-markdown | Check via Skill tool availability or `~/.claude/skills/gdoc-to-markdown/` | Google Docs ingestion via `skill({ name: "teach" })` |
 
 **Why Glob over Bash?** Consistent with plugin conventions. If the check location is wrong (e.g., skills installed via plugins not skills directory), the warning is a false positive — acceptable since it's non-blocking.
 
-### TD5: Vault CLAUDE.md content
+### TD5: Vault AGENTS.md content
 
-The generated `CLAUDE.md` includes:
+The generated `AGENTS.md` includes:
 - Vault name and purpose (derived from preset or user input)
 - Content language directive (e.g., "All content in this vault is written in English (en-US)")
 - Domain taxonomy (the `domain/*` tags this vault uses)
 - Entity type summary (quick reference of what each directory contains)
 - Writing conventions specific to this vault (language, any custom rules)
-- Pointer to Bedrock skills: "This vault is powered by the Bedrock plugin. Use `/bedrock:query` to search, `/bedrock:teach` to ingest, `/bedrock:preserve` to write."
+- Pointer to Bedrock skills: "This vault is powered by the Bedrock plugin. Use `skill({ name: "ask" })` to search, `skill({ name: "teach" })` to ingest, `skill({ name: "preserve" })` to write."
 
-**What it does NOT include:** Writing rules, tag syntax, git workflow, zettelkasten principles — all of that lives in the plugin's `CLAUDE.md` which is auto-loaded by Claude Code when the plugin is active.
+**What it does NOT include:** Writing rules, tag syntax, git workflow, zettelkasten principles — all of that lives in the plugin's `AGENTS.md` which is auto-loaded by OpenCode when the plugin is active.
 
 ### TD6: Idempotency behavior
 
@@ -131,7 +131,7 @@ If `.bedrock/config.json` exists when the skill runs:
 
 1. Read and display current config (language, preset, domains)
 2. Ask user: "This vault is already initialized. What would you like to do?"
-   - **Reconfigure** — Update config.json and regenerate vault CLAUDE.md. Do NOT recreate directories or templates (they already exist). Do NOT touch example entities (user may have modified them).
+   - **Reconfigure** — Update config.json and regenerate vault AGENTS.md. Do NOT recreate directories or templates (they already exist). Do NOT touch example entities (user may have modified them).
    - **Skip** — Exit gracefully with no changes.
 
 **Why no "full reinit" option?** Destructive re-scaffolding risks overwriting user content that evolved from example entities. If they truly want a fresh start, they can delete `.bedrock/` and the entity directories manually.

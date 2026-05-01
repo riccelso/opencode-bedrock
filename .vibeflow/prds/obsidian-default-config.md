@@ -3,15 +3,15 @@
 > Generated via /vibeflow:discover on 2026-04-13
 
 ## Problem
-When `/bedrock:setup` initializes a vault, it creates directories, templates, example entities, and a `CLAUDE.md` — but no Obsidian configuration. Users open the vault in Obsidian and get a blank graph view where all 7 entity types look identical (grey dots). The graph view is the primary navigation tool for a Zettelkasten vault, and without color-coded entity types, the graph is nearly useless for orientation. Additionally, Obsidian defaults to Markdown links instead of wikilinks, and ships with many core plugins enabled that add UI noise for a vault managed by AI agents.
+When `skill({ name: "setup" })` initializes a vault, it creates directories, templates, example entities, and a `AGENTS.md` — but no Obsidian configuration. Users open the vault in Obsidian and get a blank graph view where all 7 entity types look identical (grey dots). The graph view is the primary navigation tool for a Zettelkasten vault, and without color-coded entity types, the graph is nearly useless for orientation. Additionally, Obsidian defaults to Markdown links instead of wikilinks, and ships with many core plugins enabled that add UI noise for a vault managed by AI agents.
 
 Users must manually configure link behavior, disable unnecessary plugins, and painstakingly set up 7+ color groups in the graph view — a tedious process that every single vault user repeats.
 
 ## Target Audience
-Anyone who runs `/bedrock:setup` to initialize a new Bedrock-powered Obsidian vault. Both technical users (engineers using the Second Brain for service documentation) and less technical users (PMs, knowledge managers) who rely on the visual graph to navigate.
+Anyone who runs `skill({ name: "setup" })` to initialize a new Bedrock-powered Obsidian vault. Both technical users (engineers using the Second Brain for service documentation) and less technical users (PMs, knowledge managers) who rely on the visual graph to navigate.
 
 ## Proposed Solution
-Add a new phase to the `/bedrock:setup` skill that creates a `.obsidian/` directory with 4 opinionated default configuration files:
+Add a new phase to the `skill({ name: "setup" })` skill that creates a `.obsidian/` directory with 4 opinionated default configuration files:
 
 1. **`app.json`** — Configure wikilink mode (bare `[[name]]` style that matches Bedrock conventions), link behavior, and sensible editor defaults.
 2. **`appearance.json`** — Set a clean, visually appealing theme configuration suitable for knowledge management.
@@ -21,7 +21,7 @@ Add a new phase to the `/bedrock:setup` skill that creates a `.obsidian/` direct
 Each file is created **only if it does not already exist** — never overwrite user configuration.
 
 ## Success Criteria
-- A user runs `/bedrock:setup`, opens the vault in Obsidian, navigates to Graph View, and sees example entities color-coded by type without any manual configuration.
+- A user runs `skill({ name: "setup" })`, opens the vault in Obsidian, navigates to Graph View, and sees example entities color-coded by type without any manual configuration.
 - Wikilinks work in bare `[[name]]` format by default (matching Bedrock's writing rules).
 - No existing `.obsidian/` configuration is overwritten if the user re-runs setup or already has Obsidian config.
 
@@ -45,7 +45,7 @@ Each file is created **only if it does not already exist** — never overwrite u
 
 ## Technical Context
 **Relevant patterns (from `.vibeflow/`):**
-- **Skill Architecture** (`patterns/skill-architecture.md`): The setup skill follows phased execution. The new Obsidian config phase should fit between Phase 3.4 (Generate CLAUDE.md) and Phase 3.5 (Create Example Entities), or as a new Phase 3.6 after examples.
+- **Skill Architecture** (`patterns/skill-architecture.md`): The setup skill follows phased execution. The new Obsidian config phase should fit between Phase 3.4 (Generate AGENTS.md) and Phase 3.5 (Create Example Entities), or as a new Phase 3.6 after examples.
 - **Vault Writing Rules** (`patterns/vault-writing-rules.md`): Tags are hierarchical (`type/actor`, `type/person`). The graph color groups query these tags directly.
 - **Template Structure** (`patterns/template-structure.md`): Every template includes `tags: [type/<type>]` — this is what the graph queries will match.
 
@@ -53,7 +53,7 @@ Each file is created **only if it does not already exist** — never overwrite u
 - Phase 0: Idempotency check
 - Phase 1: Language and dependencies
 - Phase 2: Vault objective (presets)
-- Phase 3: Scaffold (3.1 dirs, 3.2 templates, 3.3 config, 3.4 CLAUDE.md, 3.5 examples)
+- Phase 3: Scaffold (3.1 dirs, 3.2 templates, 3.3 config, 3.4 AGENTS.md, 3.5 examples)
 - Phase 4: Next steps guide
 
 The new phase fits naturally as **Phase 3.6** (after examples, before next steps guide) or as a new **Phase 3.3.1** alongside the `.bedrock/config.json` creation.

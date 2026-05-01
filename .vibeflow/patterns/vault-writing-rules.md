@@ -8,16 +8,16 @@ confidence: inferred
 
 <!-- vibeflow:auto:start -->
 ## What
-A comprehensive set of writing conventions that govern how entities are created, updated, and linked in Obsidian vaults managed by Bedrock. These rules are enforced by the CLAUDE.md and all skills.
+A comprehensive set of writing conventions that govern how entities are created, updated, and linked in Obsidian vaults managed by Bedrock. These rules are enforced by the AGENTS.md and all skills.
 
 ## Where
-Defined in `CLAUDE.md` (root-level project instructions), referenced and enforced by all 6 skills, applied to entities in `actors/`, `people/`, `teams/`, `topics/`, `discussions/`, `projects/`, `fleeting/`.
+Defined in `AGENTS.md` (root-level project instructions), referenced and enforced by all 6 skills, applied to entities in `actors/`, `people/`, `teams/`, `topics/`, `discussions/`, `projects/`, `fleeting/`.
 
 ## The Pattern
 The writing rules cover 7 dimensions:
 
 ### 1. Language
-- Content in the vault's configured language (default: pt-BR for original design, configurable via `/bedrock:setup`)
+- Content in the vault's configured language (default: pt-BR for original design, configurable via `skill({ name: "setup" })`)
 - Frontmatter keys always in English (`type`, `name`, `status`, `updated_at`)
 - Frontmatter values in the vault language
 - Technical terms in English are always acceptable (PCI, API, Kafka, etc.)
@@ -67,7 +67,7 @@ The writing rules cover 7 dimensions:
 - Zettelkasten linking: frontmatter = structural, body = semantic (with textual context)
 
 ## Examples from this codebase
-File: CLAUDE.md (wikilinks rule)
+File: AGENTS.md (wikilinks rule)
 ```markdown
 ### Wikilinks
 - Bare names only: `[[notification-service]]`, never `[[actors/notification-service]]`
@@ -76,14 +76,14 @@ File: CLAUDE.md (wikilinks rule)
 - Links to non-existent files are fine
 ```
 
-File: CLAUDE.md (git convention)
+File: AGENTS.md (git convention)
 ```markdown
 vault(ator): atualiza billing-api [fonte: github]
 vault: teaches roadmap-26q1, creates 7 topics [fonte: confluence]
 vault: compress 25 entities across 8 clusters [fonte: compress]
 ```
 
-File: CLAUDE.md (update rules)
+File: AGENTS.md (update rules)
 ```markdown
 | **Actors** | May modify and merge | Merge new data, never delete fields |
 | **People, Teams, Topics** | Append-only — never delete content | Merge new data, never delete fields |

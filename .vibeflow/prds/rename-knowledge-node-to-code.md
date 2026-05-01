@@ -10,7 +10,7 @@ Renaming to `code` aligns the entity type with graphify's output taxonomy, reduc
 
 ## Target Audience
 
-AI agents running `/bedrock:preserve` and `/bedrock:teach` — they classify graphify output into entity types and need consistent naming across the pipeline. Secondary: humans reading entity definitions and vault content in Obsidian.
+AI agents running `skill({ name: "preserve" })` and `skill({ name: "teach" })` — they classify graphify output into entity types and need consistent naming across the pipeline. Secondary: humans reading entity definitions and vault content in Obsidian.
 
 ## Proposed Solution
 
@@ -38,8 +38,8 @@ Rename the entity type from `knowledge-node` to `code` everywhere it appears: en
 
 - **No semantic changes.** The entity's purpose, required fields, Zettelkasten role, and relationship to actors remain identical. This is a pure rename.
 - **No directory structure changes.** Code entities still live at `actors/<actor>/nodes/`. The `nodes/` subdirectory name stays as-is.
-- **No migration of existing vault entities.** If any vault already has `type: "knowledge-node"` in frontmatter, that's a future `/bedrock:compress` task — not part of this rename.
-- **No CLAUDE.md changes.** `knowledge-node` was never listed in CLAUDE.md's entity types table (it's a sub-entity). The recent CLAUDE.md update added `concept` — no further changes needed for this rename.
+- **No migration of existing vault entities.** If any vault already has `type: "knowledge-node"` in frontmatter, that's a future `skill({ name: "compress" })` task — not part of this rename.
+- **No AGENTS.md changes.** `knowledge-node` was never listed in AGENTS.md's entity types table (it's a sub-entity). The recent AGENTS.md update added `concept` — no further changes needed for this rename.
 - **No concept entity work.** The concept entity is a separate PRD and lands after this rename.
 
 ## Technical Context

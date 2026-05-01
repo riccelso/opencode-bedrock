@@ -13,7 +13,7 @@
 4. No broken image references or links
 
 ## Anti-scope
-- Do NOT modify CLAUDE.md, skills, entities, templates, or plugin.json
+- Do NOT modify AGENTS.md, skills, entities, templates, or plugin.json
 - Do NOT add CI/CD configuration or GitHub Actions
 - Do NOT create a LICENSE file (reference only)
 - Do NOT change any plugin behavior
@@ -24,7 +24,7 @@
 
 ## Patterns to Follow
 - File naming: kebab-case, lowercase (conventions.md)
-- Project is a Claude Code plugin — markdown-only, no build system
+- Project is a OpenCode plugin — markdown-only, no build system
 - Repository: `https://github.com/iurykrieger/claude-bedrock`
 
 ## Where to Work

@@ -19,7 +19,7 @@
 
 - [x] **Check 3 — Exemplos de matching preservados** — Exemplos em preserve (match exato `billing-api`, by name `"Billing API"`, by alias `"BillingAPI"`, sem hifens `billingapi`) e teach/sync (match parcial, stop-words `"company"`) mantêm didática com nomes genéricos.
 
-- [x] **Check 4 — Validação final cross-repo** — `grep -ri "stone|pagarme|pagar.me|allstone|stone-payments" entities/ templates/ skills/ CLAUDE.md README.md` retorna vazio. Grep estendido com ~20 padrões adicionais (sistemas, pessoas, domínios, aliases) também retorna vazio. Matches existem apenas em `.vibeflow/` (PRDs, specs, audits) que estão fora do escopo.
+- [x] **Check 4 — Validação final cross-repo** — `grep -ri "stone|pagarme|pagar.me|allstone|stone-payments" entities/ templates/ skills/ AGENTS.md README.md` retorna vazio. Grep estendido com ~20 padrões adicionais (sistemas, pessoas, domínios, aliases) também retorna vazio. Matches existem apenas em `.vibeflow/` (PRDs, specs, audits) que estão fora do escopo.
 
 - [x] **Check 5 — Consistência com glossário** — Todos os nomes são idênticos aos de `.vibeflow/specs/genericize-glossary.md`:
   - Sistemas: `billing-api`, `billing-new-api`, `notification-service`, `legacy-gateway`, `webhook-receiver`, `orders-api`, `billing_api_processTransaction`

@@ -1,15 +1,15 @@
-# Spec: /bedrock:healthcheck — Vault Health Report (Part 2 of 2)
+# Spec: skill({ name: "healthcheck" }) — Vault Health Report (Part 2 of 2)
 
 > Source PRD: `.vibeflow/prds/compress-healthcheck-split.md`
 > Generated: 2026-04-15
 
 ## Objective
 
-Create a new read-only `/bedrock:healthcheck` skill that produces a diagnostic report of vault health without modifying any files, enabling safe and frequent vault audits.
+Create a new read-only `skill({ name: "healthcheck" })` skill that produces a diagnostic report of vault health without modifying any files, enabling safe and frequent vault audits.
 
 ## Context
 
-The current `/bedrock:compress` bundles health reporting (Phase 1.5 graph integrity + Phase 4.2 health report) with mutation logic. This means users cannot get a vault health overview without also triggering the consolidation workflow. Part 1 strips all health reporting from compress. This spec (Part 2) creates a dedicated, read-only skill that owns all diagnostic checks.
+The current `skill({ name: "compress" })` bundles health reporting (Phase 1.5 graph integrity + Phase 4.2 health report) with mutation logic. This means users cannot get a vault health overview without also triggering the consolidation workflow. Part 1 strips all health reporting from compress. This spec (Part 2) creates a dedicated, read-only skill that owns all diagnostic checks.
 
 The healthcheck skill is designed to run at any frequency — interactively, on a cron, or as a pre-flight check before other skills. It never writes, never commits, and never requires confirmation. Its output is actionable: it tells you what's wrong and which skill to run to fix it.
 
@@ -18,19 +18,19 @@ The healthcheck skill is designed to run at any frequency — interactively, on 
 1. `skills/healthcheck/SKILL.md` exists and implements all 5 checks: (1) graphify-out validation, (2) setup verification, (3) orphan entities, (4) dangling content, (5) old content (>15 days)
 2. The skill is strictly read-only — it uses ONLY read tools (`Bash`, `Read`, `Glob`, `Grep`) and NEVER uses `Write`, `Edit`, `Skill`, or `Agent`
 3. SKILL.md follows the skill architecture pattern: YAML frontmatter (`name`, `description`, `user_invocable`, `allowed-tools`), Plugin Paths section, Overview with agent type declaration ("read-only agent"), numbered phases, critical rules table
-4. `CLAUDE.md` skills table includes a new row for `/bedrock:healthcheck` with accurate description
-5. No mutation logic in healthcheck — no git operations, no entity writes, no file modifications. Suggestions to run `/bedrock:compress` or `/bedrock:teach` are text-only (never invocations).
+4. `AGENTS.md` skills table includes a new row for `skill({ name: "healthcheck" })` with accurate description
+5. No mutation logic in healthcheck — no git operations, no entity writes, no file modifications. Suggestions to run `skill({ name: "compress" })` or `skill({ name: "teach" })` are text-only (never invocations).
 
 ## Scope
 
 ### Files touched (2)
 1. `skills/healthcheck/SKILL.md` — new file
-2. `CLAUDE.md` — add healthcheck row to skills table
+2. `AGENTS.md` — add healthcheck row to skills table
 
 ### What's in
 
-- **Check 1 — graphify-out:** Verify `graphify-out/` directory exists. If yes: verify `graph.json` exists, is valid JSON, and contains nodes. Report node count, code node count, last modification date. Flag if stale (>30 days). If directory or file is missing: report "Not found. Run `/bedrock:teach` on an actor repository to generate."
-- **Check 2 — Setup:** Verify all expected directories exist (`actors/`, `people/`, `teams/`, `topics/`, `discussions/`, `projects/`, `fleeting/`, `concepts/`). Verify each directory has a `_template.md`. Verify entity definitions exist in the plugin directory (`entities/*.md`). Verify `.claude-plugin/plugin.json` exists and is valid JSON. Report missing items.
+- **Check 1 — graphify-out:** Verify `graphify-out/` directory exists. If yes: verify `graph.json` exists, is valid JSON, and contains nodes. Report node count, code node count, last modification date. Flag if stale (>30 days). If directory or file is missing: report "Not found. Run `skill({ name: "teach" })` on an actor repository to generate."
+- **Check 2 — Setup:** Verify all expected directories exist (`actors/`, `people/`, `teams/`, `topics/`, `discussions/`, `projects/`, `fleeting/`, `concepts/`). Verify each directory has a `_template.md`. Verify entity definitions exist in the plugin directory (`entities/*.md`). Verify `.opencode/plugin.json` exists and is valid JSON. Report missing items.
 - **Check 3 — Orphan entities:** For each entity file across all directories, count inbound wikilinks from other entity files (Grep for `[[entity-name]]` across the vault). Entities with 0 inbound links are orphans. Exclude templates. Report orphan count per type and list entity names.
 - **Check 4 — Dangling content:** Identify entities that have: (a) no inbound wikilinks (orphan), AND (b) no outbound wikilinks in the body, AND (c) no frontmatter relation arrays with values. These are fully disconnected — they exist in the vault but participate in no relationships. Report separately from orphans (dangling is a strict subset of orphans).
 - **Check 5 — Old content:** For each entity, read `updated_at` from frontmatter. Flag entities where `updated_at` is older than 15 days from the current date. Report count per type and list entity names sorted by age (oldest first).
@@ -38,7 +38,7 @@ The healthcheck skill is designed to run at any frequency — interactively, on 
 - **Output format:** Markdown summary table printed to the terminal:
 
 ```markdown
-## /bedrock:healthcheck — Report
+## skill({ name: "healthcheck" }) — Report
 
 | Check | Status | Count | Details |
 |---|---|---|---|
@@ -49,8 +49,8 @@ The healthcheck skill is designed to run at any frequency — interactively, on 
 | Old content (>15d) | OK / WARN | N stale | Oldest: [[entity-3]] (45d) |
 
 ### Suggestions
-- Run `/bedrock:compress` to fix N alignment issues
-- Run `/bedrock:teach` to regenerate graphify-out
+- Run `skill({ name: "compress" })` to fix N alignment issues
+- Run `skill({ name: "teach" })` to regenerate graphify-out
 - Review N stale entities for relevance
 ```
 
@@ -59,7 +59,7 @@ The healthcheck skill is designed to run at any frequency — interactively, on 
 ## Anti-scope
 
 - No writes — healthcheck never modifies files, never commits, never pushes
-- No skill invocations — healthcheck never calls `/bedrock:compress`, `/bedrock:teach`, or `/bedrock:preserve`. It suggests; it doesn't act.
+- No skill invocations — healthcheck never calls `skill({ name: "compress" })`, `skill({ name: "teach" })`, or `skill({ name: "preserve" })`. It suggests; it doesn't act.
 - No subagents — all checks run sequentially in a single agent context (vault scans are fast for read-only operations)
 - No graph integrity cross-validation (code entity vs. graph.json node matching). That level of detail was in the old compress; in the new split, compress owns alignment and healthcheck owns high-level diagnostics. Healthcheck checks if graph.json exists and is fresh — not whether individual nodes match vault entities.
 - No configurable thresholds — 15 days (old content) and 30 days (stale graph) are hardcoded in v0

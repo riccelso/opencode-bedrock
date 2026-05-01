@@ -6,7 +6,7 @@
 
 ### Tests
 
-No test runner detected (markdown-only Claude Code plugin, no build system). Verify manually that fetchers work end-to-end by running `/bedrock:teach` with a Confluence or Google Docs URL.
+No test runner detected (markdown-only OpenCode plugin, no build system). Verify manually that fetchers work end-to-end by running `skill({ name: "teach" })` with a Confluence or Google Docs URL.
 
 ### DoD Checklist
 

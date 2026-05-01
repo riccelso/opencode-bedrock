@@ -8,7 +8,7 @@ confidence: inferred
 
 <!-- vibeflow:auto:start -->
 ## What
-Templates define the frontmatter schema and body structure for each entity type. They serve as the source of truth for required fields and are copied verbatim into target vaults during `/bedrock:setup`.
+Templates define the frontmatter schema and body structure for each entity type. They serve as the source of truth for required fields and are copied verbatim into target vaults during `skill({ name: "setup" })`.
 
 ## Where
 7 templates in `templates/<type>/_template.md`: actors, people, teams, topics, discussions, projects, fleeting.

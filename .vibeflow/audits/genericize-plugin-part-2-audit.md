@@ -16,7 +16,7 @@
   - `projects/_template.md`: alias `["V2 Migration"]`, wikilink `2026-06-deprecation-legacy-gateway`
   - `fleeting/_template.md`: já limpo, sem referências Stone
 
-- [x] **Check 2 — CLAUDE.md atualizado** — Todas as referências genericizadas:
+- [x] **Check 2 — AGENTS.md atualizado** — Todas as referências genericizadas:
   - Tabela entity types: `billing-api.md`, `alice-smith.md`, `squad-payments.md`, `2026-04-feature-new-checkout.md`, `2026-04-02-daily-payments.md`
   - Frontmatter example: `"API de cobranca e faturamento"`
   - Wikilinks: `[[notification-service]]`
@@ -29,7 +29,7 @@
 
 - [x] **Check 3 — README.md atualizado** — `domain/payments` na linha 63 (era `domain/acquiring`). Zero outras referências Stone.
 
-- [x] **Check 4 — Zero matches** — Grep com ~20 padrões (stone, pagarme, pagar.me, allstone, stone-payments, acquiring, boleto, payment-card, autobahn, iury, leonardo, giovanna, jaderson, OneV2, SafraPay, bolepix, fulano, ciclano, beltrano) retorna vazio em templates/, CLAUDE.md, e README.md.
+- [x] **Check 4 — Zero matches** — Grep com ~20 padrões (stone, pagarme, pagar.me, allstone, stone-payments, acquiring, boleto, payment-card, autobahn, iury, leonardo, giovanna, jaderson, OneV2, SafraPay, bolepix, fulano, ciclano, beltrano) retorna vazio em templates/, AGENTS.md, e README.md.
 
 - [x] **Check 5 — Consistência com glossário** — Todos os nomes são idênticos aos de `.vibeflow/specs/genericize-glossary.md`:
   - Sistemas: `billing-api`, `notification-service`, `legacy-gateway`
@@ -39,8 +39,8 @@
   - URLs: `company.com`
 
 - [x] **Check 6 — Tags domain/* atualizadas** — Verificação cruzada confirma:
-  - CLAUDE.md:61 = `templates/teams/_template.md:14` = `templates/actors/_template.md:19` — mesmos 14 domínios
-  - CLAUDE.md:62 scope tags incluem `hipaa`, `gdpr`, `soc2` = `templates/actors/_template.md:19` scope — alinhados
+  - AGENTS.md:61 = `templates/teams/_template.md:14` = `templates/actors/_template.md:19` — mesmos 14 domínios
+  - AGENTS.md:62 scope tags incluem `hipaa`, `gdpr`, `soc2` = `templates/actors/_template.md:19` scope — alinhados
 
 ## Pattern Compliance
 

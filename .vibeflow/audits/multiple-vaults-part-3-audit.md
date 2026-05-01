@@ -11,7 +11,7 @@
 - [x] **2. --vault flag works for teach** — `teach/SKILL.md:33-34` parses `--vault <name>` and removes from arguments. Graphify invocation uses `<VAULT_PATH>` (line 216). Graphify output paths use `<VAULT_PATH>/graphify-out/` (lines 224, 231, 245, 262). Preserve delegation passes `--vault <VAULT_NAME>` (line 272).
 - [x] **3. --vault flag works for compress** — `compress/SKILL.md:33-34` parses `--vault <name>` and removes before `--mode` parsing. Entity dirs prefixed with `<VAULT_PATH>/` (line 142). Phase 0 git uses `git -C <VAULT_PATH>` (line 118). Config read uses `<VAULT_PATH>/.bedrock/config.json` (line 64). Preserve delegation passes `--vault <VAULT_NAME>` (line 579).
 - [x] **4. --vault flag works for sync** — `sync/SKILL.md:35-36` parses `--vault <name>` and removes before `--people`/`--github` parsing. Entity dirs prefixed across all 3 modes: sources (lines 236-242), people (lines 453-454, 571), github (lines 692-693, 775). Report path uses `<VAULT_PATH>/fleeting/` (line 1134). Both preserve delegations pass `--vault <VAULT_NAME>` (lines 350, 924).
-- [x] **5. Vault name propagated to preserve** — 4 delegation points verified: `teach/SKILL.md:272`, `compress/SKILL.md:579`, `sync/SKILL.md:350` (sources mode), `sync/SKILL.md:924` (github mode). All use `/bedrock:preserve --vault <VAULT_NAME>`.
+- [x] **5. Vault name propagated to preserve** — 4 delegation points verified: `teach/SKILL.md:272`, `compress/SKILL.md:579`, `sync/SKILL.md:350` (sources mode), `sync/SKILL.md:924` (github mode). All use `skill({ name: "preserve" }) --vault <VAULT_NAME>`.
 - [x] **6. Git commands use `git -C` in sync and compress** — Compress: 2 `git -C` instances (lines 118, 123), zero bare git. Sync: 30 `git -C` instances across 3 git blocks (sources Phase 0 + github actors Phase 5.4 + github report Phase 6.3), zero bare git. Teach confirmed: zero git operations (all delegated to preserve).
 - [x] **7. No violations of skill-delegation pattern** — Entity list format unchanged in all 3 skills. Only addition is `--vault <VAULT_NAME>` in Skill tool invocation arguments. Teach still delegates graphify output to preserve. Compress still delegates structured entity list to preserve. Sync still delegates in both sources and github modes. No direct entity writes introduced.
 
@@ -27,7 +27,7 @@ None found.
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin). Verify that tests were run manually.
+No test runner detected (markdown-only OpenCode plugin). Verify that tests were run manually.
 
 ## Budget
 

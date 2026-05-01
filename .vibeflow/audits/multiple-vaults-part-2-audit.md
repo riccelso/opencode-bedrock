@@ -27,7 +27,7 @@ None found.
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin). Verify that tests were run manually.
+No test runner detected (markdown-only OpenCode plugin). Verify that tests were run manually.
 
 ## Budget
 

@@ -18,7 +18,7 @@ Após esta part, o plugin deve estar 100% livre de referências Stone.
 1. [ ] **5 skill files atualizados** — `query/SKILL.md`, `teach/SKILL.md`, `preserve/SKILL.md`, `sync/SKILL.md`, `compress/SKILL.md` usam nomes genéricos do glossário
 2. [ ] **URLs genéricas** — Nenhuma URL `allstone.atlassian.net` ou `github.com/stone-payments` nos skills
 3. [ ] **Exemplos de matching preservados** — Os exemplos de entity matching e disambiguation em `preserve` e `teach` continuam didáticos com nomes genéricos
-4. [ ] **Validação final cross-repo** — `grep -ri "stone\|pagarme\|pagar.me\|allstone\|stone-payments" entities/ templates/ skills/ CLAUDE.md README.md` retorna vazio
+4. [ ] **Validação final cross-repo** — `grep -ri "stone\|pagarme\|pagar.me\|allstone\|stone-payments" entities/ templates/ skills/ AGENTS.md README.md` retorna vazio
 5. [ ] **Consistência com glossário** — Todos os nomes usados são idênticos aos de `.vibeflow/specs/genericize-glossary.md`
 6. [ ] **Nomes de pessoas genéricos** — Nenhum nome de colaborador Stone (Iury, Leonardo, Giovanna, Jaderson, Fulano, Ciclano, Beltrano) presente nos skills; substituídos por nomes genéricos do glossário
 
@@ -94,7 +94,7 @@ Nenhum — projeto não tem `.vibeflow/patterns/`.
 ## Dependencies
 
 - `.vibeflow/specs/genericize-plugin-part-1.md` — Glossário deve existir
-- `.vibeflow/specs/genericize-plugin-part-2.md` — Templates e CLAUDE.md devem estar atualizados (para que a validação final cross-repo funcione)
+- `.vibeflow/specs/genericize-plugin-part-2.md` — Templates e AGENTS.md devem estar atualizados (para que a validação final cross-repo funcione)
 
 ## Files
 

@@ -5,18 +5,18 @@
 
 ## Objective
 
-Update all user-facing documentation so it consistently describes `/bedrock:teach`'s expanded ingestion scope (any docling-supported file format plus the existing URL fetchers) and advertises docling as a runtime dependency.
+Update all user-facing documentation so it consistently describes `skill({ name: "teach" })`'s expanded ingestion scope (any docling-supported file format plus the existing URL fetchers) and advertises docling as a runtime dependency.
 
 ## Context
 
-Parts 1 & 2 change `/bedrock:teach` to accept any docling-supported file format. Existing documentation — `README.md`, `CLAUDE.md`, and several `SKILL.md` files — still advertises the narrow Confluence/GDoc/GitHub/CSV/MD/PDF allowlist. Users reading the README will assume unsupported formats require manual conversion; agents reading the `/teach` frontmatter `description` will apply the old classification in their routing decisions. Fixing the docs is a small, isolable change but it must happen — Success Criterion #6 in the PRD.
+Parts 1 & 2 change `skill({ name: "teach" })` to accept any docling-supported file format. Existing documentation — `README.md`, `AGENTS.md`, and several `SKILL.md` files — still advertises the narrow Confluence/GDoc/GitHub/CSV/MD/PDF allowlist. Users reading the README will assume unsupported formats require manual conversion; agents reading the `/teach` frontmatter `description` will apply the old classification in their routing decisions. Fixing the docs is a small, isolable change but it must happen — Success Criterion #6 in the PRD.
 
 ## Definition of Done
 
 1. **`README.md` Features bullet (≈ line 27):** "External source ingestion" item broadened from "Confluence, Google Docs, GitHub, CSV" to include "any file format supported by docling — DOCX, PPTX, XLSX, HTML, EPUB, PDF, images, and more".
 2. **`README.md` Day-to-day loops (≈ line 101):** the "Capture knowledge from a source" line broadened in the same way, with a parenthetical example list.
-3. **`README.md` Dependencies table (≈ line 113+):** new row for docling — purpose ("Universal file → markdown conversion used by `/bedrock:teach`") and Required ("Yes"). graphify row preserved.
-4. **`CLAUDE.md` (plugin root):** skill table row for `/bedrock:teach` and any other enumeration of ingestion formats reflects docling support.
+3. **`README.md` Dependencies table (≈ line 113+):** new row for docling — purpose ("Universal file → markdown conversion used by `skill({ name: "teach" })`") and Required ("Yes"). graphify row preserved.
+4. **`AGENTS.md` (plugin root):** skill table row for `skill({ name: "teach" })` and any other enumeration of ingestion formats reflects docling support.
 5. **`skills/teach/SKILL.md` frontmatter `description`:** narrows to reflect the new expanded scope (e.g. "Fetches content from Confluence, Google Docs, GitHub repositories, remote URLs, or any docling-supported file format…"). Note: if Part 2 already edited this field, Part 3 only verifies consistency.
 6. **`skills/ask/SKILL.md`:** any mention of `/teach`'s input scope updated to align with the new wording. If no such mention exists, DoD item is trivially satisfied (verified, no edit needed).
 7. **Craftsmanship gate:** no documentation file still advertises the old narrow allowlist as the complete set. New wording is consistent across all files (exact phrasing not required, but the allowlist framing must be gone). No violations from `.vibeflow/conventions.md` Don'ts (kebab-case, English en-US, no flat tags, no removed wikilinks).
@@ -24,7 +24,7 @@ Parts 1 & 2 change `/bedrock:teach` to accept any docling-supported file format.
 ## Scope
 
 - `README.md` — lines 27, 101, and the Dependencies table.
-- `CLAUDE.md` (plugin root).
+- `AGENTS.md` (plugin root).
 - `skills/teach/SKILL.md` — frontmatter `description` field (verify or edit).
 - `skills/ask/SKILL.md` — verify; edit only if teach input scope is referenced.
 
@@ -62,7 +62,7 @@ No patterns introduced.
 | Part 3 ships before Parts 1 & 2, producing misleading docs | Medium | Medium | Explicit `Dependencies` field; execution order documented; reviewer checks. |
 | Doc wording drifts across files | Medium | Low | Establish `skills/teach/SKILL.md` `description` as the single source of truth; README references the same phrasing. |
 | Some doc file has an old allowlist reference we missed | Medium | Low | DoD item 7 requires a project-wide grep for the old narrow wording ("Confluence, Google Docs, GitHub, CSV" as the complete list) before closing the spec. |
-| Users expect docling to be pre-installed when reading "Required=Yes" | Low | Low | README already points to `/bedrock:setup` for installation; clarify in the dependencies row. |
+| Users expect docling to be pre-installed when reading "Required=Yes" | Low | Low | README already points to `skill({ name: "setup" })` for installation; clarify in the dependencies row. |
 
 ## Dependencies
 

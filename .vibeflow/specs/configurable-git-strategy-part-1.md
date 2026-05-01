@@ -6,7 +6,7 @@
 
 ## Objective
 
-Vault owners can configure which git strategy Bedrock skills use when committing and pushing changes, starting with the primary write path (`/bedrock:preserve`) and vault initialization (`/bedrock:setup`).
+Vault owners can configure which git strategy Bedrock skills use when committing and pushing changes, starting with the primary write path (`skill({ name: "preserve" })`) and vault initialization (`skill({ name: "setup" })`).
 
 ## Context
 
@@ -20,7 +20,7 @@ This part introduces the strategy engine in the most critical path (preserve, wh
 2. **Default is backwards-compatible:** When `git.strategy` is absent or set to `"commit-push"`, the preserve skill behaves identically to today's trunk-based workflow (commit + push to main + rebase retry).
 3. **`commit-push-pr` works in preserve:** When strategy is `"commit-push-pr"`, the preserve skill creates a branch (`vault/<YYYY-MM-DD>-<slug>`), commits, pushes the branch, and opens a PR targeting `main` via `gh pr create`.
 4. **`commit-only` works in preserve:** When strategy is `"commit-only"`, the preserve skill commits locally and does not push.
-5. **Setup offers strategy selection:** `/bedrock:setup` includes a git strategy selection step (after language/preset) and persists the choice to `.bedrock/config.json`. Reconfigure mode also allows changing the strategy.
+5. **Setup offers strategy selection:** `skill({ name: "setup" })` includes a git strategy selection step (after language/preset) and persists the choice to `.bedrock/config.json`. Reconfigure mode also allows changing the strategy.
 6. **No violations of conventions.md Don'ts:** No flat tags, no path-qualified wikilinks, no direct entity writes from detection skills. Skill structure follows the skill-architecture pattern.
 
 ## Scope
@@ -31,7 +31,7 @@ This part introduces the strategy engine in the most critical path (preserve, wh
 ## Anti-scope
 
 - Compress and sync skill updates (Part 2)
-- CLAUDE.md documentation updates (Part 2)
+- AGENTS.md documentation updates (Part 2)
 - Custom branch naming templates
 - PR reviewers, labels, assignees, auto-merge
 - Per-skill strategy overrides
@@ -73,7 +73,7 @@ If a branch already exists (e.g., second run on the same day for the same entity
 ### 3. PR creation
 
 ```bash
-gh pr create --title "<commit message>" --body "Automated by /bedrock:preserve" --base main
+gh pr create --title "<commit message>" --body "Automated by skill({ name: "preserve" })" --base main
 ```
 
 **Why reuse commit message as PR title?** The commit convention (`vault(<type>): <verb> <name> [source: <source>]`) is already descriptive. No need for a separate PR title format.

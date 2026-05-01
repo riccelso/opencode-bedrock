@@ -25,9 +25,9 @@ No test runner in the project — plugin is markdown-only per `.vibeflow/index.m
 
 - [x] **4. Graphify target redirection + delegation update** — `skills/teach/SKILL.md:344` invokes `/graphify` with `--obsidian-dir $TEACH_TMP`; `:351` stores `GRAPHIFY_OUT_NEW="$TEACH_TMP/graphify-out"`. `:397` passes that variable to `/preserve` as `graphify_output_path`. Phase 3 IMPORTANT block at `:402-407` explicitly documents that `/teach` does not merge — `/preserve`'s Phase 0.2 owns that write. **PASS**.
 
-- [x] **5. Auto-install** — `skills/teach/SKILL.md:97-132` — new `## Phase 0 — Ensure docling is installed` with pipx → pip fallback, one-line status on success/failure, `exit 1` on final failure with message pointing to `/bedrock:setup`. No user confirmation prompt (explicit "No user prompt" note at line 132). `skills/setup/SKILL.md:113` adds docling row to the dependency table; `:162-192` adds new §1.2.1.1 auto-install chain mirroring graphify's §1.2.1 precedent; `:220` and `:238-247` add the status row and user-facing install guidance. **PASS**.
+- [x] **5. Auto-install** — `skills/teach/SKILL.md:97-132` — new `## Phase 0 — Ensure docling is installed` with pipx → pip fallback, one-line status on success/failure, `exit 1` on final failure with message pointing to `skill({ name: "setup" })`. No user confirmation prompt (explicit "No user prompt" note at line 132). `skills/setup/SKILL.md:113` adds docling row to the dependency table; `:162-192` adds new §1.2.1.1 auto-install chain mirroring graphify's §1.2.1 precedent; `:220` and `:238-247` add the status row and user-facing install guidance. **PASS**.
 
-- [x] **6. Report enrichment** — `skills/teach/SKILL.md:544-566` — Phase 4.2 report now includes a "Docling conversion (Phase 1.5)" table with per-file status (`converted` / `passed-through` / `failed-fallback`) plus a "Graphify merge (via /bedrock:preserve Phase 0.2)" block with `nodes_added` / `nodes_merged` / `edges_added` / `stale_flag_set` surfaced verbatim from `/preserve`'s `graphify_merge` return block. Explicit omission rule for GitHub repos documented. **PASS**.
+- [x] **6. Report enrichment** — `skills/teach/SKILL.md:544-566` — Phase 4.2 report now includes a "Docling conversion (Phase 1.5)" table with per-file status (`converted` / `passed-through` / `failed-fallback`) plus a "Graphify merge (via skill({ name: "preserve" }) Phase 0.2)" block with `nodes_added` / `nodes_merged` / `edges_added` / `stale_flag_set` surfaced verbatim from `/preserve`'s `graphify_merge` return block. Explicit omission rule for GitHub repos documented. **PASS**.
 
 - [x] **7. Craftsmanship gate** — `/teach` remains a pure fetcher/orchestrator; all writes (including the merge) flow through `/preserve` — enforced in Overview (`:89-91`) and Critical Rules row "/teach does NOT merge graphify output into the vault" (`skills/teach/SKILL.md:586`). Critical Rules table extended with 5 new rows covering the no-merge rule, silent auto-install, GitHub bypass, routing rule, failure fallback. No `conventions.md` Don'ts violations (see Convention section below). **PASS**.
 
@@ -40,7 +40,7 @@ No test runner in the project — plugin is markdown-only per `.vibeflow/index.m
   - **Minor deviation — justified:** `## Phase 1.5 — Docling Conversion` renders as a top-level phase with a decimal number, slightly breaking the pattern's "Phase 0, 1, 2..." integer-sequential rule. Deviation is authorized by the spec's Scope section which explicitly names the new phase "Phase 1.5 — Docling Conversion" rather than renumbering the existing Phase 2/3/4 chain. Logical placement is correct (post-fetch, pre-extract), and sub-phases (1.5.1, 1.5.2, 1.5.3) follow the decimal convention cleanly.
 
 - [x] **`.vibeflow/patterns/skill-delegation.md`** — *strengthens* the pattern. Evidence:
-  - Overview (`skills/teach/SKILL.md:89-91`) explicitly states "/teach does not write to the vault directly, or merge graph state. All writes (including the graphify-output merge into the vault's cumulative `graphify-out/`) are done by `/bedrock:preserve`."
+  - Overview (`skills/teach/SKILL.md:89-91`) explicitly states "/teach does not write to the vault directly, or merge graph state. All writes (including the graphify-output merge into the vault's cumulative `graphify-out/`) are done by `skill({ name: "preserve" })`."
   - Phase 3.1 IMPORTANT block documents the single-write-point contract twice (entity classification → preserve; graph merge → preserve).
   - `/teach` invokes `/preserve` via the Skill tool (no direct Python API usage).
   - `source_url` and `source_type` still threaded through for provenance tracking.
@@ -69,7 +69,7 @@ None newly introduced by this change.
 ## Budget
 
 - Files changed: **2 / ≤ 4** (`skills/teach/SKILL.md`, `skills/setup/SKILL.md`). ✓
-- Anti-scope respected: `/preserve`, `/graphify`, `/sync`, `/compress`, `/ask` untouched; no extracted fetcher skill; no OCR/batch/version pinning; no user confirmation prompts; documentation files (README, CLAUDE.md, etc.) left for Part 3. ✓
+- Anti-scope respected: `/preserve`, `/graphify`, `/sync`, `/compress`, `/ask` untouched; no extracted fetcher skill; no OCR/batch/version pinning; no user confirmation prompts; documentation files (README, AGENTS.md, etc.) left for Part 3. ✓
 
 ## Verdict Rationale
 

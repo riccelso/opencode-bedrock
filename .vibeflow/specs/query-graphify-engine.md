@@ -1,4 +1,4 @@
-# Spec: /bedrock:query delegates graph traversal to /graphify query engine
+# Spec: skill({ name: "ask" }) delegates graph traversal to /graphify query engine
 
 > Generated from: `.vibeflow/prds/query-graphify-engine.md`
 > Date: 2026-04-14
@@ -6,13 +6,13 @@
 
 ## Objective
 
-Replace `/bedrock:query`'s inline graph traversal (Phase 1.5 + Phase 2-G) with a delegation to `/graphify query` via the Skill tool, so the graphify engine handles all graph operations and `/bedrock:query` focuses exclusively on vault-specific post-processing.
+Replace `skill({ name: "ask" })`'s inline graph traversal (Phase 1.5 + Phase 2-G) with a delegation to `/graphify query` via the Skill tool, so the graphify engine handles all graph operations and `skill({ name: "ask" })` focuses exclusively on vault-specific post-processing.
 
 ## Context
 
-`/bedrock:query` currently contains ~130 lines of inline graph traversal code (Phase 1.5 checking graph.json, Phase 2-G with raw networkx BFS/DFS, Phase 2.5 with direct community exploration). This duplicates what `/graphify query` already does with better capabilities (token budgets, ranked output, explain mode, path mode, save-result feedback loop).
+`skill({ name: "ask" })` currently contains ~130 lines of inline graph traversal code (Phase 1.5 checking graph.json, Phase 2-G with raw networkx BFS/DFS, Phase 2.5 with direct community exploration). This duplicates what `/graphify query` already does with better capabilities (token budgets, ranked output, explain mode, path mode, save-result feedback loop).
 
-`/bedrock:teach` was already refactored to delegate extraction to `/graphify` — it invokes via the Skill tool and receives structured output. This spec applies the same delegation pattern to the read path: graphify is the knowledge graph engine, bedrock is the vault management layer.
+`skill({ name: "teach" })` was already refactored to delegate extraction to `/graphify` — it invokes via the Skill tool and receives structured output. This spec applies the same delegation pattern to the read path: graphify is the knowledge graph engine, bedrock is the vault management layer.
 
 Reference implementation: `skills/teach/SKILL.md` Phase 2 (lines 161-203) — invokes `/graphify` via Skill tool, verifies output, passes result to next phase.
 
@@ -133,7 +133,7 @@ Return ONLY a JSON object with this structure (no prose, no markdown fences):
 
 **Trade-off:** The structured output depends on graphify's LLM execution following the JSON instruction. If graphify returns prose instead of JSON, we fall back to Phase 2-S. This is acceptable — best-effort for graphify, graceful degradation to sequential search.
 
-### 2. JSON contract defined in /bedrock:query, not in /graphify
+### 2. JSON contract defined in skill({ name: "ask" }), not in /graphify
 
 **Chosen:** The JSON schema is defined in the query skill's invocation prompt (telling graphify what to return). Graphify doesn't need to know about the contract.
 

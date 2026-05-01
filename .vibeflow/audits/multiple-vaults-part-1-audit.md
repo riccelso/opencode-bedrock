@@ -26,16 +26,16 @@ None found.
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin — no build system, no tests, no deployable artifacts). This is expected per `index.md` project type: "library (Claude Code plugin for Obsidian vault automation)."
+No test runner detected (markdown-only OpenCode plugin — no build system, no tests, no deployable artifacts). This is expected per `index.md` project type: "library (OpenCode plugin for Obsidian vault automation)."
 
 ## Budget
 
 Files changed: 3 / ≤ 4 budget
 - `skills/vaults/SKILL.md` — created (new skill)
 - `skills/setup/SKILL.md` — edited (Phase 0 + Phase 3.7 + Phase 4 + Critical Rules)
-- `CLAUDE.md` — edited (Skills table + Vault Resolution section)
+- `AGENTS.md` — edited (Skills table + Vault Resolution section)
 
 ## Notes
 
-- The Vault Resolution section in CLAUDE.md documents the full 4-step precedence chain (explicit flag > CWD detection > default vault > error), but the actual resolution logic inside skills is deferred to Parts 2 and 3. This is correct — Part 1 establishes documentation and infrastructure.
-- The plugin reinstall warning in CLAUDE.md addresses the risk identified in the spec (registry loss on reinstall).
+- The Vault Resolution section in AGENTS.md documents the full 4-step precedence chain (explicit flag > CWD detection > default vault > error), but the actual resolution logic inside skills is deferred to Parts 2 and 3. This is correct — Part 1 establishes documentation and infrastructure.
+- The plugin reinstall warning in AGENTS.md addresses the risk identified in the spec (registry loss on reinstall).

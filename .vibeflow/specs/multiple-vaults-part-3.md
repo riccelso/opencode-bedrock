@@ -17,16 +17,16 @@ The 3 detection skills (teach, compress, sync) resolve vault paths through the g
 After Part 2, the core skills (preserve, query, healthcheck) are vault-aware. The remaining 3 skills are "detection" skills — they analyze content, detect entities, and delegate writes to preserve. They need vault resolution for two reasons:
 
 1. **Reading vault state** — teach reads existing entities for matching; compress reads all entities for deduplication; sync reads entities and external sources for reconciliation.
-2. **Delegating to preserve** — when invoking `/bedrock:preserve` via the Skill tool, they must pass `--vault <name>` so preserve knows which vault to write to.
+2. **Delegating to preserve** — when invoking `skill({ name: "preserve" })` via the Skill tool, they must pass `--vault <name>` so preserve knows which vault to write to.
 
 Additionally, sync and compress have their own git operations (Phase 0 `git pull`, final phase `git commit/push`) that need `git -C` treatment. Teach delegates all git to preserve.
 
 ## Definition of Done
 
 1. **Vault resolution section in all 3 skills** — Each skill has a `## Vault Resolution` section implementing the same 4-step precedence chain as Part 2
-2. **`--vault` flag works for teach** — `/bedrock:teach --vault my-vault <URL>` ingests content into the named vault; the resolved vault name is passed through to preserve during delegation
-3. **`--vault` flag works for compress** — `/bedrock:compress --vault my-vault` runs deduplication and consolidation against the named vault
-4. **`--vault` flag works for sync** — `/bedrock:sync --vault my-vault --github` syncs the named vault with external sources
+2. **`--vault` flag works for teach** — `skill({ name: "teach" }) --vault my-vault <URL>` ingests content into the named vault; the resolved vault name is passed through to preserve during delegation
+3. **`--vault` flag works for compress** — `skill({ name: "compress" }) --vault my-vault` runs deduplication and consolidation against the named vault
+4. **`--vault` flag works for sync** — `skill({ name: "sync" }) --vault my-vault --github` syncs the named vault with external sources
 5. **Vault name propagated to preserve** — When teach, compress, or sync delegate to preserve, they pass `--vault <resolved_vault_name>` in the Skill invocation arguments. This ensures preserve resolves to the same vault.
 6. **Git commands use `git -C` in sync and compress** — All `git pull`, `git add`, `git commit`, `git push` in sync (3 git blocks for sources/people/github modes) and compress use `git -C <VAULT_PATH>`
 7. **No violations of skill-delegation pattern** — The structured entity list contract is unchanged; only the Skill invocation adds `--vault`. Detection skills still NEVER write entities directly.

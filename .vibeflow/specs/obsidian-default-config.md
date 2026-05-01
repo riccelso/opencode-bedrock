@@ -5,10 +5,10 @@
 > Budget: ≤ 4 files (project default) — this spec touches **1 file**
 
 ## Objective
-After running `/bedrock:setup`, users open the vault in Obsidian and immediately see a color-coded graph view with 7 distinct colors for each entity type, wikilinks configured as the default link format, and a minimal plugin setup — with zero manual configuration.
+After running `skill({ name: "setup" })`, users open the vault in Obsidian and immediately see a color-coded graph view with 7 distinct colors for each entity type, wikilinks configured as the default link format, and a minimal plugin setup — with zero manual configuration.
 
 ## Context
-The setup skill (`skills/setup/SKILL.md`) currently creates entity directories, templates, `.bedrock/config.json`, vault `CLAUDE.md`, and example entities — but no `.obsidian/` configuration. Users must manually configure link behavior, disable noise plugins, and set up 7 color groups in the graph view. Since every entity template includes `tags: [type/<type>]`, the graph view can query these tags to colorize nodes automatically.
+The setup skill (`skills/setup/SKILL.md`) currently creates entity directories, templates, `.bedrock/config.json`, vault `AGENTS.md`, and example entities — but no `.obsidian/` configuration. Users must manually configure link behavior, disable noise plugins, and set up 7 color groups in the graph view. Since every entity template includes `tags: [type/<type>]`, the graph view can query these tags to colorize nodes automatically.
 
 Obsidian stores configuration in `.obsidian/` as JSON files. The graph view uses `graph.json` with a `colorGroups` array where each entry has a `query` (using Obsidian's search syntax `tag:#type/actor`) and a `color` object with `a` (alpha, float) and `rgb` (packed integer: `R*65536 + G*256 + B`).
 
@@ -18,7 +18,7 @@ Obsidian stores configuration in `.obsidian/` as JSON files. The graph view uses
 - [ ] **2. Wikilinks enforced:** `app.json` sets `useMarkdownLinks: false` and `newLinkFormat: "shortest"` — matching Bedrock's bare `[[name]]` convention.
 - [ ] **3. Clean defaults:** `appearance.json` configures a sensible base theme. `core-plugins.json` enables only the `graph` plugin (minimal set required for the color groups to be usable).
 - [ ] **4. Idempotent:** Each of the 4 config files is checked independently — if a file already exists in `.obsidian/`, it is skipped (never overwritten). The setup summary reports which files were created vs. skipped.
-- [ ] **5. Setup integration:** New Phase 3.5 added to `skills/setup/SKILL.md` between Phase 3.4 (CLAUDE.md) and Phase 3.5 (Example Entities, renumbered to 3.6). Skipped when `RECONFIGURE_MODE = true`. Follows the skill architecture pattern.
+- [ ] **5. Setup integration:** New Phase 3.5 added to `skills/setup/SKILL.md` between Phase 3.4 (AGENTS.md) and Phase 3.5 (Example Entities, renumbered to 3.6). Skipped when `RECONFIGURE_MODE = true`. Follows the skill architecture pattern.
 - [ ] **6. No conventions.md violations:** No path-qualified wikilinks, no flat tags, no sensitive data. Config files use only standard Obsidian JSON schema fields.
 
 ## Scope

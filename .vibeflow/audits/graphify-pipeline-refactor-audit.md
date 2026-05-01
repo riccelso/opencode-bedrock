@@ -20,10 +20,10 @@
   Evidence: `skills/preserve/SKILL.md:141-148` — step 4 "Classify graphify nodes into vault entity types — /preserve owns this classification" with full classification rules (code → knowledge-node, document → entity definitions, paper → topic/fleeting, god nodes → actor/topic, Zettelkasten fallback → fleeting). `/teach` has zero classification logic — confirmed via grep: only negative instructions ("does NOT classify") at lines 219-220, 298.
 
 - [x] **Check 5 — `/setup` declares graphify as required dependency.**
-  Evidence: `skills/setup/SKILL.md:99` — "**Required.** Extraction engine for all `/bedrock:teach` ingestion." Missing message (lines 117-122): "This is REQUIRED for /bedrock:teach to work." Other dependencies remain optional.
+  Evidence: `skills/setup/SKILL.md:99` — "**Required.** Extraction engine for all `skill({ name: "teach" })` ingestion." Missing message (lines 117-122): "This is REQUIRED for skill({ name: "teach" }) to work." Other dependencies remain optional.
 
 - [x] **Check 6 — `/teach` cleans up `/tmp` after /preserve confirms.**
-  Evidence: `skills/teach/SKILL.md:240-251` — Phase 4.1 "After `/bedrock:preserve` confirms completion, remove the temporary directory". Critical Rules table (line 300): "Remove only after /preserve confirms completion, not after graphify finishes."
+  Evidence: `skills/teach/SKILL.md:240-251` — Phase 4.1 "After `skill({ name: "preserve" })` confirms completion, remove the temporary directory". Critical Rules table (line 300): "Remove only after /preserve confirms completion, not after graphify finishes."
 
 - [x] **Check 7 — No violations of conventions.md Don'ts.**
   Evidence: See Pattern Compliance below.
@@ -55,7 +55,7 @@ None found. All conventions from `.vibeflow/conventions.md` are respected:
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin — no package.json, pyproject.toml, Cargo.toml, go.mod, or equivalent). Manual verification required.
+No test runner detected (markdown-only OpenCode plugin — no package.json, pyproject.toml, Cargo.toml, go.mod, or equivalent). Manual verification required.
 
 ## Stats
 

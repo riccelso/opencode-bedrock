@@ -16,9 +16,9 @@
 
 - [x] **Check 3 — All 9 entity definition files in English** — All section headers follow English convention (What it is, When to create, When NOT to create, How to distinguish, Required fields, Zettelkasten Role, Completeness Criteria, Examples). Field description tables in English. Example scenarios in English. Zero Portuguese words found via grep.
 
-- [x] **Check 4 — CLAUDE.md fully in English** — Git convention types: `person`, `team`, `actor`, `topic`, `discussion`, `project`, `note` (line 124). Verbs: `creates`, `updates`, `links`, `compresses` (line 125). Uses `[source: <origin>]` (line 120). Language rule: "English (en-US) for all content by default" (line 38). Frontmatter example: `description: "Billing and invoicing API"` (line 44). Scope parentheticals: `hipaa` (health), `gdpr` (Europe). Zettelkasten reference updated to "Zettelkasten Role".
+- [x] **Check 4 — AGENTS.md fully in English** — Git convention types: `person`, `team`, `actor`, `topic`, `discussion`, `project`, `note` (line 124). Verbs: `creates`, `updates`, `links`, `compresses` (line 125). Uses `[source: <origin>]` (line 120). Language rule: "English (en-US) for all content by default" (line 38). Frontmatter example: `description: "Billing and invoicing API"` (line 44). Scope parentheticals: `hipaa` (health), `gdpr` (Europe). Zettelkasten reference updated to "Zettelkasten Role".
 
-- [x] **Check 5 — README.md language rule updated** — Writing Rules section: "English (en-US) by default (configurable via `/bedrock:setup`)" (line 80). Git convention: `[source: <origin>]` (line 85). No remaining Portuguese content.
+- [x] **Check 5 — README.md language rule updated** — Writing Rules section: "English (en-US) by default (configurable via `skill({ name: "setup" })`)" (line 80). Git convention: `[source: <origin>]` (line 85). No remaining Portuguese content.
 
 ---
 
@@ -30,7 +30,7 @@
 
 - [x] **template-structure** — All templates retain: YAML frontmatter with inline comments → Zettelkasten role comment → linking instruction comment → body sections → Expected Bidirectional Links table. Frontmatter keys unchanged.
 
-- [x] **vault-writing-rules** — CLAUDE.md and skills now reference configurable vault language (not hardcoded pt-BR). Commit convention fully translated. Tag hierarchy unchanged. Wikilink rules unchanged.
+- [x] **vault-writing-rules** — AGENTS.md and skills now reference configurable vault language (not hardcoded pt-BR). Commit convention fully translated. Tag hierarchy unchanged. Wikilink rules unchanged.
 
 - [x] **skill-delegation** — Delegation pattern preserved: teach → preserve, sync → preserve. No structural changes to skill logic.
 
@@ -38,7 +38,7 @@
 
 ## Convention Violations
 
-- **`.vibeflow/conventions.md` is stale** — Still references Portuguese git convention (`pessoa`, `cria`, `[fonte: ...]`). This is in `.vibeflow/` (anti-scope for this task), but should be updated separately to match the new English conventions in CLAUDE.md.
+- **`.vibeflow/conventions.md` is stale** — Still references Portuguese git convention (`pessoa`, `cria`, `[fonte: ...]`). This is in `.vibeflow/` (anti-scope for this task), but should be updated separately to match the new English conventions in AGENTS.md.
 
 ---
 
@@ -58,7 +58,7 @@
 ## Tests
 
 No test runner detected — markdown-only project. Verification performed via:
-1. Grep for common Portuguese words across entities/, templates/, skills/, CLAUDE.md, README.md → zero matches
+1. Grep for common Portuguese words across entities/, templates/, skills/, AGENTS.md, README.md → zero matches
 2. YAML frontmatter integrity check → all 13 skill+template files valid
 3. Wikilink preservation check → all templates retain references
 4. `pt-BR` reference check → only legitimate occurrences in setup skill (language option)

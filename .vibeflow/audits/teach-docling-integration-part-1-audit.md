@@ -40,7 +40,7 @@ No test runner in this project — `.vibeflow/index.md` declares "No build syste
 
 - [x] **`.vibeflow/patterns/skill-delegation.md`** — follows correctly (and *strengthens* the pattern). Evidence:
   - `/preserve` remains the single write point; the new merge logic is inside `/preserve`, not in a caller.
-  - Backward-compat path (`graphify_output_path == <VAULT_PATH>/graphify-out/`) means legacy callers — including `/bedrock:sync` in its current form — continue to work without modification, preserving the pattern's "structured input contract" between skills.
+  - Backward-compat path (`graphify_output_path == <VAULT_PATH>/graphify-out/`) means legacy callers — including `skill({ name: "sync" })` in its current form — continue to work without modification, preserving the pattern's "structured input contract" between skills.
   - Return payload is extended with a new `graphify_merge:` block, keeping the caller-return contract explicit rather than side-effect-based.
 
 - [x] **`.vibeflow/patterns/vault-writing-rules.md`** — follows correctly. Evidence:
@@ -69,7 +69,7 @@ None. Checked against `.vibeflow/conventions.md` Don'ts list:
 
 2. **Python error-propagation in Step 3.** The atomic swap `mv` on line 237 runs after the heredoc exits regardless of Python's exit code when bash lacks `set -e`. The prose at line 240 ("If the Python block exits non-zero, abort without running the `mv`") is a procedural instruction the executing agent must honor. Since this is a markdown procedural skill (executed by Claude, not a shell script), this is acceptable but a shell-script port would need an explicit `|| exit 1` check.
 
-3. **`stale: true` contract is one-sided until Part 1's downstream consumer lands.** `/bedrock:compress` does not yet read the `stale` field. The spec correctly places that read out of scope (follow-up spec). `.graphify_analysis.json` will accumulate `stale: true` across merges with no observable downstream effect until that follow-up ships. Documented in the spec's Risks section.
+3. **`stale: true` contract is one-sided until Part 1's downstream consumer lands.** `skill({ name: "compress" })` does not yet read the `stale` field. The spec correctly places that read out of scope (follow-up spec). `.graphify_analysis.json` will accumulate `stale: true` across merges with no observable downstream effect until that follow-up ships. Documented in the spec's Risks section.
 
 ## Budget
 
@@ -86,4 +86,4 @@ All 7 DoD checks PASS with direct evidence in `skills/preserve/SKILL.md`. All th
 
 - Implement Part 2: `/vibeflow:implement .vibeflow/specs/teach-docling-integration-part-2.md`
 - Part 3 (docs refresh) waits until Parts 1 & 2 are both in place.
-- Consider a follow-up spec for `/bedrock:compress` to read `.graphify_analysis.json`'s `stale: true` flag and trigger recomputation (Observation #3).
+- Consider a follow-up spec for `skill({ name: "compress" })` to read `.graphify_analysis.json`'s `stale: true` flag and trigger recomputation (Observation #3).

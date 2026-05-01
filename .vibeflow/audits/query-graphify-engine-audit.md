@@ -36,7 +36,7 @@
 
 ### Pattern Compliance
 
-- [x] **skill-delegation.md** — PASS. The delegation follows the established pattern: `/bedrock:query` delegates graph traversal to `/graphify` via Skill tool invocation (line 105, 119-144), same mechanism as `/bedrock:teach` → `/graphify` (line 144: "This follows the same delegation pattern as `/bedrock:teach` → `/graphify`"). Critical Rules table enforces this (line 430).
+- [x] **skill-delegation.md** — PASS. The delegation follows the established pattern: `skill({ name: "ask" })` delegates graph traversal to `/graphify` via Skill tool invocation (line 105, 119-144), same mechanism as `skill({ name: "teach" })` → `/graphify` (line 144: "This follows the same delegation pattern as `skill({ name: "teach" })` → `/graphify`"). Critical Rules table enforces this (line 430).
 
 - [x] **skill-architecture.md** — PASS. All 5 required structural elements present: YAML frontmatter (line 1), Plugin Paths (line 17), Overview (line 30), numbered phases (lines 43-422), Critical Rules table (line 425). Phase numbering is sequential. Sub-phases use decimal notation (2.0, 2-G.1, 2-G.2, 2-G.3, 2.5.1, 2.5.2, 2.5.3).
 
@@ -61,4 +61,4 @@ None found. Skill structure, naming, and content follow `.vibeflow/conventions.m
 
 ### Tests
 
-No test runner detected (markdown-only Claude Code plugin — no package.json, pyproject.toml, or build system). Verify manually that the skill executes correctly by running `/bedrock:query` against a vault with `graphify-out/graph.json`.
+No test runner detected (markdown-only OpenCode plugin — no package.json, pyproject.toml, or build system). Verify manually that the skill executes correctly by running `skill({ name: "ask" })` against a vault with `graphify-out/graph.json`.

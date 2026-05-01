@@ -8,7 +8,7 @@ The current Bedrock landing page is a monolithic 908-line `index.html` with inli
 
 ## Target Audience
 
-Developers and power users who already use **Obsidian** and **Claude Code** (or are evaluating one/both). They arrive from GitHub, Twitter/X, Hacker News, or direct links. They expect a developer-tool site that respects their intelligence — not marketing fluff but clear, interactive demonstrations of what the tool does.
+Developers and power users who already use **Obsidian** and **OpenCode** (or are evaluating one/both). They arrive from GitHub, Twitter/X, Hacker News, or direct links. They expect a developer-tool site that respects their intelligence — not marketing fluff but clear, interactive demonstrations of what the tool does.
 
 ## Proposed Solution
 
@@ -62,7 +62,7 @@ The purple-to-orange gradient is the signature motif — used sparingly on the h
 
 **3. How It Works** — Interactive workflow visualization (not a flat pipeline). A horizontal stepper or animated flow showing: `setup → teach → preserve → ask → compress → sync`. Clicking each step reveals a panel with a description + a real terminal/vault snippet showing the command in action. Think Resend's tabbed SDK examples.
 
-**4. Skills Showcase** — The core section. NOT a flat 3×2 grid. Instead: a left sidebar with skill names (`/bedrock:ask`, `/bedrock:teach`, etc.) and a right panel that shows, for each selected skill:
+**4. Skills Showcase** — The core section. NOT a flat 3×2 grid. Instead: a left sidebar with skill names (`skill({ name: "ask" })`, `skill({ name: "teach" })`, etc.) and a right panel that shows, for each selected skill:
 - What it does (2-3 lines)
 - A real terminal GIF or animated screenshot showing the skill in action
 - The key command to invoke it
@@ -77,9 +77,9 @@ This is where the GIFs live. Interactive tab selection, not scroll.
 
 **6. Vault Demo** — A section showing the Obsidian vault output. A styled mockup of the Obsidian sidebar with entity folders, and a preview of an entity file with frontmatter + wikilinks highlighted. This could be a static screenshot or a GIF of navigating the vault. The goal: show the *output*, not just the commands.
 
-**7. Installation** — Clean, centered section. Terminal block with the install command. Below it: 2-3 prerequisite badges (Claude Code, Obsidian, Git). A "Get Started" link to the README.
+**7. Installation** — Clean, centered section. Terminal block with the install command. Below it: 2-3 prerequisite badges (OpenCode, Obsidian, Git). A "Get Started" link to the README.
 
-**8. Footer** — GitHub star button, license, author, links to README and CLAUDE.md.
+**8. Footer** — GitHub star button, license, author, links to README and AGENTS.md.
 
 ### GIF Script (content the user needs to record)
 
@@ -87,12 +87,12 @@ The following GIFs should be recorded in a real Obsidian vault with Bedrock enti
 
 | # | GIF Name | What to record | Section |
 |---|---|---|---|
-| 1 | `setup.gif` | Run `/bedrock:setup` in Claude Code terminal → show the interactive setup wizard asking questions → vault directories being created | Skills Showcase |
-| 2 | `teach.gif` | Run `/bedrock:teach <confluence-url>` → show entities being detected → files appearing in Obsidian sidebar in real-time | Skills Showcase |
-| 3 | `preserve.gif` | Run `/bedrock:preserve` with a batch of entities → show files being created/updated → git commit appearing | Skills Showcase |
-| 4 | `ask.gif` | Run `/bedrock:ask "what does the billing API connect to?"` → show the agent reasoning, searching the vault, returning a structured answer with wikilinks | Skills Showcase |
-| 5 | `compress.gif` | Run `/bedrock:compress` → show duplicate detection → entities being merged → health report | Skills Showcase |
-| 6 | `sync.gif` | Run `/bedrock:sync --github` → show repos being scanned → PRs correlated with topics → new entities created | Skills Showcase |
+| 1 | `setup.gif` | Run `skill({ name: "setup" })` in OpenCode terminal → show the interactive setup wizard asking questions → vault directories being created | Skills Showcase |
+| 2 | `teach.gif` | Run `skill({ name: "teach" }) <confluence-url>` → show entities being detected → files appearing in Obsidian sidebar in real-time | Skills Showcase |
+| 3 | `preserve.gif` | Run `skill({ name: "preserve" })` with a batch of entities → show files being created/updated → git commit appearing | Skills Showcase |
+| 4 | `ask.gif` | Run `skill({ name: "ask" }) "what does the billing API connect to?"` → show the agent reasoning, searching the vault, returning a structured answer with wikilinks | Skills Showcase |
+| 5 | `compress.gif` | Run `skill({ name: "compress" })` → show duplicate detection → entities being merged → health report | Skills Showcase |
+| 6 | `sync.gif` | Run `skill({ name: "sync" }) --github` → show repos being scanned → PRs correlated with topics → new entities created | Skills Showcase |
 | 7 | `vault-navigation.gif` | Open Obsidian → navigate the vault graph view → click on an actor node → show it opening with rich frontmatter and wikilinks → click a wikilink to navigate to a connected entity | Vault Demo |
 | 8 | `graph-view.gif` | Obsidian graph view fully zoomed out → slowly zoom into a cluster → show the colored nodes and connections → hover over nodes to see labels | Hero background or Vault Demo |
 
@@ -101,7 +101,7 @@ The following GIFs should be recorded in a real Obsidian vault with Bedrock enti
 - Hide Obsidian's status bar and minimize chrome for cleaner frames
 - Use a screen recording tool that outputs optimized GIFs (e.g., Kap on macOS, or record as MP4 and convert with ffmpeg)
 - Keep terminal font size at 14-16px for readability
-- If using Claude Code terminal, ensure the output is visible and not truncated
+- If using OpenCode terminal, ensure the output is visible and not truncated
 
 ## Success Criteria
 
@@ -142,7 +142,7 @@ The following GIFs should be recorded in a real Obsidian vault with Bedrock enti
 ## Technical Context
 
 - The current `index.html` will be **replaced** by the Next.js site in `site/`
-- The repo is a Claude Code plugin — all plugin files live at root (`skills/`, `entities/`, `templates/`, `.claude-plugin/`)
+- The repo is a OpenCode plugin — all plugin files live at root (`skills/`, `entities/`, `templates/`, `.opencode/`)
 - The site lives in `site/` to avoid polluting the plugin structure
 - GitHub Pages should serve from `site/out/` (the Next.js static export output)
 - GitHub repo: `https://github.com/iurykrieger/claude-bedrock`

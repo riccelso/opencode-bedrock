@@ -1,4 +1,4 @@
-# Bedrock — CLAUDE.md
+# Bedrock — AGENTS.md
 
 Instructions for AI agents working on Obsidian vaults powered by the Bedrock plugin.
 
@@ -6,7 +6,7 @@ Instructions for AI agents working on Obsidian vaults powered by the Bedrock plu
 
 ## What is Bedrock?
 
-**Bedrock** is a Claude Code plugin that turns any Obsidian vault into a structured Second Brain. It provides entity management, ingestion, compression, and sync automation — all via Claude Code skills.
+**Bedrock** is an OpenCode skill plugin that turns any Obsidian vault into a structured Second Brain. It provides entity management, ingestion, compression, and sync automation — all via OpenCode skills.
 
 This is **not a codebase**. The target vault is markdown-only — no build system, no tests, no deployable artifacts. The primary consumers are humans reading in Obsidian and AI agents writing via skills.
 
@@ -29,14 +29,14 @@ The vault organizes knowledge into 8 entity types, each in its own directory:
 
 Each entity type has a `_template.md` defining the required frontmatter and structure. **Always follow the template when creating new entities.**
 
-Entity semantic definitions live in the plugin's `entities/` directory — used by `/bedrock:teach` and `/bedrock:preserve` to classify content.
+Entity semantic definitions live in the plugin's `entities/` directory — used by `skill({ name: "teach" })` and `skill({ name: "preserve" })` to classify content.
 
 ---
 
 ## Writing Rules
 
 ### Language
-- **English (en-US)** for all content by default (configurable via `/bedrock:setup`)
+- **English (en-US)** for all content by default (configurable via `skill({ name: "setup" })`)
 - Technical terms in English are accepted (PCI, API, Kafka, etc.)
 
 ### Frontmatter
@@ -102,24 +102,24 @@ Rules:
 
 ## Skills
 
-These are the Claude Code skills provided by the Bedrock plugin:
+These are the OpenCode skills provided by the Bedrock plugin:
 
 | Skill | Purpose |
 |---|---|
-| `/bedrock:ask` | Orchestrated vault reader — decomposes questions, searches graph and vault, cross-references entities |
-| `/bedrock:teach` | Ingest external sources (Confluence, Google Docs, GitHub repositories, remote URLs, and any file format supported by docling — DOCX, PPTX, XLSX, PDF, HTML, EPUB, images, and more) — extracts entities — delegates to `/bedrock:preserve` |
-| `/bedrock:preserve` | Single write point — entity detection, matching, create/update, bidirectional links, git commit |
-| `/bedrock:compress` | Vault alignment engine — fixes broken backlinks, concept fragmentation, entity miscategorization, duplicated entities, misnamed entities. Supports `--mode cron` for scheduled execution |
-| `/bedrock:healthcheck` | Read-only vault health diagnostic — checks graphify-out integrity, setup, orphan entities, dangling content, old content (>15 days). Safe to run at any frequency |
-| `/bedrock:sync` | Re-sync entities with external sources. Flags: `--people` (sync contributors), `--github` (sync PRs/activity) |
-| `/bedrock:vaults` | Manage registered vaults — list, set default (`--set-default <name>`), remove (`--remove <name>`) |
+| `skill({ name: "ask" })` | Orchestrated vault reader — decomposes questions, searches graph and vault, cross-references entities |
+| `skill({ name: "teach" })` | Ingest external sources (Confluence, Google Docs, GitHub repositories, remote URLs, and any file format supported by docling — DOCX, PPTX, XLSX, PDF, HTML, EPUB, images, and more) — extracts entities — delegates to `skill({ name: "preserve" })` |
+| `skill({ name: "preserve" })` | Single write point — entity detection, matching, create/update, bidirectional links, git commit |
+| `skill({ name: "compress" })` | Vault alignment engine — fixes broken backlinks, concept fragmentation, entity miscategorization, duplicated entities, misnamed entities. Supports `--mode cron` for scheduled execution |
+| `skill({ name: "healthcheck" })` | Read-only vault health diagnostic — checks graphify-out integrity, setup, orphan entities, dangling content, old content (>15 days). Safe to run at any frequency |
+| `skill({ name: "sync" })` | Re-sync entities with external sources. Flags: `--people` (sync contributors), `--github` (sync PRs/activity) |
+| `skill({ name: "vaults" })` | Manage registered vaults — list, set default (`--set-default <name>`), remove (`--remove <name>`) |
 
 ---
 
 ## Vault Resolution
 
 Bedrock supports multiple vaults. Each vault is registered by name in a global registry
-(`vaults.json` in the plugin directory) during `/bedrock:setup`. Skills can target any
+(`vaults.json` in the plugin directory) during `skill({ name: "setup" })`. Skills can target any
 registered vault using the `--vault <name>` flag, regardless of the current working directory.
 
 ### Registry
@@ -137,8 +137,8 @@ The vault registry lives at `<plugin_dir>/vaults.json` with this schema:
 
 - Vault names are **kebab-case**, lowercase, unique
 - Exactly one vault is marked as `"default": true`
-- The registry is created automatically during `/bedrock:setup`
-- Manage vaults with `/bedrock:vaults` (list, set-default, remove)
+- The registry is created automatically during `skill({ name: "setup" })`
+- Manage vaults with `skill({ name: "vaults" })` (list, set-default, remove)
 
 ### Resolution Precedence
 
@@ -155,7 +155,7 @@ don't need to change anything.
 ### Plugin Reinstall Note
 
 If the Bedrock plugin is reinstalled, the `vaults.json` registry file may be lost.
-Vault data on disk is unaffected. Re-run `/bedrock:setup` inside each vault to
+Vault data on disk is unaffected. Re-run `skill({ name: "setup" })` inside each vault to
 re-register it.
 
 ---

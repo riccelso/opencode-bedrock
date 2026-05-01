@@ -10,17 +10,17 @@ The result is concept fragmentation: the same concept appears across multiple ac
 
 ## Target Audience
 
-AI agents running `/bedrock:teach` and `/bedrock:preserve` — they need a clear classification target for concept nodes extracted by graphify. Secondary: humans reading the vault in Obsidian, who benefit from a single canonical page per concept instead of scattered inline descriptions.
+AI agents running `skill({ name: "teach" })` and `skill({ name: "preserve" })` — they need a clear classification target for concept nodes extracted by graphify. Secondary: humans reading the vault in Obsidian, who benefit from a single canonical page per concept instead of scattered inline descriptions.
 
 ## Proposed Solution
 
 Add a new top-level entity type `concept` with its own directory (`concepts/`), entity definition (`entities/concept.md`), and template (`templates/concepts/_template.md`). Concepts are **permanent notes** — stable, timeless, definitional. They describe *what something IS*, not what is happening with it. Topics, actors, discussions, and other entities reference concepts via wikilinks instead of re-describing them.
 
-Update `/bedrock:preserve`'s classification logic to recognize concept nodes from graphify output and map them to this new entity type. Update `CLAUDE.md` to document the 8th entity type.
+Update `skill({ name: "preserve" })`'s classification logic to recognize concept nodes from graphify output and map them to this new entity type. Update `AGENTS.md` to document the 8th entity type.
 
 ## Success Criteria
 
-- Graphify concept nodes (from documents, papers, and code) are classified as `concept` entities by `/bedrock:preserve` instead of falling through to `topic` or `fleeting`
+- Graphify concept nodes (from documents, papers, and code) are classified as `concept` entities by `skill({ name: "preserve" })` instead of falling through to `topic` or `fleeting`
 - A concept entity is a self-contained permanent note: it defines what something IS with enough context to stand alone
 - Other entities (actors, topics, discussions) can reference concepts via `[[concept-name]]` wikilinks
 - The concept entity follows all existing conventions: entity definition pattern, template structure, hierarchical tags, writing rules
@@ -29,16 +29,16 @@ Update `/bedrock:preserve`'s classification logic to recognize concept nodes fro
 
 1. **Entity definition** — `entities/concept.md` following the entity-definition pattern (What/When/When NOT/Distinguish/Required fields/Zettelkasten Role/Examples)
 2. **Template** — `templates/concepts/_template.md` with frontmatter schema and bidirectional link refs
-3. **CLAUDE.md update** — add `concept` to the entity types table, tags table (`type/concept`), update rules table, Zettelkasten principles table (permanent note), and commit convention types
+3. **AGENTS.md update** — add `concept` to the entity types table, tags table (`type/concept`), update rules table, Zettelkasten principles table (permanent note), and commit convention types
 4. **Preserve skill update** — update classification logic in `skills/preserve/SKILL.md` to handle concept nodes from graphify output
 5. **Teach skill update** — if `/teach` has any hardcoded entity type lists, add `concept` to them
 
 ## Anti-scope
 
-- **No migration of existing entities.** Existing topics or fleeting notes that are actually concepts will NOT be reclassified in this PR. That's a future `/bedrock:compress` task.
+- **No migration of existing entities.** Existing topics or fleeting notes that are actually concepts will NOT be reclassified in this PR. That's a future `skill({ name: "compress" })` task.
 - **No knowledge-node changes.** The `knowledge-node` entity type stays as-is (sub-entity of actors for code-level details). Concepts extracted from code that are actor-specific remain knowledge-nodes; only cross-cutting concepts become `concept` entities.
-- **No new skill.** No `/bedrock:concept` skill — concepts are created and managed through the existing `/bedrock:preserve` pipeline.
-- **No query skill changes.** `/bedrock:query` already searches all entity types by directory — adding `concepts/` is automatic.
+- **No new skill.** No `skill({ name: "preserve" })` skill — concepts are created and managed through the existing `skill({ name: "preserve" })` pipeline.
+- **No query skill changes.** `skill({ name: "ask" })` already searches all entity types by directory — adding `concepts/` is automatic.
 - **No sync skill changes.** Concepts don't have external sources to sync (they're derived from other entities' sources).
 - **No Obsidian plugin changes.** The vault is markdown-only; Obsidian discovers new folders automatically.
 
@@ -52,7 +52,7 @@ Update `/bedrock:preserve`'s classification logic to recognize concept nodes fro
 ### Key files to modify
 - `entities/concept.md` (new)
 - `templates/concepts/_template.md` (new)
-- `CLAUDE.md` — entity types table, tags, update rules, zettelkasten principles, commit types
+- `AGENTS.md` — entity types table, tags, update rules, zettelkasten principles, commit types
 - `skills/preserve/SKILL.md` — classification logic (around lines 142-149 per vibeflow analysis)
 - `skills/teach/SKILL.md` — entity type lists if hardcoded
 

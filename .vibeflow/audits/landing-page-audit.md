@@ -56,7 +56,7 @@
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin). All 6 DoD checks verified via Chrome browser automation and source code analysis.
+No test runner detected (markdown-only OpenCode plugin). All 6 DoD checks verified via Chrome browser automation and source code analysis.
 
 ## Scope Evolution (post-spec user requests)
 

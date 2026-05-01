@@ -5,25 +5,25 @@
 
 ## Objective
 
-Aplicar o glossário canônico (da part 1) aos 7 templates e 2 arquivos raiz (`CLAUDE.md`, `README.md`), genericizando domínios, exemplos, e tabelas de tags.
+Aplicar o glossário canônico (da part 1) aos 7 templates e 2 arquivos raiz (`AGENTS.md`, `README.md`), genericizando domínios, exemplos, e tabelas de tags.
 
 ## Context
 
-Os templates contêm exemplos inline em comentários HTML e campos de frontmatter. `CLAUDE.md` contém a tabela de tags com domínios Stone e exemplos de wikilinks/commits. `README.md` tem uma menção a `domain/acquiring`. Todos precisam ser atualizados para usar os nomes genéricos definidos no glossário.
+Os templates contêm exemplos inline em comentários HTML e campos de frontmatter. `AGENTS.md` contém a tabela de tags com domínios Stone e exemplos de wikilinks/commits. `README.md` tem uma menção a `domain/acquiring`. Todos precisam ser atualizados para usar os nomes genéricos definidos no glossário.
 
 Mudanças de maior impacto nesta part:
-- **Tabela `domain/*` em `CLAUDE.md`** — Substituir domínios Stone por genéricos, manter a tabela como "exemplos extensíveis"
-- **Tabela `scope/*` em `CLAUDE.md`** — Adicionar exemplos de outras áreas além de fintech (`hipaa`, `gdpr`, `soc2`)
-- **Exemplos de commit em `CLAUDE.md`** — Trocar `payment-card-api` por nome genérico
+- **Tabela `domain/*` em `AGENTS.md`** — Substituir domínios Stone por genéricos, manter a tabela como "exemplos extensíveis"
+- **Tabela `scope/*` em `AGENTS.md`** — Adicionar exemplos de outras áreas além de fintech (`hipaa`, `gdpr`, `soc2`)
+- **Exemplos de commit em `AGENTS.md`** — Trocar `payment-card-api` por nome genérico
 
 ## Definition of Done
 
 1. [ ] **7 templates atualizados** — Todos os arquivos em `templates/` usam nomes genéricos do glossário
-2. [ ] **CLAUDE.md atualizado** — Tabela de domínios usa exemplos genéricos, tabela de scope tem exemplos multi-área, exemplos de wikilinks e commits usam nomes genéricos
+2. [ ] **AGENTS.md atualizado** — Tabela de domínios usa exemplos genéricos, tabela de scope tem exemplos multi-área, exemplos de wikilinks e commits usam nomes genéricos
 3. [ ] **README.md atualizado** — Zero referências Stone
-4. [ ] **Zero matches** — `grep -ri "stone\|pagarme\|pagar.me\|allstone\|stone-payments\|acquiring\|boleto" templates/ CLAUDE.md README.md` retorna vazio (exceto onde "acquiring" ou "boleto" sejam termos genéricos válidos em contexto técnico)
+4. [ ] **Zero matches** — `grep -ri "stone\|pagarme\|pagar.me\|allstone\|stone-payments\|acquiring\|boleto" templates/ AGENTS.md README.md` retorna vazio (exceto onde "acquiring" ou "boleto" sejam termos genéricos válidos em contexto técnico)
 5. [ ] **Consistência com glossário** — Todos os nomes usados são idênticos aos definidos em `.vibeflow/specs/genericize-glossary.md`
-6. [ ] **Tags domain/* atualizadas** — Tabela em CLAUDE.md e comentários em templates refletem os novos domínios genéricos
+6. [ ] **Tags domain/* atualizadas** — Tabela em AGENTS.md e comentários em templates refletem os novos domínios genéricos
 
 ## Scope
 
@@ -39,7 +39,7 @@ Mudanças de maior impacto nesta part:
 | `templates/projects/_template.md` | `autobahn` |
 | `templates/fleeting/_template.md` | Verificar — pode não ter referências diretas |
 
-### CLAUDE.md
+### AGENTS.md
 
 - Tabela de entity types (linha 21-25): exemplos `payment-card-api.md`, `squad-acquiring.md`, `2026-04-02-daily-acquiring.md`
 - Wikilinks (linha 49): `[[boleto-api]]`
@@ -56,7 +56,7 @@ Mudanças de maior impacto nesta part:
 ## Anti-scope
 
 - Não alterar entities/ ou skills/ (parts 1 e 3)
-- Não alterar a estrutura do CLAUDE.md — seções, regras de escrita, workflow git permanecem
+- Não alterar a estrutura do AGENTS.md — seções, regras de escrita, workflow git permanecem
 - Não alterar plugin.json
 - Não mudar o idioma padrão de pt-BR
 - Não adicionar funcionalidade de `/init`
@@ -73,8 +73,8 @@ Nenhum — projeto não tem `.vibeflow/patterns/`.
 
 ## Risks
 
-1. **Domínios nos templates desalinhados** — Comentários em `_template.md` listam domínios disponíveis para tags. Se a tabela em `CLAUDE.md` mudar e os templates não acompanharem, fica inconsistente. Mitigação: atualizar ambos na mesma part.
-2. **CLAUDE.md é lido por AI agents** — Qualquer erro na tabela de tags afeta o comportamento de todas as skills. Mitigação: DoD inclui grep de validação.
+1. **Domínios nos templates desalinhados** — Comentários em `_template.md` listam domínios disponíveis para tags. Se a tabela em `AGENTS.md` mudar e os templates não acompanharem, fica inconsistente. Mitigação: atualizar ambos na mesma part.
+2. **AGENTS.md é lido por AI agents** — Qualquer erro na tabela de tags afeta o comportamento de todas as skills. Mitigação: DoD inclui grep de validação.
 
 ## Dependencies
 
@@ -89,5 +89,5 @@ Nenhum — projeto não tem `.vibeflow/patterns/`.
 - `templates/discussions/_template.md`
 - `templates/projects/_template.md`
 - `templates/fleeting/_template.md`
-- `CLAUDE.md`
+- `AGENTS.md`
 - `README.md`

@@ -21,7 +21,7 @@ The `/graphify` skill already supports `--obsidian --obsidian-dir <path>` which 
 
 3. **`/preserve` accepts graphify output as a third input mode** (Phase 1.3) alongside existing structured YAML (1.1) and free-form text (1.2). It reads `graph.json` for node metadata/relationships and `graphify-out/obsidian/*.md` for pre-rendered content, then converts to the internal structured format.
 
-4. **`/preserve` owns entity classification for graphify input** — it reads graphify output, classifies nodes into vault entity types using entity definitions, filters, matches against existing vault, and presents for user confirmation. Zero classification logic in /teach. Users can invoke `/bedrock:preserve` directly with a graphify-out/ directory.
+4. **`/preserve` owns entity classification for graphify input** — it reads graphify output, classifies nodes into vault entity types using entity definitions, filters, matches against existing vault, and presents for user confirmation. Zero classification logic in /teach. Users can invoke `skill({ name: "preserve" })` directly with a graphify-out/ directory.
 
 5. **`/setup` declares graphify as a required dependency** — the "optional" messaging in Phase 1.2 is updated to indicate graphify is required for /teach to function.
 
@@ -113,8 +113,8 @@ After existing sections 1.1 (Structured input) and 1.2 (Free-form input), add:
 ```markdown
 ### 1.3 Graphify output input
 
-When called by `/bedrock:teach` (or any skill) with a graphify output reference,
-OR when the user invokes `/bedrock:preserve` directly pointing at a graphify-out/ directory:
+When called by `skill({ name: "teach" })` (or any skill) with a graphify output reference,
+OR when the user invokes `skill({ name: "preserve" })` directly pointing at a graphify-out/ directory:
 
 **Input format:**
 - `graphify_output_path`: path to `graphify-out/` directory
@@ -166,7 +166,7 @@ OR when the user invokes `/bedrock:preserve` directly pointing at a graphify-out
 8. **Proceed to Phase 3** (Change Proposal) — present the classified entity list for user confirmation, then execute writes as normal.
 ```
 
-**Key change:** /preserve now owns entity classification for graphify input. This means users can invoke `/bedrock:preserve` directly with a graphify-out/ directory (bypassing /teach) and still get full classification + confirmation + writes. The existing Phase 2 (matching) is partially absorbed into step 6 above for graphify input; Phase 3 onward (proposal, execution, linking, publish, report) is unchanged.
+**Key change:** /preserve now owns entity classification for graphify input. This means users can invoke `skill({ name: "preserve" })` directly with a graphify-out/ directory (bypassing /teach) and still get full classification + confirmation + writes. The existing Phase 2 (matching) is partially absorbed into step 6 above for graphify input; Phase 3 onward (proposal, execution, linking, publish, report) is unchanged.
 
 ### File 3: `skills/setup/SKILL.md` (minor edit)
 
@@ -176,15 +176,15 @@ Change graphify from optional to required. Update the row in the dependency chec
 
 | Dependency | Check method | What it unlocks |
 |---|---|---|
-| graphify | Glob: `~/.claude/skills/graphify/SKILL.md` | **Required.** Extraction engine for all `/bedrock:teach` ingestion. Without it, /teach cannot process any content. |
+| graphify | Glob: `~/.claude/skills/graphify/SKILL.md` | **Required.** Extraction engine for all `skill({ name: "teach" })` ingestion. Without it, /teach cannot process any content. |
 
 Update the missing-dependency message from "This is optional — your vault will work without it" to:
 
 ```
-> ⚠️ graphify is not installed. This is REQUIRED for /bedrock:teach to work.
+> ⚠️ graphify is not installed. This is REQUIRED for skill({ name: "teach" }) to work.
 > To install, check https://github.com/safishamsi/graphify for instructions.
 >
-> Your vault will initialize, but /bedrock:teach will not function until graphify is installed.
+> Your vault will initialize, but skill({ name: "teach" }) will not function until graphify is installed.
 ```
 
 Keep confluence-to-markdown and gdoc-to-markdown as optional (they're fetch strategies, not the extraction engine).
@@ -218,7 +218,7 @@ Keep confluence-to-markdown and gdoc-to-markdown as optional (they're fetch stra
 
 ### 4. Entity classification lives in /preserve, not /teach
 **Decision:** /preserve owns classification of graphify nodes into vault entity types. /teach is a pure fetcher + orchestrator — it passes the graphify output path to /preserve without classifying.
-**Trade-off:** Classification in /preserve (single skill owns the full write pipeline, users can invoke /preserve directly with graphify output) vs. classification in /teach (detection skill classifies, write skill just executes). /preserve wins because: (a) users can run `/bedrock:preserve` directly with local graphify output, bypassing /teach entirely, (b) /preserve already owns entity definitions + matching + Zettelkasten classification for its other input modes, (c) /teach becomes maximally thin — fetch + extract + delegate, nothing more.
+**Trade-off:** Classification in /preserve (single skill owns the full write pipeline, users can invoke /preserve directly with graphify output) vs. classification in /teach (detection skill classifies, write skill just executes). /preserve wins because: (a) users can run `skill({ name: "preserve" })` directly with local graphify output, bypassing /teach entirely, (b) /preserve already owns entity definitions + matching + Zettelkasten classification for its other input modes, (c) /teach becomes maximally thin — fetch + extract + delegate, nothing more.
 
 ### 5. CSV pass-through raw
 **Decision:** No pre-processing — CSVs are copied to tmp and graphify handles them as text files.

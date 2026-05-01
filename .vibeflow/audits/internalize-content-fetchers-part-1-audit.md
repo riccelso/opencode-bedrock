@@ -36,7 +36,7 @@
   - No `user_invocable` field anywhere in either file
   - No `Plugin Paths` section in either file
   - No `allowed-tools` field in either file
-  - Both contain "Internal module — invoked by `/bedrock:teach` Phase 1, not user-invocable" as their opening description
+  - Both contain "Internal module — invoked by `skill({ name: "teach" })` Phase 1, not user-invocable" as their opening description
 
 - [x] **DoD 5** — No violations of `conventions.md` Don'ts
   - No flat tags — no tags at all (fetcher modules are internal, not vault entities)
@@ -61,7 +61,7 @@ Files changed: 3 / ≤ 4 budget (confluence.md, gdoc.md, extract.js)
 
 ## Tests
 
-No test runner detected (markdown-only Claude Code plugin). Manual verification confirms:
+No test runner detected (markdown-only OpenCode plugin). Manual verification confirms:
 - All 3 files exist in the expected locations
 - extract.js is byte-identical to source
 - Module structure follows spec requirements

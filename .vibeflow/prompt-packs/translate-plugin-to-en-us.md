@@ -4,14 +4,14 @@
 
 ## Objective
 
-Translate ALL content of the Bedrock Claude Code plugin from Portuguese (pt-BR) to English (en-US). This covers skills, templates, entity definitions, and documentation. The plugin turns Obsidian vaults into structured Second Brains.
+Translate ALL content of the Bedrock OpenCode plugin from Portuguese (pt-BR) to English (en-US). This covers skills, templates, entity definitions, and documentation. The plugin turns Obsidian vaults into structured Second Brains.
 
 ## Definition of Done
 
 - [ ] All 6 skill files (`skills/*/SKILL.md`) have frontmatter descriptions, section headers, instructions, error messages, report templates, and critical rules in English
 - [ ] All 7 template files (`templates/*/_template.md`) have comments, section headers, placeholder text, and the "Expected Bidirectional Links" reference in English
 - [ ] All 9 entity definition files (`entities/*.md`) are fully in English — descriptions, criteria, examples, field tables, Zettelkasten roles
-- [ ] `CLAUDE.md` git convention types/verbs translated to English equivalents, all remaining pt-BR content in English
+- [ ] `AGENTS.md` git convention types/verbs translated to English equivalents, all remaining pt-BR content in English
 - [ ] `README.md` language rule updated (default language: English, not Portuguese)
 
 ## Anti-scope
@@ -94,7 +94,7 @@ Files:
 
 ### Documentation (2 files)
 
-1. `CLAUDE.md` — Translate:
+1. `AGENTS.md` — Translate:
    - Git convention: `<type>` values (`pessoa` → `person`, `time` → `team`, `ator` → `actor`, `assunto` → `topic`, `discussao` → `discussion`, `projeto` → `project`, `nota` → `note`)
    - Git convention: `<verb>` values (`cria` → `creates`, `atualiza` → `updates`, `vincula` → `links`, `comprime` → `compresses`)
    - Git convention: `<source>` values (`memoria` → `memory`, `manual` → `manual`, etc.)
@@ -161,7 +161,7 @@ Files:
 1. Start with entity definitions (they're referenced by skills)
 2. Then templates (they're referenced by entity definitions)
 3. Then skills (they reference entities and templates)
-4. Finally documentation (CLAUDE.md, README.md)
+4. Finally documentation (AGENTS.md, README.md)
 
 For each file:
 1. Read the current content
@@ -179,7 +179,7 @@ No test runner — this is a markdown-only project. To validate:
 
 1. After translating, grep for common Portuguese words to catch stragglers:
    ```bash
-   grep -ri "quando\|nao\|entidade\|criacao\|atualizacao\|relatorio\|proposta\|obrigatorio" entities/ templates/ skills/ CLAUDE.md README.md
+   grep -ri "quando\|nao\|entidade\|criacao\|atualizacao\|relatorio\|proposta\|obrigatorio" entities/ templates/ skills/ AGENTS.md README.md
    ```
 
 2. Verify YAML frontmatter is still valid in all files:

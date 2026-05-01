@@ -5,11 +5,11 @@
 
 ## Objective
 
-The bedrock plugin contains self-contained internal fetcher modules so that `/bedrock:teach` can fetch Confluence and Google Docs content without depending on externally installed skills.
+The bedrock plugin contains self-contained internal fetcher modules so that `skill({ name: "teach" })` can fetch Confluence and Google Docs content without depending on externally installed skills.
 
 ## Context
 
-Today, `/bedrock:teach` Phase 1 invokes external skills (`/confluence-to-markdown`, `/gdoc-to-markdown`) via the Skill tool. These skills live in a separate repository (`stone/common/skills`) and must be independently installed. If missing, `/teach` warns and aborts for those source types.
+Today, `skill({ name: "teach" })` Phase 1 invokes external skills (`/confluence-to-markdown`, `/gdoc-to-markdown`) via the Skill tool. These skills live in a separate repository (`stone/common/skills`) and must be independently installed. If missing, `/teach` warns and aborts for those source types.
 
 The external skills follow a two-strategy pattern: API-first (Confluence REST API, Google Drive API) with fallback (Claude in Chrome browser extraction for Confluence, public URL export for Google Docs). Both are mature and stable — ~200 lines each.
 
@@ -29,7 +29,7 @@ This spec creates the internal fetcher modules. Part 2 (separate spec) wires the
 
 Internal procedural module with these sections:
 
-**Header:** Title, one-line purpose ("Internal module — invoked by /bedrock:teach Phase 1, not user-invocable"), and a note about the `extract.js` dependency.
+**Header:** Title, one-line purpose ("Internal module — invoked by skill({ name: "teach" }) Phase 1, not user-invocable"), and a note about the `extract.js` dependency.
 
 **Parse URL:** Accept Confluence URL formats (from original skill Phase 1):
 - `https://<domain>.atlassian.net/wiki/spaces/<spaceKey>/pages/<pageId>/<title>`

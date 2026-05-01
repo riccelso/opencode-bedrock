@@ -8,7 +8,7 @@ Standardize all content fetchers into a 3-layer fallback architecture (MCP → A
 
 ## Context
 
-Two internal fetcher modules exist (`skills/gdoc/` and `skills/confluence/`) with different fallback strategies and auth guidance styles. `/bedrock:teach` reads them inline as internal modules. `/bedrock:sync` bypasses them entirely and calls external skills (`/confluence-to-markdown`, `/gdoc-to-markdown`). The result: two code paths for the same sources with different behavior. Neither fetcher has an MCP layer — they jump straight to API calls.
+Two internal fetcher modules exist (`skills/gdoc/` and `skills/confluence/`) with different fallback strategies and auth guidance styles. `skill({ name: "teach" })` reads them inline as internal modules. `skill({ name: "sync" })` bypasses them entirely and calls external skills (`/confluence-to-markdown`, `/gdoc-to-markdown`). The result: two code paths for the same sources with different behavior. Neither fetcher has an MCP layer — they jump straight to API calls.
 
 ## Definition of Done
 
@@ -42,7 +42,7 @@ Two internal fetcher modules exist (`skills/gdoc/` and `skills/confluence/`) wit
 ## Anti-scope
 
 - No new fetcher types (Jira, Notion, Slack, etc.)
-- No changes to `/bedrock:preserve`, `/bedrock:compress`, `/bedrock:query`, `/bedrock:setup`
+- No changes to `skill({ name: "preserve" })`, `skill({ name: "compress" })`, `skill({ name: "ask" })`, `skill({ name: "setup" })`
 - No changes to `extract.js` DOM scraping logic
 - No changes to entity definitions or templates
 - No changes to the output contract (fetchers return Markdown + metadata)
@@ -122,7 +122,7 @@ Example (Confluence API):
 
 ### 6. Sync integration — read-and-follow pattern
 
-`/bedrock:sync` Phase 2 will switch from calling external Skill tools to the same "read the internal SKILL.md and follow its instructions" pattern that `/bedrock:teach` uses. This means:
+`skill({ name: "sync" })` Phase 2 will switch from calling external Skill tools to the same "read the internal SKILL.md and follow its instructions" pattern that `skill({ name: "teach" })` uses. This means:
 
 ```markdown
 ### 2.1 Confluence

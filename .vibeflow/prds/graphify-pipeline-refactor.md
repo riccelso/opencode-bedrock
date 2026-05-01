@@ -4,7 +4,7 @@
 
 ## Problem
 
-The `/bedrock:teach` skill currently contains ~250 lines of bespoke graphify integration code (steps 1.2.1 through 1.4.1) that duplicates what `/graphify` already does better — AST extraction, semantic extraction via parallel subagents, graph building, clustering, and community analysis. Each input type (GitHub, Confluence, GDocs, CSV, Markdown) has its own extraction path, and graphify is only invoked for GitHub repos (with a partial, hand-rolled integration) and optionally for external sources. This creates maintenance burden, inconsistent extraction quality across input types, and a fragile coupling between /teach and graphify internals (direct Python API calls to `graphify.detect`, `graphify.build`, etc.).
+The `skill({ name: "teach" })` skill currently contains ~250 lines of bespoke graphify integration code (steps 1.2.1 through 1.4.1) that duplicates what `/graphify` already does better — AST extraction, semantic extraction via parallel subagents, graph building, clustering, and community analysis. Each input type (GitHub, Confluence, GDocs, CSV, Markdown) has its own extraction path, and graphify is only invoked for GitHub repos (with a partial, hand-rolled integration) and optionally for external sources. This creates maintenance burden, inconsistent extraction quality across input types, and a fragile coupling between /teach and graphify internals (direct Python API calls to `graphify.detect`, `graphify.build`, etc.).
 
 Meanwhile, `/graphify` is a mature, generalized pipeline that handles code, docs, PDFs, images, and video uniformly through a single invocation. By making /teach delegate ALL extraction to /graphify (via the skill invocation, not Python API calls), the extraction logic lives in one place, benefits from graphify's caching, parallel subagents, and community detection, and /teach becomes a thin orchestrator focused on what it does best: classifying input, fetching remote content, and preparing it for processing.
 
@@ -13,7 +13,7 @@ On the /preserve side, it currently receives a hand-crafted YAML entity list fro
 ## Target Audience
 
 - **Primary:** The /teach and /preserve skills themselves (internal refactoring)
-- **Secondary:** Vault users who ingest external content via `/bedrock:teach` — they benefit from more consistent, higher-quality extraction across all input types
+- **Secondary:** Vault users who ingest external content via `skill({ name: "teach" })` — they benefit from more consistent, higher-quality extraction across all input types
 
 ## Proposed Solution
 
@@ -27,9 +27,9 @@ Restructure the teach → graphify → preserve pipeline into three clean layers
 
 ## Success Criteria
 
-- `/bedrock:teach` invokes `/graphify` for ALL input types (GitHub, Confluence, GDocs, CSV, Markdown, PDF) — no input-type-specific extraction logic remains in /teach
-- `/bedrock:teach` SKILL.md is reduced by at least 40% in line count (removal of inline graphify Python code)
-- `/bedrock:preserve` can accept graphify output (graph.json + obsidian/) as an input mode alongside the existing structured YAML and free-form text modes
+- `skill({ name: "teach" })` invokes `/graphify` for ALL input types (GitHub, Confluence, GDocs, CSV, Markdown, PDF) — no input-type-specific extraction logic remains in /teach
+- `skill({ name: "teach" })` SKILL.md is reduced by at least 40% in line count (removal of inline graphify Python code)
+- `skill({ name: "preserve" })` can accept graphify output (graph.json + obsidian/) as an input mode alongside the existing structured YAML and free-form text modes
 - All existing vault writing rules, entity definitions, bidirectional linking, and git workflow are preserved
 - Knowledge-nodes are still created from graphify's code nodes (the entity type and its rules don't change)
 - GitHub repo pre-processing (MCP calls for README, PRs, commits) still happens in /teach before handing to graphify
@@ -37,7 +37,7 @@ Restructure the teach → graphify → preserve pipeline into three clean layers
 
 ## Scope v0
 
-1. **Update `/bedrock:setup`** — Add graphify as a required dependency check during vault initialization. Verify the `/graphify` skill is installed and accessible. Warn/guide installation if missing.
+1. **Update `skill({ name: "setup" })`** — Add graphify as a required dependency check during vault initialization. Verify the `/graphify` skill is installed and accessible. Warn/guide installation if missing.
 
 2. **Refactor `/teach` Phase 1 — Fetch** — Replace all input-type-specific extraction logic with a unified fetch-to-tmp pattern:
    - Input classification (keep existing table)
@@ -82,13 +82,13 @@ Restructure the teach → graphify → preserve pipeline into three clean layers
 - **NOT adding new input types** — we support the same inputs as today (Confluence, GDocs, GitHub, CSV, Markdown)
 - **NOT modifying the git workflow or commit conventions**
 - **NOT changing /preserve's existing structured input or free-form input modes** — the graphify mode is additive
-- **NOT handling graphify installation/upgrade** — `/bedrock:setup` guarantees graphify is installed; /teach assumes it's available
+- **NOT handling graphify installation/upgrade** — `skill({ name: "setup" })` guarantees graphify is installed; /teach assumes it's available
 
 ## Technical Context
 
 ### Current Architecture (from .vibeflow/)
 
-**Skill delegation pattern** (patterns/skill-delegation.md): All skills delegate entity writes to `/bedrock:preserve`. This pattern is preserved — /teach still delegates to /preserve.
+**Skill delegation pattern** (patterns/skill-delegation.md): All skills delegate entity writes to `skill({ name: "preserve" })`. This pattern is preserved — /teach still delegates to /preserve.
 
 **Skill architecture** (patterns/skill-architecture.md): Skills have YAML frontmatter, Plugin Paths section, phased execution. Both refactored skills keep this structure.
 
@@ -128,7 +128,7 @@ graphify's `to_obsidian()` uses `node_id` as the filename stem (kebab-cased). /p
 
 3. **Cleanup timing:** /teach cleans up `/tmp/bedrock-teach-<ts>/` after /preserve confirms completion — not after graphify finishes.
 
-4. **graphify availability:** `/bedrock:setup` guarantees graphify is installed as a required dependency.
+4. **graphify availability:** `skill({ name: "setup" })` guarantees graphify is installed as a required dependency.
 
 5. **CSV handling:** Pass through raw to graphify — no pre-processing (no header detection, no truncation). graphify handles it as text.
 

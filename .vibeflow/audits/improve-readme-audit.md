@@ -11,7 +11,7 @@
 ### Pattern Compliance
 - [x] File naming convention — `docs/banner.png` follows kebab-case lowercase convention
 - [x] Markdown-only project — no build artifacts, dependencies, or runtime files introduced
-- [x] Anti-scope respected — `git diff` confirms zero changes to CLAUDE.md, skills/, entities/, templates/, .claude-plugin/plugin.json; no CI/CD config added; no LICENSE file created
+- [x] Anti-scope respected — `git diff` confirms zero changes to AGENTS.md, skills/, entities/, templates/, .opencode/plugin.json; no CI/CD config added; no LICENSE file created
 
 ### Convention Violations
 None.
@@ -20,7 +20,7 @@ None.
 Files changed: 2 / 2 budget (README.md modified, docs/banner.png added)
 
 ### Tests
-No test runner detected (markdown-only Claude Code plugin). Manual verification performed: banner image valid, all sections present, anti-scope respected.
+No test runner detected (markdown-only OpenCode plugin). Manual verification performed: banner image valid, all sections present, anti-scope respected.
 
 ### Notes
 - README grew from 92 lines to 148 lines (+61%) with significantly more structure for open-source consumers
