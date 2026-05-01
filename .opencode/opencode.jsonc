@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "mcp": {
+    "github": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+      },
+      "enabled": true,
+      "timeout": 10000
+    },
+    "atlassian": {
+      "type": "local",
+      "command": ["npx", "-y", "@anthropic-ai/mcp-atlassian"],
+      "environment": {
+        "CONFLUENCE_BASE_URL": "{env:CONFLUENCE_BASE_URL}",
+        "CONFLUENCE_USERNAME": "{env:CONFLUENCE_USERNAME}",
+        "CONFLUENCE_API_TOKEN": "{env:CONFLUENCE_API_TOKEN}"
+      },
+      "enabled": true,
+      "timeout": 15000
+    },
+    "browser": {
+      "type": "local",
+      "command": ["npx", "-y", "@anthropic-ai/claude-in-chrome-mcp"],
+      "enabled": true,
+      "timeout": 10000
+    }
+  },
+
+  "permission": {
+    "edit": {
+      "*.md": "allow",
+      "*.json": "allow",
+      "*.jsonc": "allow"
+    },
+    "bash": {
+      "git *": "allow",
+      "gh *": "allow",
+      "pipx *": "allow",
+      "pip *": "ask",
+      "*": "ask"
+    },
+    "skill": {
+      "*": "allow"
+    }
+  },
+
+  "instructions": [
+    "entities/*.md",
+    "ORIGIN.md"
+  ],
+
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000
+  }
+}

@@ -8,10 +8,10 @@ confidence: inferred
 
 <!-- vibeflow:auto:start -->
 ## What
-Each skill is a single `SKILL.md` file containing YAML frontmatter (name, description, allowed-tools) followed by a multi-phase procedural prompt that guides OpenCode through a complete workflow.
+Each skill is a single `SKILL.md` file containing YAML frontmatter (`name`, `description`, `compatibility: opencode`) followed by a multi-phase procedural prompt that guides the assistant through a complete workflow.
 
 ## Where
-All 6 skills live in `skills/<name>/SKILL.md`: query, teach, preserve, compress, sync, setup.
+All skills live in `.opencode/skills/<name>/SKILL.md`: ask, teach, preserve, compress, sync, setup, healthcheck, vaults, confluence-to-markdown, gdoc-to-markdown.
 
 ## The Pattern
 Every skill follows a consistent structure:
@@ -29,7 +29,7 @@ Key conventions:
 - Best-effort for external sources — never block the workflow.
 
 ## Rules
-- Skills MUST declare `allowed-tools` to restrict tool access
+- Skills MUST declare `compatibility: opencode` in frontmatter
 - Skills MUST include the "Plugin Paths" section for path resolution
 - Phase numbering is sequential; sub-phases use decimal notation (1.1, 1.2, 2.1)
 - Each skill declares its agent type in the overview (read-only, execution, setup)
