@@ -52,11 +52,7 @@ The preferred layer. Checks if a Google Docs/Drive MCP server is installed and a
 
 ### 2.1 Check MCP availability
 
-Use ToolSearch to check if any Google Docs or Google Drive MCP tools are available:
-
-```
-ToolSearch(query: "google docs drive document", max_results: 5)
-```
+Attempt to call any Google Docs/Drive MCP tool directly. If the tool call succeeds or returns a content error (not a "tool not available" error), MCP is available.
 
 Evaluate the result:
 
@@ -281,48 +277,32 @@ Format the single tab with heading `## Sheet1` followed by the Markdown table.
 
 ---
 
-## Step 4 — Layer 3: Browser (Claude in Chrome)
+## Step 4 — Layer 3: Browser (Playwright)
 
-Last resort. Opens the document in Chrome and extracts content via DOM scraping.
+Last resort. Opens the document in a headless browser and extracts content via DOM scraping.
 
-### 4.1 Load Chrome tools
+### 4.1 Check Playwright availability
 
-Via ToolSearch:
-```
-select:browser_tabs_context_mcp,browser_tabs_create_mcp
-select:browser_navigate
-select:browser_javascript_tool
-```
+Attempt to call `playwright_browser_navigate`. If the tool is not available, abort:
 
-If Chrome MCP tools are not available, abort:
-
-> **Browser not available:** Claude in Chrome MCP is not installed or not running.
-> Install the Claude in Chrome extension and ensure it is connected.
+> **Browser not available:** Playwright MCP is not installed or not running.
+> Ensure the Playwright MCP server is configured and connected.
 > No further fallback layers available — cannot fetch this document.
 
-### 4.2 Get browser context
+### 4.2 Navigate to the document
 
 ```
-browser_tabs_context_mcp(createIfEmpty: true)
+playwright_browser_navigate(url: "<full document URL>")
 ```
 
-### 4.3 Navigate to the document
+Wait for the page to fully load before proceeding.
 
-```
-browser_tabs_create_mcp()
-browser_navigate(url: "<full document URL>", tabId: <id>)
-```
-
-### 4.4 Execute extraction script
+### 4.3 Execute extraction script
 
 Read `scripts/extract.js` from this skill's directory using the Read tool. Then execute it:
 
 ```
-browser_javascript_tool(
-  action: "javascript_exec",
-  text: <contents of extract.js>,
-  tabId: <id>
-)
+playwright_browser_evaluate(function: "() => { <contents of extract.js> }")
 ```
 
 The script returns JSON:
@@ -340,25 +320,21 @@ The script returns JSON:
 
 If the script returns an `error` field: handle accordingly (login page, empty content, wrong page).
 
-### 4.5 Read chunks
+### 4.4 Read chunks
 
 For each chunk from `0` to `totalChunks - 1`:
 ```
-browser_javascript_tool(
-  action: "javascript_exec",
-  text: "window.__gdoc.chunk(N)",
-  tabId: <id>
-)
+playwright_browser_evaluate(function: "() => window.__gdoc.chunk(N)")
 ```
 
 Concatenate all chunks into a single Markdown string.
 
-### 4.6 Validate
+### 4.5 Validate
 
 Check that the result is not empty and not a login page. If validation fails:
 
 > **Browser extraction failed:** Could not extract content from the document.
-> Ensure you are logged into Google in Chrome and the document has loaded.
+> Ensure you are logged into Google and the document has loaded.
 > No further fallback layers available — cannot fetch this document.
 
 ---

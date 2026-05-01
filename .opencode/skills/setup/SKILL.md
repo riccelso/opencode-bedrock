@@ -106,11 +106,11 @@ Check for external tools, environment variables, and MCP servers that enhance th
 
 | Dependency | Check method | What it unlocks |
 |---|---|---|
-| graphify | Glob: `~/.claude/skills/graphify/SKILL.md` | **Required.** Extraction engine for all `skill({ name: "teach" })` ingestion. Without it, /teach cannot function. |
+| graphify | Glob: `~/.config/opencode/skill/graphify/SKILL.md` or `.opencode/skills/graphify/SKILL.md` | **Required.** Extraction engine for all `skill({ name: "teach" })` ingestion. Without it, teach cannot function. |
 | docling | Bash: `command -v docling >/dev/null 2>&1` | **Required.** Universal file → markdown converter used by `skill({ name: "teach" })` to ingest DOCX, PPTX, XLSX, HTML, EPUB, PDF, images, and other non-markdown formats. Without it, /teach can only ingest text-native formats. |
 | CONFLUENCE_API_TOKEN + CONFLUENCE_USER_EMAIL | Bash: `test -n "$CONFLUENCE_API_TOKEN" && test -n "$CONFLUENCE_USER_EMAIL"` | Confluence page ingestion via `skill({ name: "teach" })` (API strategy). |
 | GOOGLE_ACCESS_TOKEN | Bash: `test -n "$GOOGLE_ACCESS_TOKEN"` | Google Docs and Sheets ingestion via `skill({ name: "teach" })` (API strategy). |
-| claude-in-chrome MCP | ToolSearch: `select:browser_tabs_context_mcp` (succeeds = available) | **Optional.** Browser fallback for Confluence pages when API credentials are unavailable. |
+| Playwright MCP | Tool availability check (succeeds = available) | **Optional.** Browser fallback for Confluence pages when API credentials are unavailable. |
 
 ### 1.2.1 Auto-install graphify if missing
 
@@ -122,7 +122,7 @@ If the graphify probe in the table above returns no file, attempt to install gra
 command -v pipx >/dev/null 2>&1 && pipx install graphifyy && graphify install
 ```
 
-Re-probe: `Glob: ~/.claude/skills/graphify/SKILL.md`. If the file now exists, stop — graphify is installed.
+Re-probe: `Glob: ~/.config/opencode/skill/graphify/SKILL.md`. Also check `.opencode/skills/graphify/SKILL.md` in the current project. If either file exists, stop — graphify is installed.
 
 **Step 2 — pip (if pipx unavailable or Step 1 failed):**
 
@@ -145,9 +145,9 @@ If Steps 1 and 2 were both unrunnable because `pipx`, `pip`, and Python 3.10+ ar
 Then:
 
 ```bash
-mkdir -p ~/.claude/skills/graphify && \
+mkdir -p ~/.config/opencode/skill/graphify && \
   curl -fsSL https://raw.githubusercontent.com/safishamsi/graphify/v1/skills/graphify/skill.md \
-    > ~/.claude/skills/graphify/SKILL.md
+    > ~/.config/opencode/skill/graphify/SKILL.md
 ```
 
 Re-probe. If found, stop.
@@ -158,7 +158,7 @@ If all prior steps failed (no network, upstream unavailable, or all tooling miss
 
 **Note on package name:** The PyPI package is currently published as `graphifyy` — temporary while the upstream project reclaims the `graphify` name. When that flip happens, update Steps 1 and 2 to `pip install graphify && graphify install`.
 
-**After the chain completes**, run one final `Glob: ~/.claude/skills/graphify/SKILL.md`. The graphify row in the dependency-report table (Section 1.2.2 below) MUST reflect this post-install status — `installed` if the file now exists, `NOT FOUND` otherwise. Proceed to Section 1.2.2 regardless of outcome. **Never block initialization.**
+**After the chain completes**, run one final probe: check both `~/.config/opencode/skill/graphify/SKILL.md` (global) and `.opencode/skills/graphify/SKILL.md` (project-local). The graphify row in the dependency-report table (Section 1.2.2 below) MUST reflect this post-install status — `installed` if either file now exists, `NOT FOUND` otherwise. Proceed to Section 1.2.2 regardless of outcome. **Never block initialization.**
 
 ### 1.2.1.1 Auto-install docling if missing
 
@@ -198,11 +198,11 @@ If both steps failed (no `pipx`/`pip`, no network, or a permissions error), prin
 
 | Dependency | Status | What it unlocks |
 |---|---|---|
-| graphify | installed / NOT FOUND | Extraction engine for /teach |
-| docling | installed / NOT FOUND | Universal file → markdown converter for /teach |
+| graphify | installed / NOT FOUND | Extraction engine for teach |
+| docling | installed / NOT FOUND | Universal file → markdown converter for teach |
 | Confluence API credentials | configured / NOT SET | Confluence page ingestion (API) |
 | Google API token | configured / NOT SET | Google Docs/Sheets ingestion (API) |
-| claude-in-chrome MCP | available / NOT FOUND | Browser fallback for Confluence |
+| browser MCP | available / NOT FOUND | Browser fallback for Confluence |
 
 ### Source availability summary
 | Source type | Status | Requirements |
@@ -246,7 +246,7 @@ For missing environment variables (optional):
 > https://id.atlassian.com/manage-profile/security/api-tokens
 > Then set: CONFLUENCE_API_TOKEN=<token> and CONFLUENCE_USER_EMAIL=<your-email>
 >
-> Alternative: If you have the Claude in Chrome extension with Confluence logged in, browser extraction will work as a fallback.
+> Alternative: If you have Playwright MCP running with Confluence logged in, browser extraction will work as a fallback.
 > This is optional — your vault will work without Confluence ingestion.
 ```
 
@@ -532,10 +532,10 @@ Proceed regardless — never block initialization for missing tools.
 
 > **Skip if `RECONFIGURE_MODE = true`.**
 
-Create all 7 entity directories:
+Create all 8 entity directories:
 
 ```bash
-mkdir -p actors people teams topics discussions projects fleeting
+mkdir -p actors people teams topics discussions projects concepts fleeting
 ```
 
 If any directory already exists, this is a no-op (safe).
@@ -554,6 +554,7 @@ For each entity type, read the template from the plugin and write it to the vaul
 | `<base_dir>/../../templates/topics/_template.md` | `topics/_template.md` |
 | `<base_dir>/../../templates/discussions/_template.md` | `discussions/_template.md` |
 | `<base_dir>/../../templates/projects/_template.md` | `projects/_template.md` |
+| `<base_dir>/../../templates/concepts/_template.md` | `concepts/_template.md` |
 | `<base_dir>/../../templates/fleeting/_template.md` | `fleeting/_template.md` |
 
 For each template:

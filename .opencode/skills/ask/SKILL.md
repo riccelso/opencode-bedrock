@@ -175,8 +175,8 @@ For each search term identified in Phase 1:
 **Step 1 — Search by filename:**
 ```
 Glob: <VAULT_PATH>/actors/<term>*.md, <VAULT_PATH>/people/<term>*.md, <VAULT_PATH>/teams/<term>*.md,
-      <VAULT_PATH>/topics/*<term>*.md, <VAULT_PATH>/discussions/*<term>*.md, <VAULT_PATH>/projects/<term>*.md,
-      <VAULT_PATH>/fleeting/*<term>*.md
+      <VAULT_PATH>/topics/*<term>*.md, <VAULT_PATH>/concepts/<term>*.md, <VAULT_PATH>/discussions/*<term>*.md,
+      <VAULT_PATH>/projects/<term>*.md, <VAULT_PATH>/fleeting/*<term>*.md
 ```
 
 **Step 2 — Search by alias in frontmatter:**
@@ -227,8 +227,9 @@ For each extracted wikilink that is relevant to the question:
 
 1. Resolve the file: search for `<wikilink-name>.md` in entity directories
    ```
-   Glob: <VAULT_PATH>/actors/<name>.md, <VAULT_PATH>/people/<name>.md, <VAULT_PATH>/teams/<name>.md,
-         <VAULT_PATH>/topics/*<name>*.md, <VAULT_PATH>/discussions/*<name>*.md, <VAULT_PATH>/projects/<name>.md
+Glob: <VAULT_PATH>/actors/<name>.md, <VAULT_PATH>/people/<name>.md, <VAULT_PATH>/teams/<name>.md,
+          <VAULT_PATH>/topics/*<name>*.md, <VAULT_PATH>/concepts/<name>.md, <VAULT_PATH>/discussions/*<name>*.md,
+          <VAULT_PATH>/projects/<name>.md
    ```
 
 2. Read the found file (frontmatter + body)

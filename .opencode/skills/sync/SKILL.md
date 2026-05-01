@@ -238,6 +238,7 @@ Use Glob to list all files in each entity directory (excluding `_template.md`):
 - `<VAULT_PATH>/people/*.md`
 - `<VAULT_PATH>/teams/*.md`
 - `<VAULT_PATH>/topics/*.md`
+- `<VAULT_PATH>/concepts/*.md`
 - `<VAULT_PATH>/discussions/*.md`
 - `<VAULT_PATH>/projects/*.md`
 - `<VAULT_PATH>/fleeting/*.md`

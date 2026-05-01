@@ -483,6 +483,7 @@ List all files in each entity directory (exclude `_template.md` and `_template_n
 <VAULT_PATH>/people/*.md
 <VAULT_PATH>/teams/*.md
 <VAULT_PATH>/topics/*.md
+<VAULT_PATH>/concepts/*.md (if exists)
 <VAULT_PATH>/discussions/*.md (if exists)
 <VAULT_PATH>/projects/*.md (if exists)
 <VAULT_PATH>/fleeting/*.md (if exists)

@@ -22,9 +22,9 @@
       "enabled": true,
       "timeout": 15000
     },
-    "browser": {
+    "playwright": {
       "type": "local",
-      "command": ["npx", "-y", "@anthropic-ai/claude-in-chrome-mcp"],
+      "command": ["npx", "-y", "@playwright/mcp@latest"],
       "enabled": true,
       "timeout": 10000
     }

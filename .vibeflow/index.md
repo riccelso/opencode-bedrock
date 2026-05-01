@@ -11,7 +11,7 @@ This is a OpenCode plugin, not a traditional codebase. It consists entirely of m
 - `skills/` — 6 skill definitions (query, teach, preserve, compress, sync, setup) — the behavioral layer
 - `entities/` — 9 entity type definitions (actor, person, team, topic, discussion, project, fleeting, knowledge-node, sources-field) — the semantic layer
 - `templates/` — 7 entity templates with frontmatter schemas — the structural layer
-- `.opencode/` — plugin manifest (plugin.json)
+- `.opencode/` — plugin config (opencode.jsonc)
 
 ## Pattern Registry
 
@@ -44,7 +44,7 @@ patterns:
 ## Key Files
 - `AGENTS.md` — Project instructions: writing rules, entity types, tags, git workflow, zettelkasten principles
 - `README.md` — Installation guide, plugin overview, vault structure
-- `.opencode/plugin.json` — Plugin manifest (name, version, author, keywords)
+- `.opencode/opencode.jsonc` — Plugin config (name, version, author, MCP, permissions)
 - `skills/preserve/SKILL.md` — Single write point for all vault modifications (535 lines)
 - `skills/teach/SKILL.md` — External source ingestion with graphify integration (654 lines)
 - `skills/query/SKILL.md` — Read-only vault search with graphify graph traversal (486 lines)

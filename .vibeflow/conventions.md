@@ -5,7 +5,7 @@
 - All skills: `skills/<name>/SKILL.md` — one file per skill
 - All entity definitions: `entities/<type>.md` — one file per entity type
 - All templates: `templates/<type>/_template.md` — one file per entity type
-- Plugin manifest: `.opencode/plugin.json`
+- Plugin config: `.opencode/opencode.jsonc`
 - Project instructions: `AGENTS.md` at root
 
 ## Naming Conventions
