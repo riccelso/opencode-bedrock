@@ -202,12 +202,12 @@ If both steps failed (no `pipx`/`pip`, no network, or a permissions error), prin
 | docling | installed / NOT FOUND | Universal file → markdown converter for teach |
 | Confluence API credentials | configured / NOT SET | Confluence page ingestion (API) |
 | Google API token | configured / NOT SET | Google Docs/Sheets ingestion (API) |
-| browser MCP | available / NOT FOUND | Browser fallback for Confluence |
+| Playwright MCP | available / NOT FOUND | Browser fallback for Confluence |
 
 ### Source availability summary
 | Source type | Status | Requirements |
 |---|---|---|
-| Confluence | ready / partial / unavailable | API credentials or Chrome extension |
+| Confluence | ready / partial / unavailable | API credentials or Playwright browser |
 | Google Docs | ready / limited / unavailable | API token or public documents only |
 | Google Sheets | ready / limited / unavailable | API token (all tabs) or public (first tab only) |
 | GitHub | ready | git CLI |

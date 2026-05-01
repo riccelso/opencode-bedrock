@@ -182,7 +182,8 @@ Glob: <VAULT_PATH>/actors/<term>*.md, <VAULT_PATH>/people/<term>*.md, <VAULT_PAT
 **Step 2 — Search by alias in frontmatter:**
 ```
 Grep: pattern="aliases:.*<term>" in directories: <VAULT_PATH>/actors/, <VAULT_PATH>/people/, <VAULT_PATH>/teams/,
-      <VAULT_PATH>/topics/, <VAULT_PATH>/discussions/, <VAULT_PATH>/projects/
+      <VAULT_PATH>/topics/, <VAULT_PATH>/concepts/, <VAULT_PATH>/discussions/, <VAULT_PATH>/projects/,
+      <VAULT_PATH>/fleeting/
       (case-insensitive)
 ```
 

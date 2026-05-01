@@ -2,7 +2,7 @@
 name: confluence-to-markdown
 description: >
   Internal fetcher module for Confluence pages. Fetches content via Atlassian MCP (preferred),
-  REST API with Basic Auth (fallback), or browser DOM extraction via Claude in Chrome (last resort)
+  REST API with Basic Auth (fallback), or browser DOM extraction via Playwright (last resort)
   and returns Markdown. Used by skill({ name: "teach" }) and skill({ name: "sync" }) — not intended for direct user invocation.
 compatibility: opencode
 ---
@@ -272,7 +272,7 @@ The caller is responsible for saving the content to its target location.
 | API returns 401 | Token expired — regenerate at https://id.atlassian.com/manage-profile/security/api-tokens |
 | API returns 403 | User lacks page access — check Confluence permissions |
 | API returns 404 | Wrong page ID — verify URL |
-| Chrome extension disconnected | Refresh extension, call `tabs_context_mcp(createIfEmpty: true)` |
-| Browser redirects to login | User not authenticated — log into Confluence in Chrome, retry |
+| Playwright session lost | Restart Playwright MCP server, retry navigation |
+| Browser redirects to login | User not authenticated — log into Confluence in the browser, retry |
 | `extract.js` returns empty | Page may not have loaded — wait and retry, or check if page is empty |
 | Shortlink URL (`/wiki/x/...`) with API | Navigate in browser first to resolve full URL with page ID |

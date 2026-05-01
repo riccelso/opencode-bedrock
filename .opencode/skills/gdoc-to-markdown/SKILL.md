@@ -2,8 +2,8 @@
 name: gdoc-to-markdown
 description: >
   Internal fetcher module for Google Docs and Sheets. Fetches content via MCP (preferred, when available),
-  Google API with bearer token or public URL export (fallback), or browser DOM extraction via Claude in
-  Chrome (last resort) and returns Markdown.
+  Google API with bearer token or public URL export (fallback), or browser DOM extraction via
+  Playwright (last resort) and returns Markdown.
   Used by skill({ name: "teach" }) and skill({ name: "sync" }) — not intended for direct user invocation.
 compatibility: opencode
 ---
@@ -391,6 +391,6 @@ The caller copies the file to `$TEACH_TMP/<slug>.md`.
 | Sheets 403 for metadata | Token may lack `drive.readonly` or `spreadsheets.readonly` scope |
 | Sheets CSV export returns HTML | Export endpoint blocked — fall back to Sheets API values endpoint |
 | Public Sheets export returns only first tab | Expected limitation — multi-sheet export requires `GOOGLE_ACCESS_TOKEN` |
-| Chrome extension disconnected | Refresh extension, call `tabs_context_mcp(createIfEmpty: true)` |
-| Browser redirects to Google login | User not authenticated — log into Google in Chrome, retry |
+| Playwright session lost | Restart Playwright MCP server, retry navigation |
+| Browser redirects to Google login | User not authenticated — log into Google in the browser, retry |
 | `extract.js` returns empty | Document may not have loaded — wait and retry, or check if document is empty |
